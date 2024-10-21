@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/User.js";
+import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 export class UserService {
     getAllUsers() {
@@ -48,12 +49,22 @@ export class UserService {
         });
     }
     ;
-    addUser(password, mail, role) {
+    addUser(mail, password, role) {
         return __awaiter(this, void 0, void 0, function* () {
+            const existingUser = yield prisma.user.findUnique({
+                where: {
+                    mail: mail,
+                }
+            });
+            if (existingUser) {
+                throw new Error(`Un utilisateur avec l'adresse mail ${mail} existe déjà.`);
+            }
+            ;
+            const hashedPassword = yield bcrypt.hash(password, 10);
             const user = yield prisma.user.create({
                 data: {
                     mail: mail,
-                    password: password,
+                    password: hashedPassword,
                     role: role
                 }
             });
@@ -69,6 +80,22 @@ export class UserService {
                 }
             });
             return "User deleted";
+        });
+    }
+    ;
+    updateUser(userId, mail, password, role) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield prisma.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    mail: mail,
+                    password: password,
+                    role: role
+                }
+            });
+            return new User(user.id, user.mail, user.password, user.role);
         });
     }
     ;

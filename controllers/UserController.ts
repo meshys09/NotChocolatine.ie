@@ -27,7 +27,6 @@ userController.get('/:id', async (c) => {
 userController.post('/newUser', async (c) => {
     try {
         const { mail, password, role } = await c.req.json();
-
         const user = await userService.addUser(mail, password, role);
 
         return c.json(user, 201);
@@ -54,6 +53,20 @@ userController.delete('/:id', async (c) => {
         const userId = parseInt(c.req.param('id'), 10);
         const deleteUser = await userService.deleteUser(userId);
         return c.json(deleteUser);
+    } catch (error: any) {
+        return c.json({ message: error.message }, 404);
+    }
+});
+
+userController.put('/:id', async (c) => {
+    try {
+        const userId = parseInt(c.req.param('id'), 10);
+
+        const { mail, password, role } = await c.req.json();
+
+        const updatedUser = await userService.updateUser(userId, mail, password, role);
+
+        return c.json(updatedUser);
     } catch (error: any) {
         return c.json({ message: error.message }, 404);
     }

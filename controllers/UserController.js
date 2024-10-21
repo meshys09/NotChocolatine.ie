@@ -11,7 +11,7 @@ import { Hono } from "hono";
 import { UserService } from "../services/UserService.js";
 const userController = new Hono();
 const userService = new UserService();
-userController.get('/all', (c) => __awaiter(void 0, void 0, void 0, function* () {
+userController.get('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userList = yield userService.getAllUsers();
         return yield c.json(userList);
@@ -30,7 +30,7 @@ userController.get('/:id', (c) => __awaiter(void 0, void 0, void 0, function* ()
         return c.json({ message: error.message }, 404);
     }
 }));
-userController.post('/new', (c) => __awaiter(void 0, void 0, void 0, function* () {
+userController.post('/newUser', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { mail, password, role } = yield c.req.json();
         const user = yield userService.addUser(mail, password, role);
@@ -56,6 +56,17 @@ userController.delete('/:id', (c) => __awaiter(void 0, void 0, void 0, function*
         const userId = parseInt(c.req.param('id'), 10);
         const deleteUser = yield userService.deleteUser(userId);
         return c.json(deleteUser);
+    }
+    catch (error) {
+        return c.json({ message: error.message }, 404);
+    }
+}));
+userController.put('/:id', (c) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = parseInt(c.req.param('id'), 10);
+        const { mail, password, role } = yield c.req.json();
+        const updatedUser = yield userService.updateUser(userId, mail, password, role);
+        return c.json(updatedUser);
     }
     catch (error) {
         return c.json({ message: error.message }, 404);

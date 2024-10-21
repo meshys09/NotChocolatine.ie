@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { User } from "../models/User.js";
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -40,11 +41,21 @@ export class UserService {
         return new User(user.id, user.mail, user.password, user.role)
     };
 
-    async addUser(password: string, mail: string, role: number): Promise<User> {
+    async addUser(mail: string, password: string, role: number): Promise<User> {
+        const existingUser = await prisma.user.findUnique({
+            where: {
+                mail: mail,
+            }
+        });
+        if (existingUser) {
+            throw new Error(`Un utilisateur avec l'adresse mail ${mail} existe déjà.`);
+        };
+
+        const hashedPassword = await bcrypt.hash(password, 10);
         const user = await prisma.user.create({
             data: {
                 mail: mail,
-                password: password,
+                password: hashedPassword,
                 role: role
             }
         })
@@ -60,5 +71,18 @@ export class UserService {
         return "User deleted"
     };
 
+    async updateUser(userId: number, mail?: string, password?: string, role?: number): Promise<User> {
+        const user = await prisma.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                mail: mail,
+                password: password,
+                role: role
+            }
+        });
+        return new User(user.id, user.mail, user.password, user.role);
+    };
 
 }
