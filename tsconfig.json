@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es6", // Ou une version plus récente
+    "module": "ESNext", // Utiliser ESNext pour le module
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true, // Assurez-vous que cela est activé
+    "skipLibCheck": true
+  }
+}

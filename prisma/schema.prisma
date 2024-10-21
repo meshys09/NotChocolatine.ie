@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:root@localhost:3306/honoTest"
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  mail     String   @unique
+  password String
+  role     Int
+
+  orders   Order[]
+  reviews  Reviews[]
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  price       Float
+  name        String
+  description String?
+
+  reviews     Reviews[]
+  orderProducts OrderProduct[] // Ajout de la relation avec OrderProduct
+}
+
+model Order {
+  id       Int       @id @default(autoincrement())
+  date     DateTime?
+  price    Float?
+  userId   Int
+  user     User      @relation(fields: [userId], references: [id])
+
+  products OrderProduct[]
+}
+
+model Reviews {
+  id         Int      @id @default(autoincrement())
+  comment    String?
+  grade      Float?
+  userId     Int
+  productId  Int
+
+  user       User     @relation(fields: [userId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+}
+
+model OrderProduct {
+  orderId   Int
+  productId Int
+
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@id([orderId, productId])
+}

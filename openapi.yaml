@@ -1,0 +1,440 @@
+openapi: "3.0.0"
+info:
+  title: "Not Chocolatine API"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:8080"
+paths:
+    /users/{userId}:
+        get:
+            summary: "Get user by id"
+            operationId: "getUserbyId"
+            parameters:
+                - name: "userId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "User found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "object"
+                                properties:
+                                    userId:
+                                        type: "integer"
+                                    mail:
+                                        type: "string"
+                                    password:
+                                        type: "string"
+                '404':
+                    description: "User not found"
+                '500':
+                    description: "Internal server error"
+
+    /users:
+        get:
+            summary: "Get all users"
+            operationId: "getUsers"
+            responses:
+                '200':
+                    description: "Users found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "array"
+                                items:
+                                    type: "object"
+                                    properties:
+                                        userId:
+                                            type: "integer"
+                                        mail:
+                                            type: "string"
+                                        password:
+                                            type: "string"
+                '404':
+                    description: "Users not found"
+                '500':
+                    description: "Internal server error"
+    
+    /users/connect:
+        get:
+            summary: "Get user by mail and password"
+            operationId: "getUserByMailAndPassword"
+            parameters:
+                - name: "mail"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+                - name: "password"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "User found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "object"
+                                properties:
+                                    userId:
+                                        type: "integer"
+                                    mail:
+                                        type: "string"
+                                    password:
+                                        type: "string"
+                '404':
+                    description: "User not found"
+                '500':
+                    description: "Internal server error"
+
+    /users/newUser: 
+        post:
+            summary: "Add user"
+            operationId: "addUser"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: "object"
+                            properties:
+                                mail:
+                                    type: "string"
+                                password:
+                                    type: "string"
+            responses:
+                '201':
+                    description: "User added"
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"
+    
+    /users/{userId}:
+        delete:
+            summary: "Delete user"
+            operationId: "deleteUser"
+            parameters:
+                - name: "userId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "User deleted"
+                '404':
+                    description: "User not found"
+                '500':
+                    description: "Internal server error"
+    
+    /users/updateUser: 
+        put:
+            summary: "Update user"
+            operationId: "updateUser"
+            parameters:
+                - name: "userId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: "object"
+                            properties:
+                                mail:
+                                    type: "string"
+                                password:
+                                    type: "string"
+            responses:
+                '200':
+                    description: "User updated"
+                '404':
+                    description: "User not found"
+                '500':
+                    description: "Internal server error"
+
+    /getReviewsByProduct:
+        get:
+            summary: "Get reviews by product"
+            operationId: "getReviewsByProduct"
+            parameters:
+                - name: "productId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Reviews found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "array"
+                                items:
+                                    type: "object"
+                                    properties:
+                                        reviewId:
+                                            type: "integer"
+                                        productId:
+                                            type: "integer"
+                                        userId:
+                                            type: "integer"
+                                        grade:
+                                            type: "integer"
+                                        comment:
+                                            type: "string"
+                '404':
+                    description: "Reviews not found"
+                '500':
+                    description: "Internal server error"
+
+    /getReviewsByUser:
+        get:
+            summary: "Get reviews by user"
+            operationId: "getReviewsByUser"
+            parameters:
+                - name: "userId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Reviews found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "array"
+                                items:
+                                    type: "object"
+                                    properties:
+                                        reviewId:
+                                            type: "integer"
+                                        productId:
+                                            type: "integer"
+                                        userId:
+                                            type: "integer"
+                                        grade:
+                                            type: "integer"
+                                        comment:
+                                            type: "string"
+                '404':
+                    description: "Reviews not found"
+                '500':
+                    description: "Internal server error"
+
+    /addReview:
+        post:
+            summary: "Add review"
+            operationId: "addReview"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: "object"
+                            properties:
+                                productId:
+                                    type: "integer"
+                                userId:
+                                    type: "integer"
+                                grade:
+                                    type: "integer"
+                                comment:
+                                    type: "string"
+            responses:
+                '201':
+                    description: "Review added"
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"
+    
+    /deleteReview:
+        delete:
+            summary: "Delete review"
+            operationId: "deleteReview"
+            parameters:
+                - name: "reviewId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Review deleted"
+                '404':
+                    description: "Review not found"
+                '500':
+                    description: "Internal server error"
+
+    /getGradesByProduct:
+        get:
+            summary: "Get grades by product"
+            operationId: "getGradesByProduct"
+            parameters:
+                - name: "productId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Grades found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "object"
+                                properties:
+                                    productId:
+                                        type: "integer"
+                                    average:
+                                        type: "number"
+                '404':
+                    description: "Grades not found"
+                '500':
+                    description: "Internal server error"
+    
+    /getProductsbyId:
+        get:
+            summary: "Get product by id"
+            operationId: "getProductbyId"
+            parameters:
+                - name: "productId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Product found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "object"
+                                properties:
+                                    productId:
+                                        type: "integer"
+                                    price:
+                                        type: "integer"
+                                    name:
+                                        type: "string"
+                                    description:
+                                        type: "text"
+                '404':
+                    description: "Product not found"
+                '500':
+                    description: "Internal server error"
+
+    /getProducts:
+        get:
+            summary: "Get all products"
+            operationId: "getProducts"
+            responses:
+                '200':
+                    description: "Products found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "array"
+                                items:
+                                    type: "object"
+                                    properties:
+                                        productId:
+                                            type: "integer"
+                                        price:
+                                            type: "integer"
+                                        name:
+                                            type: "string"
+                                        description:
+                                            type: "text"
+                '404':
+                    description: "Product not found"
+                '500':
+                    description: "Internal server error"
+
+    /addProduct: 
+        post:
+            summary: "Add product"
+            operationId: "addProduct"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: "object"
+                            properties:
+                                productId:
+                                    type: "integer"
+                                price:
+                                    type: "integer"
+                                name:
+                                    type: "string"
+                                description:
+                                    type: "text"
+            responses:
+                '201':
+                    description: "Product added"
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"
+    /updateProduct: 
+        post:
+            summary: "Update product"
+            operationId: "updateProduct"
+            parameters:
+                - name: "productId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: "object"
+                            properties:
+                                productId:
+                                    type: "integer"
+                                price:
+                                    type: "integer"
+                                name:
+                                    type: "string"
+                                description:
+                                    type: "text"
+            responses:
+                '201':
+                    description: "Product updated"
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"    
+    /deleteProduct:
+        delete:
+            summary: "Delete product"
+            operationId: "deleteProduct"
+            parameters:
+                - name: "id"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Product deleted"
+                '404':
+                    description: "Product not found"
+                '500':
+                    description: "Internal server error"
