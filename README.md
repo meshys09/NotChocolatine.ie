@@ -1,3 +1,10 @@
+# Nomenclature commits Git 
+- feat: Nouvelle feature dans le projet 
+- fix: Correction d'un bug dans le projet 
+- doc: Changement à la documentation du projet
+- refactor: Changement du code pour sa lisibilité sans impact sur son fonctionnement
+- test: Commit ne concernant que les tests
+
 # Architecture de l'application :
 - ./models : Déclaration de nos classes utiles 
 - ./services : Fonctions d'échange avec la base de données 
