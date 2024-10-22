@@ -2,9 +2,9 @@ export class Product {
     private id: number;
     private price: number;
     private name: string;
-    private description: string;
+    private description: string|null;
 
-    constructor(id: number, price: number, name: string, description: string) {
+    constructor(id: number, price: number, name: string, description: string| null) {
         this.id = id;
         this.price = price;
         this.name = name;
@@ -24,7 +24,7 @@ export class Product {
         return this.name;
     }
 
-    public getDescription(): string {
+    public getDescription(): string|null {
         return this.description;
     }
 
