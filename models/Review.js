@@ -1,5 +1,8 @@
-export class Review {
-    constructor(id, comment, grade, user, product) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Review = void 0;
+var Review = /** @class */ (function () {
+    function Review(id, comment, grade, user, product) {
         this.id = id;
         this.comment = comment;
         this.grade = grade;
@@ -7,32 +10,34 @@ export class Review {
         this.product = product;
     }
     // Getters
-    getId() {
+    Review.prototype.getId = function () {
         return this.id;
-    }
-    getComment() {
+    };
+    Review.prototype.getComment = function () {
         return this.comment;
-    }
-    getGrade() {
+    };
+    Review.prototype.getGrade = function () {
         return this.grade;
-    }
-    getUser() {
+    };
+    Review.prototype.getUser = function () {
         return this.user;
-    }
-    getProduct() {
+    };
+    Review.prototype.getProduct = function () {
         return this.product;
-    }
+    };
     // Setters
-    setComment(comment) {
+    Review.prototype.setComment = function (comment) {
         this.comment = comment;
-    }
-    setGrade(grade) {
+    };
+    Review.prototype.setGrade = function (grade) {
         this.grade = grade;
-    }
-    setUser(user) {
+    };
+    Review.prototype.setUser = function (user) {
         this.user = user;
-    }
-    setProduct(product) {
+    };
+    Review.prototype.setProduct = function (product) {
         this.product = product;
-    }
-}
+    };
+    return Review;
+}());
+exports.Review = Review;
