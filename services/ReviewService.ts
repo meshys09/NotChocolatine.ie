@@ -55,7 +55,7 @@ export class ReviewService {
         return reviewList;
     };
 
-    async addReview(reviewId : number, reviewComment : string | null, reviewGrade : number|null, userId : number, productId : number): Promise<Review> {
+    async addReview(reviewComment : string | null, reviewGrade : number|null, userId : number, productId : number): Promise<Review> {
         const existingReview = await prisma.reviews.findMany({
             where: {
                 productId : productId,

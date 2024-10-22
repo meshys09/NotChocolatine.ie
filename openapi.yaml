@@ -163,7 +163,7 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /getReviewsByProduct:
+    /review/byProduct/{productId}:
         get:
             summary: "Get reviews by product"
             operationId: "getReviewsByProduct"
@@ -198,7 +198,7 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /getReviewsByUser:
+    /review/byUser/{userId}:
         get:
             summary: "Get reviews by user"
             operationId: "getReviewsByUser"
@@ -233,7 +233,7 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /addReview:
+    /review/newReview:
         post:
             summary: "Add review"
             operationId: "addReview"
@@ -260,7 +260,7 @@ paths:
                 '500':
                     description: "Internal server error"
     
-    /deleteReview:
+    review/{reviewId}:
         delete:
             summary: "Delete review"
             operationId: "deleteReview"
