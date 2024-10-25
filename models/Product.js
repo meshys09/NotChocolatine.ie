@@ -1,36 +1,31 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Product = void 0;
-var Product = /** @class */ (function () {
-    function Product(id, price, name, description) {
+export class Product {
+    constructor(id, price, name, description) {
         this.id = id;
         this.price = price;
         this.name = name;
         this.description = description;
     }
     // Getters
-    Product.prototype.getId = function () {
+    getId() {
         return this.id;
-    };
-    Product.prototype.getPrice = function () {
+    }
+    getPrice() {
         return this.price;
-    };
-    Product.prototype.getName = function () {
+    }
+    getName() {
         return this.name;
-    };
-    Product.prototype.getDescription = function () {
+    }
+    getDescription() {
         return this.description;
-    };
+    }
     // Setters
-    Product.prototype.setPrice = function (price) {
+    setPrice(price) {
         this.price = price;
-    };
-    Product.prototype.setName = function (name) {
+    }
+    setName(name) {
         this.name = name;
-    };
-    Product.prototype.setDescription = function (description) {
+    }
+    setDescription(description) {
         this.description = description;
-    };
-    return Product;
-}());
-exports.Product = Product;
+    }
+}

@@ -1,36 +1,31 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
-var User = /** @class */ (function () {
-    function User(id, mail, password, role) {
+export class User {
+    constructor(id, mail, password, role) {
         this.id = id;
         this.mail = mail;
         this.password = password;
         this.role = role;
     }
     // Getters
-    User.prototype.getId = function () {
+    getId() {
         return this.id;
-    };
-    User.prototype.getMail = function () {
+    }
+    getMail() {
         return this.mail;
-    };
-    User.prototype.getPassword = function () {
+    }
+    getPassword() {
         return this.password;
-    };
-    User.prototype.getRole = function () {
+    }
+    getRole() {
         return this.role;
-    };
+    }
     // Setters
-    User.prototype.setMail = function (mail) {
+    setMail(mail) {
         this.mail = mail;
-    };
-    User.prototype.setPassword = function (password) {
+    }
+    setPassword(password) {
         this.password = password;
-    };
-    User.prototype.setRole = function (role) {
+    }
+    setRole(role) {
         this.role = role;
-    };
-    return User;
-}());
-exports.User = User;
+    }
+}
