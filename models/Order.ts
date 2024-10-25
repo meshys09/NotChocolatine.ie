@@ -6,14 +6,12 @@ export class Order {
     private date: Date;
     private price: number;
     private user: User;
-    private products: Product[];
 
-    constructor(id: number, date: Date, price: number, user: User, products: Product[]) {
+    constructor(id: number, date: Date, price: number, user: User) {
         this.id = id;
         this.date = date;
         this.price = price;
         this.user = user;
-        this.products = products;
     }
 
     // Getters
@@ -33,10 +31,6 @@ export class Order {
         return this.user;
     }
 
-    public getProducts(): Product[] {
-        return this.products;
-    }
-
     // Setters
     public setDate(date: Date): void {
         this.date = date;
@@ -48,9 +42,5 @@ export class Order {
 
     public setUser(user: User): void {
         this.user = user;
-    }
-
-    public setProducts(products: Product[]): void {
-        this.products = products;
     }
 }
