@@ -9,6 +9,9 @@ app.get('/', (c) => {
 });
 
 app.route('/users', userController);
+app.route('/reviews', reviewController);
+app.route('/products', productController);
+app.route('/orders', orderController);
 
 export default app;
 
