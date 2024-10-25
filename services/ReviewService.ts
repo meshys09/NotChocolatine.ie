@@ -50,8 +50,15 @@ export class ReviewService {
                 productId: productId,
             }
         });
-        const reviewList = reviews.map(
-            (review) => new Review(review.id, review.comment, review.grade, review.userId, review.productId)
+        const reviewList = await Promise.all(
+            reviews.map(
+                async (review) => {
+                    const user = await userService.getUserById(review.userId);
+                    const product = await productService.getProductById(review.productId);
+
+                    return new Review(review.id, review.comment, review.grade, user, product);
+                }
+            )
         );
         return reviewList;
     };
@@ -62,23 +69,19 @@ export class ReviewService {
                 userId: userId,
             }
         });
-        const reviewList = reviews.map(
-            (review) => new Review(review.id, review.comment, review.grade, review.userId, review.productId)
+        const reviewList = await Promise.all(
+            reviews.map(
+                async (review) => {
+                    const user = await userService.getUserById(review.userId);
+                    const product = await productService.getProductById(review.productId);
+                    return new Review(review.id, review.comment, review.grade, user, product);
+                }
+            )
         );
         return reviewList;
     };
 
     async addReview(reviewComment: string | null, reviewGrade: number | null, userId: number, productId: number): Promise<Review> {
-        const existingReview = await prisma.reviews.findMany({
-            where: {
-                productId: productId,
-                userId: userId,
-            }
-        });
-        if (existingReview) {
-            throw new Error(`L'utilisateur avec l'ID ${userId} a déjà écrit un commentaire pour le produit ${productId}`);
-        };
-
         const review = await prisma.reviews.create({
             data: {
                 comment: reviewComment,
@@ -87,7 +90,10 @@ export class ReviewService {
                 productId: productId,
             }
         })
-        return new Review(review.id, review.comment, review.grade, review.userId, review.productId);
+        const user = await userService.getUserById(review.userId);
+        const product = await productService.getProductById(review.productId);
+
+        return new Review(review.id, review.comment, review.grade, user, product);
     };
 
     async deleteReview(reviewId: number): Promise<string> {
