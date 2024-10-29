@@ -11,15 +11,14 @@ import { Hono } from "hono";
 import { ReviewService } from "../services/ReviewService.js";
 const reviewController = new Hono();
 const reviewService = new ReviewService();
-reviewController.get('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const reviewList = yield reviewService.getAllReviews();
-        return yield c.json(reviewList);
-    }
-    catch (error) {
-        return c.json({ error: 'Failed to retrieve reviews', details: error.message }, 500);
-    }
-}));
+// reviewController.get('/', async (c) => {
+//     try {
+//         const reviewList = await reviewService.getAllReviews();
+//         return await c.json(reviewList);
+//     } catch (error: any) {
+//         return c.json({ error: 'Failed to retrieve reviews', details: error.message }, 500);
+//     }
+// });
 reviewController.get('/:id', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const reviewId = parseInt(c.req.param('id'), 10);
@@ -33,7 +32,7 @@ reviewController.get('/:id', (c) => __awaiter(void 0, void 0, void 0, function* 
 reviewController.get('/byProduct/:productId', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productId = parseInt(c.req.param('productId'), 10);
-        const reviewList = yield reviewService.getReviewById(productId);
+        const reviewList = yield reviewService.getReviewsByProduct(productId);
         return c.json(reviewList);
     }
     catch (error) {
@@ -43,17 +42,17 @@ reviewController.get('/byProduct/:productId', (c) => __awaiter(void 0, void 0, v
 reviewController.get('/byUser/:userId', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = parseInt(c.req.param('userId'), 10);
-        const reviewList = yield reviewService.getReviewById(userId);
+        const reviewList = yield reviewService.getReviewsByUser(userId);
         return c.json(reviewList);
     }
     catch (error) {
         return c.json({ message: error.message }, 404);
     }
 }));
-reviewController.post('/newReview', (c) => __awaiter(void 0, void 0, void 0, function* () {
+reviewController.post('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { comment, grade, productId, userId } = yield c.req.json();
-        const review = yield reviewService.addReview(comment, grade, productId, userId);
+        const { comment, grade, userId, productId } = yield c.req.json();
+        const review = yield reviewService.addReview(comment, grade, userId, productId);
         return c.json(review, 201);
     }
     catch (error) {

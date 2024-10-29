@@ -2,7 +2,7 @@ import { Product } from "./Product";
 import { User } from "./User";
 
 export class Review {
-    private id: number;
+    private id: number | null;
     private comment: string | null;
     private grade: number | null;
     private user: User;
@@ -17,7 +17,7 @@ export class Review {
     }
 
     // Getters
-    public getId(): number {
+    public getId(): number | null {
         return this.id;
     }
 

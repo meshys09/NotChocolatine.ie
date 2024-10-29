@@ -7,12 +7,6 @@ const prisma = new PrismaClient();
 const userService = new UserService();
 const productService = new ProductService();
 export class ReviewService {
-    //Ici, il faudrait se metre d'accord : est-ce qu'on stocke le userId et productId ou un User et un Product ? 
-    //(le constructeur prend des objets alors que l'objet dans prisma a des Id)
-    //jpense il faudrait mettre les Id, c'est mieux
-
-    //D'ailleurs, c'est pas dans l'api mais est-ce qu'on peut récup les reviews by id et toutes les reviews?
-
     async getAllReviews(): Promise<Review[]> {
         const reviews = await prisma.reviews.findMany();
         const reviewList = await Promise.all(
@@ -35,7 +29,7 @@ export class ReviewService {
             }
         });
         if (!review) {
-            throw new Error(`Commentaire avec l'ID ${reviewId} non trouvé.`);
+            throw new Error(`Review ${reviewId} not found.`);
         }
 
         const user = await userService.getUserById(review.userId);

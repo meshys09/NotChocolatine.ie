@@ -27,7 +27,7 @@ reviewController.get('/:id', async (c) => {
 reviewController.get('/byProduct/:productId', async (c) => {
     try {
         const productId = parseInt(c.req.param('productId'), 10);
-        const reviewList= await reviewService.getReviewById(productId);
+        const reviewList = await reviewService.getReviewsByProduct(productId);
         return c.json(reviewList);
     } catch (error: any) {
         return c.json({ message: error.message }, 404);
@@ -37,17 +37,17 @@ reviewController.get('/byProduct/:productId', async (c) => {
 reviewController.get('/byUser/:userId', async (c) => {
     try {
         const userId = parseInt(c.req.param('userId'), 10);
-        const reviewList= await reviewService.getReviewById(userId);
+        const reviewList = await reviewService.getReviewsByUser(userId);
         return c.json(reviewList);
     } catch (error: any) {
         return c.json({ message: error.message }, 404);
     }
 });
 
-reviewController.post('/newReview', async (c) => {
+reviewController.post('/', async (c) => {
     try {
-        const { comment, grade, productId, userId } = await c.req.json();
-        const review = await reviewService.addReview(comment, grade, productId, userId);
+        const { comment, grade, userId, productId } = await c.req.json();
+        const review = await reviewService.addReview(comment, grade, userId, productId);
 
         return c.json(review, 201);
     } catch (error: any) {
