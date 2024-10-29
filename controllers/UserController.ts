@@ -24,7 +24,7 @@ userController.get('/:id', async (c) => {
     }
 });
 
-userController.post('/newUser', async (c) => {
+userController.post('/', async (c) => {
     try {
         const { mail, password, role } = await c.req.json();
         const user = await userService.addUser(mail, password, role);
