@@ -27,23 +27,14 @@ export class ProductService {
                 }
             });
             if (!product) {
-                throw new Error(`Produit avec l'ID ${productId} non trouvé.`);
+                throw new Error(`Product ${productId} not found.`);
             }
             return new Product(product.id, product.price, product.name, product.description);
         });
     }
     ;
-    addProduct(productId, price, name, description) {
+    addProduct(price, name, description) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existingProduct = yield prisma.product.findUnique({
-                where: {
-                    id: productId,
-                }
-            });
-            if (existingProduct) {
-                throw new Error(`Un produit avec l'Id ${productId} existe déjà.`);
-            }
-            ;
             const product = yield prisma.product.create({
                 data: {
                     price: price,
@@ -75,7 +66,7 @@ export class ProductService {
                 data: {
                     price: price,
                     name: name,
-                    description: description,
+                    description: description
                 }
             });
             return new Product(product.id, product.price, product.name, product.description);

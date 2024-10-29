@@ -20,27 +20,18 @@ export class ProductService {
             }
         });
         if (!product) {
-            throw new Error(`Produit avec l'ID ${productId} non trouvé.`);
+            throw new Error(`Product ${productId} not found.`);
         }
 
         return new Product(product.id, product.price, product.name, product.description)
     };
 
-    async addProduct(productId: number, price : number, name : string, description : string | null): Promise<Product> {
-        const existingProduct = await prisma.product.findUnique({
-            where: {
-                id : productId,
-            }
-        });
-        if (existingProduct) {
-            throw new Error(`Un produit avec l'Id ${productId} existe déjà.`);
-        };
-
+    async addProduct(price: number, name: string, description: string | null): Promise<Product> {
         const product = await prisma.product.create({
             data: {
-                price : price,
+                price: price,
                 name: name,
-                description : description,
+                description: description,
             }
         })
         return new Product(product.id, product.price, product.name, product.description);
@@ -55,15 +46,15 @@ export class ProductService {
         return "Product deleted"
     };
 
-    async updateProduct(productId: number, price : number, name : string, description : string | null): Promise<Product> {
+    async updateProduct(productId: number, price?: number, name?: string, description?: string | null): Promise<Product> {
         const product = await prisma.product.update({
             where: {
                 id: productId,
             },
             data: {
-                price : price,
+                price: price,
                 name: name,
-                description : description,
+                description: description
             }
         });
         return new Product(product.id, product.price, product.name, product.description);
