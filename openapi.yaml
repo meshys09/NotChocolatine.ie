@@ -93,7 +93,7 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /users/newUser: 
+    /users: 
         post:
             summary: "Add user"
             operationId: "addUser"
@@ -134,7 +134,7 @@ paths:
                 '500':
                     description: "Internal server error"
     
-    /users/updateUser: 
+    /users/{userId}: 
         put:
             summary: "Update user"
             operationId: "updateUser"
@@ -233,7 +233,7 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /reviews/newReview:
+    /reviews:
         post:
             summary: "Add review"
             operationId: "addReview"
@@ -278,7 +278,7 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /getGradesByProduct:
+    /reviews/getGradesByProduct:
         get:
             summary: "Get grades by product"
             operationId: "getGradesByProduct"
@@ -336,7 +336,7 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /products/:
+    /products:
         get:
             summary: "Get all products"
             operationId: "getProducts"
@@ -363,7 +363,7 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /product/newProduct: 
+    /products: 
         post:
             summary: "Add product"
             operationId: "addProduct"
@@ -389,7 +389,8 @@ paths:
                     description: "Bad request"
                 '500':
                     description: "Internal server error"
-    products/{productId}: 
+
+    /products/{productId}: 
         post:
             summary: "Update product"
             operationId: "updateProduct"
