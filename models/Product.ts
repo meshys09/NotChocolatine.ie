@@ -1,10 +1,10 @@
 export class Product {
-    private id: number;
+    private id: number | null;
     private price: number;
     private name: string;
-    private description: string|null;
+    private description: string | null;
 
-    constructor(id: number, price: number, name: string, description: string| null) {
+    constructor(id: number | null, price: number, name: string, description: string | null) {
         this.id = id;
         this.price = price;
         this.name = name;
@@ -12,7 +12,7 @@ export class Product {
     }
 
     // Getters
-    public getId(): number {
+    public getId(): number | null {
         return this.id;
     }
 
@@ -24,7 +24,7 @@ export class Product {
         return this.name;
     }
 
-    public getDescription(): string|null {
+    public getDescription(): string | null {
         return this.description;
     }
 
