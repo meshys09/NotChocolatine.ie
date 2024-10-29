@@ -32,7 +32,7 @@ export class OrderService {
             }
         });
         if (!order) {
-            throw new Error(`Commande avec l'ID ${orderId} non trouvée.`);
+            throw new Error(`Order ${orderId} not found.`);
         }
 
         const user = await userService.getUserById(order.userId);

@@ -34,11 +34,11 @@ export class OrderProductService {
         return __awaiter(this, void 0, void 0, function* () {
             const order = yield orderService.getOrderById(orderId);
             if (!order) {
-                throw new Error(`Commande avec l'ID ${orderId} non trouvée.`);
+                throw new Error(`Order ${orderId} not found.`);
             }
             const product = yield productService.getProductById(productId);
             if (!product) {
-                throw new Error(`Produit avec l'ID ${productId} non trouvé.`);
+                throw new Error(`Product ${productId} not found.`);
             }
             const orderProduct = yield prisma.orderProduct.create({
                 data: {

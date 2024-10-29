@@ -33,13 +33,13 @@ export class OrderProductService {
         const order = await orderService.getOrderById(orderId);
 
         if (!order) {
-            throw new Error(`Commande avec l'ID ${orderId} non trouvée.`);
+            throw new Error(`Order ${orderId} not found.`);
         }
 
         const product = await productService.getProductById(productId);
 
         if (!product) {
-            throw new Error(`Produit avec l'ID ${productId} non trouvé.`);
+            throw new Error(`Product ${productId} not found.`);
         }
 
         const orderProduct = await prisma.orderProduct.create({

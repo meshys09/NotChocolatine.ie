@@ -28,7 +28,7 @@ export class UserService {
                 }
             });
             if (!user) {
-                throw new Error(`Utilisateur avec l'ID ${userId} non trouvé.`);
+                throw new Error(`User ${userId} not found.`);
             }
             return new User(user.id, user.mail, user.password, user.role);
         });
@@ -43,7 +43,7 @@ export class UserService {
                 }
             });
             if (!user) {
-                throw new Error(`Utilisateur avec non trouvé.`);
+                throw new Error(`User not found.`);
             }
             return new User(user.id, user.mail, user.password, user.role);
         });
@@ -57,7 +57,7 @@ export class UserService {
                 }
             });
             if (existingUser) {
-                throw new Error(`Un utilisateur avec l'adresse mail ${mail} existe déjà.`);
+                throw new Error(`A user with the email address ${mail} already exists.`);
             }
             ;
             const hashedPassword = yield bcrypt.hash(password, 10);

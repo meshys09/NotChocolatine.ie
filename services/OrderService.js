@@ -37,7 +37,7 @@ export class OrderService {
                 }
             });
             if (!order) {
-                throw new Error(`Commande avec l'ID ${orderId} non trouvée.`);
+                throw new Error(`Order ${orderId} not found.`);
             }
             const user = yield userService.getUserById(order.userId);
             if (!order.date || !order.price) {
