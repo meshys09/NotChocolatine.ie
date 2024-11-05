@@ -62,4 +62,28 @@ export class OrderService {
         );
         return orderList;
     }
+
+    async addOrder(date: Date, price: number, userId: number): Promise<Order> {
+        const user = await userService.getUserById(userId);
+        const newOrder = await prisma.order.create({
+            data: {
+                date: date,
+                price: price,
+                userId: userId,
+            }
+        });
+        if (!newOrder.date || !newOrder.price) {
+            throw new Error(`New order with ID ${newOrder.id} has no date or price.`);
+        }
+        return new Order(newOrder.id, newOrder.date, newOrder.price, user);
+    }
+
+    async deleteOrder(orderId: number): Promise<string> {
+        const order = await prisma.order.delete({
+            where: {
+                id: orderId,
+            }
+        });
+        return "Order deleted"
+    }
 }
