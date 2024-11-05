@@ -30,7 +30,7 @@ userController.get('/:id', (c) => __awaiter(void 0, void 0, void 0, function* ()
         return c.json({ message: error.message }, 404);
     }
 }));
-userController.post('/newUser', (c) => __awaiter(void 0, void 0, void 0, function* () {
+userController.post('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { mail, password, role } = yield c.req.json();
         const user = yield userService.addUser(mail, password, role);

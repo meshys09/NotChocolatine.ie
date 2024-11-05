@@ -1,9 +1,9 @@
 export class Order {
-    constructor(id, date, price, user) {
+    constructor(id, date, price, userId) {
         this.id = id;
         this.date = date;
         this.price = price;
-        this.user = user;
+        this.userId = userId;
     }
     // Getters
     getId() {
@@ -15,8 +15,8 @@ export class Order {
     getPrice() {
         return this.price;
     }
-    getUser() {
-        return this.user;
+    getUserId() {
+        return this.userId;
     }
     // Setters
     setDate(date) {
@@ -25,7 +25,7 @@ export class Order {
     setPrice(price) {
         this.price = price;
     }
-    setUser(user) {
-        this.user = user;
+    setUserId(userId) {
+        this.userId = userId;
     }
 }

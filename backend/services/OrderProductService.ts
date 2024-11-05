@@ -1,7 +1,7 @@
-import { OrderProduct } from "../models/OrderProduct";
-import { OrderService } from "./OrderService";
+import { OrderProduct } from "../models/OrderProduct.js";
 import { PrismaClient } from '@prisma/client';
-import { ProductService } from "./ProductService";
+import { OrderService } from "./OrderService.js";
+import { ProductService } from "./ProductService.js";
 
 const prisma = new PrismaClient();
 const orderService = new OrderService();

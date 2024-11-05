@@ -1,11 +1,9 @@
-import { Order } from '../models/Order';
-import { ProductService } from './ProductService';
-import { UserService } from './UserService';
+import { Order } from '../models/Order.js';
+import { UserService } from './UserService.js';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const userService = new UserService();
-const productService = new ProductService();
 
 export class OrderService {
     async getAllOrders(): Promise<Order[]> {
@@ -18,7 +16,11 @@ export class OrderService {
                     if (!order.date || !order.price) {
                         throw new Error(`Order with ID ${order.id} has no date or price.`);
                     }
-                    return new Order(order.id, order.date, order.price, user);
+                    const userId = user.getId();
+                    if (userId === null) {
+                        throw new Error(`User ID for order ${order.id} is null.`);
+                    }
+                    return new Order(order.id, order.date, order.price, userId);
                 }
             )
         );
@@ -40,10 +42,15 @@ export class OrderService {
         if (!order.date || !order.price) {
             throw new Error(`Order with ID ${order.id} has no date or price.`);
         }
-        return new Order(order.id, order.date, order.price, user);
+        const userId = user.getId();
+        if (userId === null) {
+            throw new Error(`User ID for order ${order.id} is null.`);
+        }
+
+        return new Order(order.id, order.date, order.price, userId);
     };
 
-    async getOrdersByUser(userId: number): Promise<Order[]> {
+    async getOrdersByUserId(userId: number): Promise<Order[]> {
         const orders = await prisma.order.findMany({
             where: {
                 userId: userId,
@@ -56,7 +63,7 @@ export class OrderService {
                     if (!order.date || !order.price) {
                         throw new Error(`Order with ID ${order.id} has no date.`);
                     }
-                    return new Order(order.id, order.date, order.price, user);
+                    return new Order(order.id, order.date, order.price, userId);
                 }
             )
         );
@@ -75,7 +82,7 @@ export class OrderService {
         if (!newOrder.date || !newOrder.price) {
             throw new Error(`New order with ID ${newOrder.id} has no date or price.`);
         }
-        return new Order(newOrder.id, newOrder.date, newOrder.price, user);
+        return new Order(newOrder.id, newOrder.date, newOrder.price, userId);
     }
 
     async deleteOrder(orderId: number): Promise<string> {

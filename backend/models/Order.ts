@@ -1,17 +1,16 @@
 import { User } from "./User";
-import { Product } from "./Product";
 
 export class Order {
     private id: number;
     private date: Date;
     private price: number;
-    private user: User;
+    private userId: number | null;
 
-    constructor(id: number, date: Date, price: number, user: User) {
+    constructor(id: number, date: Date, price: number, userId: number) {
         this.id = id;
         this.date = date;
         this.price = price;
-        this.user = user;
+        this.userId = userId;
     }
 
     // Getters
@@ -27,8 +26,8 @@ export class Order {
         return this.price;
     }
 
-    public getUser(): User {
-        return this.user;
+    public getUserId(): number | null {
+        return this.userId;
     }
 
     // Setters
@@ -40,7 +39,7 @@ export class Order {
         this.price = price;
     }
 
-    public setUser(user: User): void {
-        this.user = user;
+    public setUserId(userId: number): void {
+        this.userId = userId;
     }
 }

@@ -7,13 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Order } from '../models/Order';
-import { ProductService } from './ProductService';
-import { UserService } from './UserService';
+import { Order } from '../models/Order.js';
+import { UserService } from './UserService.js';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 const userService = new UserService();
-const productService = new ProductService();
 export class OrderService {
     getAllOrders() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -23,7 +21,11 @@ export class OrderService {
                 if (!order.date || !order.price) {
                     throw new Error(`Order with ID ${order.id} has no date or price.`);
                 }
-                return new Order(order.id, order.date, order.price, user);
+                const userId = user.getId();
+                if (userId === null) {
+                    throw new Error(`User ID for order ${order.id} is null.`);
+                }
+                return new Order(order.id, order.date, order.price, userId);
             })));
             return orderList;
         });
@@ -43,11 +45,15 @@ export class OrderService {
             if (!order.date || !order.price) {
                 throw new Error(`Order with ID ${order.id} has no date or price.`);
             }
-            return new Order(order.id, order.date, order.price, user);
+            const userId = user.getId();
+            if (userId === null) {
+                throw new Error(`User ID for order ${order.id} is null.`);
+            }
+            return new Order(order.id, order.date, order.price, userId);
         });
     }
     ;
-    getOrdersByUser(userId) {
+    getOrdersByUserId(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             const orders = yield prisma.order.findMany({
                 where: {
@@ -59,9 +65,35 @@ export class OrderService {
                 if (!order.date || !order.price) {
                     throw new Error(`Order with ID ${order.id} has no date.`);
                 }
-                return new Order(order.id, order.date, order.price, user);
+                return new Order(order.id, order.date, order.price, userId);
             })));
             return orderList;
+        });
+    }
+    addOrder(date, price, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield userService.getUserById(userId);
+            const newOrder = yield prisma.order.create({
+                data: {
+                    date: date,
+                    price: price,
+                    userId: userId,
+                }
+            });
+            if (!newOrder.date || !newOrder.price) {
+                throw new Error(`New order with ID ${newOrder.id} has no date or price.`);
+            }
+            return new Order(newOrder.id, newOrder.date, newOrder.price, userId);
+        });
+    }
+    deleteOrder(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const order = yield prisma.order.delete({
+                where: {
+                    id: orderId,
+                }
+            });
+            return "Order deleted";
         });
     }
 }

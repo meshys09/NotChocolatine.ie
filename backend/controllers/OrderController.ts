@@ -1,8 +1,10 @@
 import { Hono } from "hono";
 import { OrderService } from "../services/OrderService.js";
+import { OrderProductService } from "../services/OrderProductService.js";
 
 const orderController = new Hono();
 const orderService = new OrderService();
+const orderProductService = new OrderProductService();
 
 orderController.get('/', async (c) => {
     try {
@@ -18,7 +20,9 @@ orderController.get('/:id', async (c) => {
     try {
         const orderId = parseInt(c.req.param('id'), 10);
         const order = await orderService.getOrderById(orderId);
-        return c.json(order);
+        const products = await orderProductService.getProductByOrder(orderId);
+
+        return c.json({ order, products });
     } catch (error: any) {
         return c.json({ message: error.message }, 404);
     }
@@ -27,7 +31,7 @@ orderController.get('/:id', async (c) => {
 orderController.get('/user/:id', async (c) => {
     try {
         const userId = parseInt(c.req.param('id'), 10);
-        const orderList = await orderService.getOrdersByUser(userId);
+        const orderList = await orderService.getOrdersByUserId(userId);
         return c.json(orderList);
     } catch (error: any) {
         return c.json({ message: error.message }, 404);
@@ -55,6 +59,42 @@ orderController.delete('/:id', async (c) => {
     }
 });
 
+orderController.post('/:orderId/product/:productId', async (c) => {
+    try {
+        const orderId = parseInt(c.req.param('orderId'), 10);
+        const productId = parseInt(c.req.param('productId'), 10);
+        const { quantity } = await c.req.json();
 
+        const orderProduct = await orderProductService.addProductToOrder(orderId, productId, quantity);
+        return c.json(orderProduct, 201);
+    } catch (error: any) {
+        return c.json({ message: error.message }, 404);
+    }
+});
+
+orderController.delete('/:orderId/product/:productId', async (c) => {
+    try {
+        const orderId = parseInt(c.req.param('orderId'), 10);
+        const productId = parseInt(c.req.param('productId'), 10);
+
+        const deleteProduct = await orderProductService.removeProductFromOrder(orderId, productId);
+        return c.json(deleteProduct);
+    } catch (error: any) {
+        return c.json({ message: error.message }, 404);
+    }
+});
+
+orderController.put('/:orderId/product/:productId', async (c) => {
+    try {
+        const orderId = parseInt(c.req.param('orderId'), 10);
+        const productId = parseInt(c.req.param('productId'), 10);
+        const { quantity } = await c.req.json();
+
+        const orderProduct = await orderProductService.updateProductQuantity(orderId, productId, quantity);
+        return c.json(orderProduct);
+    } catch (error: any) {
+        return c.json({ message: error.message }, 404);
+    }
+});
 
 export default orderController;

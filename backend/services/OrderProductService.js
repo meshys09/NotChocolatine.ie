@@ -7,10 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { OrderProduct } from "../models/OrderProduct";
-import { OrderService } from "./OrderService";
+import { OrderProduct } from "../models/OrderProduct.js";
 import { PrismaClient } from '@prisma/client';
-import { ProductService } from "./ProductService";
+import { OrderService } from "./OrderService.js";
+import { ProductService } from "./ProductService.js";
 const prisma = new PrismaClient();
 const orderService = new OrderService();
 const productService = new ProductService();
