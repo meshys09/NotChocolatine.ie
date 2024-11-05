@@ -1,4 +1,4 @@
 node_modules
-backend/.DS_Store
+.DS_Store
 # Keep environment variables out of version control
 
