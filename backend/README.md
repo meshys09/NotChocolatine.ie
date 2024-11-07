@@ -4,6 +4,7 @@
 - doc: Changement à la documentation du projet
 - refactor: Changement du code pour sa lisibilité sans impact sur son fonctionnement
 - test: Commit ne concernant que les tests
+- style: Ne concerne que l'aspect visuel 
 
 # Architecture de l'application :
 - ./models : Déclaration de nos classes utiles 
