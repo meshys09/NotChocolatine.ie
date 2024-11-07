@@ -1,0 +1,53 @@
+// ProductList.tsx
+import React, { useEffect, useState } from 'react';
+import ProductTile from '../ProductTile/ProductTile';
+import './ProductList.css';
+
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+    description: string;
+}
+
+function ProductList() {
+    const [products, setProducts] = useState<Product[]>([]); // Stocker la liste des produits
+    const [error, setError] = useState<string | null>(null); // Gérer les erreurs
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/products');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const data = await response.json();
+                setProducts(data); // Mettre à jour l’état avec la liste des produits
+            } catch (err: any) {
+                setError(err.message);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    if (error) {
+        return <div className="ProductList-error">{error}</div>;
+    }
+
+    return (
+        <div className="ProductList">
+            {products.map((product) => (
+                <ProductTile
+                    id={product.id}
+                    key={product.id}
+                    name={product.name}
+                    price={product.price}
+                    description={product.description}
+                />
+            ))}
+        </div>
+    );
+}
+
+export default ProductList;
