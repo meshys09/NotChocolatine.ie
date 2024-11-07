@@ -1,26 +1,30 @@
 import React from 'react';
-import ProductTile from './ProductTile';
-import logo from './logoCroissant.png';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import ProductList from './Products/ProductList/ProductList';
 import './App.css';
+import ProductPage from './Products/ProductPage/ProductPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <div className='row'>
-        <div className='Left-column'>
-        <img src={logo} className="App-logo" alt="logo" />
-        </div>
-        <div className='Right-column'>
-        <p> NotChocolatine - Selling yummy pains au chocolats</p>
-        </div>
-        </div>
-      </header>
-      <div className='Todays-products'>
-        <ProductTile name={"pain au chocolat"}/>
-        <ProductTile name={"croissant"}/>
+    <Router>
+      <div className="App">
+        {/* Barre de navigation */}
+        <nav className="navbar">
+          <Link to="/" className="nav-link">Browse</Link>
+          <Link to="/about" className="nav-link">Who Are We?</Link>
+          <Link to="/cart" className="nav-link">Cart</Link>
+          <Link to="/login" className="nav-link">Login</Link>
+        </nav>
+
+        {/* Contenu des routes */}
+        <Routes>
+          <Route path="/" element={<ProductList />} />
+          <Route path="/about" element={<div>About Us</div>} />
+          <Route path="/cart" element={<div>Cart Page</div>} />
+          <Route path="/login" element={<div>Login Page</div>} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 
