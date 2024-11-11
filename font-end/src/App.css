@@ -14,21 +14,23 @@
   }
 }
 
-.App-header {
+.navbar {
   background-color: antiquewhite;
   min-height: 10vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: left;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(194, 155, 0);
 }
-
-.link {
-  color: rgb(219, 175, 0);
-  text-decoration-line: underline;
+.nav-link {
+  color: rgb(194, 155, 0);
+  font-weight: bold;
+  text-decoration: none;
+  padding: 15px;
 }
+
 
 .Left-column {
   float: left;
