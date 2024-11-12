@@ -1,6 +1,6 @@
-// ProductTile.tsx
 import React from 'react';
 import './ProductTile.css';
+import { useNavigate } from 'react-router-dom';
 
 interface ProductProps {
   id: number;
@@ -10,8 +10,14 @@ interface ProductProps {
 }
 
 function ProductTile({ id, name, price, description }: ProductProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/products/${id}`);
+  };
+
   return (
-    <div className="ProductTile">
+    <div className="ProductTile" onClick={handleClick}>
       <img src="https://via.placeholder.com/150" alt="Product" className="ProductTile-image" />
       <div className="ProductTile-info">
         <h2>{name}</h2>

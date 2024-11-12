@@ -1,4 +1,3 @@
-// ProductList.tsx
 import React, { useEffect, useState } from 'react';
 import ProductTile from '../ProductTile/ProductTile';
 import './ProductList.css';
@@ -11,8 +10,8 @@ interface Product {
 }
 
 function ProductList() {
-    const [products, setProducts] = useState<Product[]>([]); // Stocker la liste des produits
-    const [error, setError] = useState<string | null>(null); // Gérer les erreurs
+    const [products, setProducts] = useState<Product[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -22,7 +21,7 @@ function ProductList() {
                     throw new Error('Failed to fetch products');
                 }
                 const data = await response.json();
-                setProducts(data); // Mettre à jour l’état avec la liste des produits
+                setProducts(data);
             } catch (err: any) {
                 setError(err.message);
             }
