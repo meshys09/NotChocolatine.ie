@@ -18,6 +18,11 @@ function App() {
           <Link to="/login" className="nav-link">Login</Link>
         </nav>
 
+        <div>
+          <h1>Le temps du dev je fous ça là</h1>
+          <a href="/products/new">Add New Product</a>
+        </div>
+
         <Routes>
           <Route path="/" element={<ProductList />} />
           <Route path="/about" element={<div>About Us</div>} />
