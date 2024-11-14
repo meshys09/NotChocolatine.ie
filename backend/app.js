@@ -12,9 +12,9 @@ const app = new Hono();
 app.use(
     '*',
     cors({
-        origin: 'http://localhost:3001', // Autorise l'origine de ton front-end
-        allowMethods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
-        allowHeaders: ['Content-Type', 'Authorization'] // En-têtes autorisés
+        origin: 'http://localhost:3001',
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowHeaders: ['Content-Type', 'Authorization']
     })
 );
 
