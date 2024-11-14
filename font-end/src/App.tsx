@@ -4,25 +4,32 @@ import ProductList from './Products/ProductList/ProductList';
 import './App.css';
 import CroissantLogo from './logoCroissant.png';
 import ProductPage from './Products/ProductPage/ProductPage';
-
+import LoginPage from './Authentication/LoginPage/LoginPage';
+import NewProduct from './Products/NewProduct/NewProduct';
 function App() {
   return (
     <Router>
       <div className="App">
-        {/* Barre de navigation */}
-        <nav className="navbar">
+
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link to="/" className="nav-link"> <img src={CroissantLogo} alt="logo" /> </Link>
           <Link to="/about" className="nav-link">Who Are We?</Link>
           <Link to="/cart" className="nav-link">Cart</Link>
           <Link to="/login" className="nav-link">Login</Link>
         </nav>
 
-        {/* Contenu des routes */}
+        <div>
+          <h1>Le temps du dev je fous ça là</h1>
+          <a href="/products/new">Add New Product</a>
+        </div>
+
         <Routes>
           <Route path="/" element={<ProductList />} />
           <Route path="/about" element={<div>About Us</div>} />
           <Route path="/cart" element={<div>Cart Page</div>} />
-          <Route path="/login" element={<div>Login Page</div>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/products/:id" element={<ProductPage />} />
+          <Route path="/products/new" element={<NewProduct />} />
         </Routes>
       </div>
     </Router>
