@@ -27,22 +27,20 @@ export class UserService {
         return new User(user.id, user.mail, user.password, user.role)
     };
 
-    async getUserByMailAndPassword(mail: string, password: string): Promise<User> {
+    async getUserByMail(mail: string): Promise<User> {
         const user = await prisma.user.findUnique({
-            where: {
-                mail: mail,
-                password: password
-            }
+            where: { mail }
         });
+
         if (!user) {
-            throw new Error(`User not found.`);
+            throw new Error(`User with email ${mail} not found.`);
         }
 
-        return new User(user.id, user.mail, user.password, user.role)
-    };
+        return new User(user.id, user.mail, user.password, user.role);
+    }
 
     async addUser(mail: string, password: string, role: number): Promise<User> {
-        const existingUser = await prisma.user.findUnique({
+        const existingUser = await prisma.user.findFirst({
             where: {
                 mail: mail,
             }

@@ -35,19 +35,6 @@ userController.post('/', async (c) => {
     }
 })
 
-userController.post('/connect', async (c) => {
-    try {
-        const { mail, password } = await c.req.json();
-
-        const user = await userService.getUserByMailAndPassword(mail, password);
-        console.log(user);
-        return c.json(user, 200);
-
-    } catch (error: any) {
-        return c.json({ message: error.message }, 404);
-    }
-})
-
 userController.delete('/:id', async (c) => {
     try {
         const userId = parseInt(c.req.param('id'), 10);

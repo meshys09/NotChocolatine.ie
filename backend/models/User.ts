@@ -1,10 +1,10 @@
 export class User {
-    private id: number | null;
+    private id: number;
     private mail: string;
     private password: string;
     private role: number;
 
-    constructor(id: number | null, mail: string, password: string, role: number) {
+    constructor(id: number, mail: string, password: string, role: number) {
         this.id = id;
         this.mail = mail;
         this.password = password;
@@ -12,7 +12,7 @@ export class User {
     }
 
     // Getters
-    public getId(): number | null {
+    public getId(): number {
         return this.id;
     }
 

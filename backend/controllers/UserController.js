@@ -40,17 +40,6 @@ userController.post('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
         return c.json({ message: error.message }, 404);
     }
 }));
-userController.post('/connect', (c) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { mail, password } = yield c.req.json();
-        const user = yield userService.getUserByMailAndPassword(mail, password);
-        console.log(user);
-        return c.json(user, 200);
-    }
-    catch (error) {
-        return c.json({ message: error.message }, 404);
-    }
-}));
 userController.delete('/:id', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = parseInt(c.req.param('id'), 10);

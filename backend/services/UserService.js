@@ -34,24 +34,20 @@ export class UserService {
         });
     }
     ;
-    getUserByMailAndPassword(mail, password) {
+    getUserByMail(mail) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield prisma.user.findUnique({
-                where: {
-                    mail: mail,
-                    password: password
-                }
+                where: { mail }
             });
             if (!user) {
-                throw new Error(`User not found.`);
+                throw new Error(`User with email ${mail} not found.`);
             }
             return new User(user.id, user.mail, user.password, user.role);
         });
     }
-    ;
     addUser(mail, password, role) {
         return __awaiter(this, void 0, void 0, function* () {
-            const existingUser = yield prisma.user.findUnique({
+            const existingUser = yield prisma.user.findFirst({
                 where: {
                     mail: mail,
                 }
