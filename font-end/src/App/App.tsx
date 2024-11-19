@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import ProductList from './Products/ProductList/ProductList';
+import ProductList from '../Products/ProductList/ProductList';
 import './App.css';
-import CroissantLogo from './logoCroissant.png';
-import ProductPage from './Products/ProductPage/ProductPage';
-import LoginPage from './Authentication/LoginPage/LoginPage';
-import NewProduct from './Products/NewProduct/NewProduct';
-import NewUser from './Users/NewUser/NewUser';
+import CroissantLogo from '../util/logoCroissant.png';
+import ProductPage from '../Products/ProductPage/ProductPage';
+import LoginPage from '../Authentication/LoginPage/LoginPage';
+import NewProduct from '../Products/NewProduct/NewProduct';
+import NewUser from '../Users/NewUser/NewUser';
 
 function App() {
   return (
