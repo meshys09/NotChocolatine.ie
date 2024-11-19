@@ -24,7 +24,7 @@ function App() {
           <h1>Le temps du dev je fous ça là</h1>
           <a href="/products/new">Add New Product</a><br />
           <a href="/login">Login</a> <br />
-          <a href="/users/new">Add New</a>
+          <a href="/users/new">Add New User</a>
         </div>
 
         <Routes>
