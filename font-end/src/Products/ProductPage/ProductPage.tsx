@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
+import NewReview from '../../Reviews/NewReview/NewReview';
+import ReviewList from '../../Reviews/ReviewList/ReviewList';
 interface Product {
     id: number;
     name: string;
@@ -47,11 +48,16 @@ function ProductPage() {
                     <h1>{product.name}</h1>
                     <p><strong>Price:</strong> {product.price} €</p>
                     <p><strong>Description:</strong> {product.description}</p>
-                    {/* Ajouter plus d'informations si nécessaire */}
                 </>
             ) : (
                 <div>Product not found</div>
             )}
+            <div>
+                <NewReview productId={Number(id)} />
+            </div>
+            <div>
+                <ReviewList productId={Number(id)} />
+            </div>
         </div>
     );
 }
