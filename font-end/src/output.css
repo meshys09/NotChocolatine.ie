@@ -544,3 +544,11 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
+
+.p-8 {
+  padding: 2rem;
+}
+
+.hover\:p-10:hover {
+  padding: 2.5rem;
+}

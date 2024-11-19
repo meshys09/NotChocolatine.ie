@@ -14,8 +14,8 @@ function App() {
       <div className="App">
 
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to="/" className="nav-link"> <img src={CroissantLogo} alt="logo" /> </Link>
-          <Link to="/about" className="nav-link">Who Are We?</Link>
+          <Link to="/" className="p-8 hover:p-10"> <img src={CroissantLogo} alt="logo" /></Link>
+          <Link to="/about" className="p-8 hover:p-10">Who Are We?</Link>
           <Link to="/cart" className="nav-link">Cart</Link>
           <Link to="/login" className="nav-link">Login</Link>
         </nav>
