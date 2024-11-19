@@ -6,6 +6,8 @@ import CroissantLogo from './logoCroissant.png';
 import ProductPage from './Products/ProductPage/ProductPage';
 import LoginPage from './Authentication/LoginPage/LoginPage';
 import NewProduct from './Products/NewProduct/NewProduct';
+import NewUser from './Users/NewUser/NewUser';
+
 function App() {
   return (
     <Router>
@@ -20,7 +22,9 @@ function App() {
 
         <div>
           <h1>Le temps du dev je fous ça là</h1>
-          <a href="/products/new">Add New Product</a>
+          <a href="/products/new">Add New Product</a><br />
+          <a href="/login">Login</a> <br />
+          <a href="/users/new">Add New</a>
         </div>
 
         <Routes>
@@ -30,6 +34,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products/:id" element={<ProductPage />} />
           <Route path="/products/new" element={<NewProduct />} />
+          <Route path="/users/new" element={<NewUser />} />
         </Routes>
       </div>
     </Router>
