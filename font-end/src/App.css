@@ -1,3 +1,4 @@
+/* App.css
 .App {
   text-align: left;
 }
@@ -63,7 +64,7 @@
   flex-direction: row;
 }
 
-/* App.css
+
 .App {
   text-align: center;
   font-family: Arial, sans-serif;
@@ -84,4 +85,6 @@
 
 .nav-link:hover {
   text-decoration: underline;
-} */
+} 
+  
+*/
