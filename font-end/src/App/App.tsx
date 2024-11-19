@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import ProductList from '../Products/ProductList/ProductList';
 import './App.css';
 import CroissantLogo from '../util/logoCroissant.png';
+import Cart from '../util/cart.png';
 import ProductPage from '../Products/ProductPage/ProductPage';
 import LoginPage from '../Authentication/LoginPage/LoginPage';
 import NewProduct from '../Products/NewProduct/NewProduct';
@@ -13,11 +14,11 @@ function App() {
     <Router>
       <div className="App">
 
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to="/" className="p-8 hover:p-10"> <img src={CroissantLogo} alt="logo" /></Link>
-          <Link to="/about" className="p-8 hover:p-10">Who Are We?</Link>
-          <Link to="/cart" className="nav-link">Cart</Link>
-          <Link to="/login" className="nav-link">Login</Link>
+        <nav className="bg-amber-300 flex-row">
+          <Link to="/" className="flex p-8 hover:px-10"> <img src={CroissantLogo} alt="logo" /></Link>
+          <Link to="/about" className="flex p-8 hover:px-10">Who Are We?</Link>
+          <Link to="/cart" className="flex p-8 hover:px-10"><img src={Cart} alt='Cart' />  </Link>
+          <Link to="/login" className="flex p-8 hover:px-10">Login</Link>
         </nav>
 
         <div>
