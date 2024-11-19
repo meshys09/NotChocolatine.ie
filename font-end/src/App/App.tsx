@@ -1,10 +1,18 @@
+//import tools
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import ProductList from '../Products/ProductList/ProductList';
+
+//import style
 import './App.css';
+
+//import icons and logos
 import CroissantLogo from '../util/logoCroissant.png';
 import Cart from '../util/cart.png';
+import LoginIcon from '../util/login-icon.png';
+
+//import components
 import ProductPage from '../Products/ProductPage/ProductPage';
+import ProductList from '../Products/ProductList/ProductList';
 import LoginPage from '../Authentication/LoginPage/LoginPage';
 import NewProduct from '../Products/NewProduct/NewProduct';
 import NewUser from '../Users/NewUser/NewUser';
@@ -14,11 +22,13 @@ function App() {
     <Router>
       <div className="App">
 
-        <nav className="bg-amber-300 flex-row">
-          <Link to="/" className="flex p-8 hover:px-10"> <img src={CroissantLogo} alt="logo" /></Link>
-          <Link to="/about" className="flex p-8 hover:px-10">Who Are We?</Link>
-          <Link to="/cart" className="flex p-8 hover:px-10"><img src={Cart} alt='Cart' />  </Link>
-          <Link to="/login" className="flex p-8 hover:px-10">Login</Link>
+        <nav className="bg-amber-300 flex flex-row ">
+          <Link to="/" className="flex p-8"> <img className="px-4" src={CroissantLogo} alt="logo"/><h1 className='hover:py-2'>NotChocolatine</h1></Link>
+          <div className="flex absolute right-0">
+          <Link to="/about" className="p-8 hover:py-10">Who Are We?</Link>
+            <Link to="/login" className="p-8 hover:py-10"><img src={LoginIcon} alt='LoginIcon'/></Link>
+            <Link to="/cart" className="p-8 hover:py-10 relative inset-y-0 right-0"><img src={Cart} alt='Cart'/></Link>
+          </div>
         </nav>
 
         <div>
