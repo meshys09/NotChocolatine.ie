@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import './LoginPage.css';
 
 function LoginPage() {
-    const [email, setEmail] = useState('');
+    const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
-        if (!email || !password) {
+        if (!mail || !password) {
             setError('Please enter both email and password.');
             return;
         }
 
         try {
-            const response = await fetch('http://localhost:3000/login', {
+            const response = await fetch('http://localhost:3000/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ mail, password }),
             });
 
             if (!response.ok) {
@@ -42,8 +42,8 @@ function LoginPage() {
                     <input
                         type="email"
                         id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={mail}
+                        onChange={(e) => setMail(e.target.value)}
                         required
                     />
                 </div>
