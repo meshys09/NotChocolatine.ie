@@ -42,7 +42,7 @@ function App() {
           <Route path="/users/new" element={<NewUser />} />
         </Routes>
 
-        <div className='Temporaire border-2 w-max p-2 mx-2 mt-20'>
+        <div className='Temporaire border-2 w-max p-2 mx-2'>
           <h1>Le temps du dev je fous ça là</h1>
           <a href="/products/new">Add New Product</a><br />
           <a href="/login">Login</a> <br />
