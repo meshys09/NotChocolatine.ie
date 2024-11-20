@@ -6,9 +6,9 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 
 //import icons and logos
-import CroissantLogo from '../util/logoCroissant.png';
+import CroissantLogo from '../util/croissant.png';
 import Cart from '../util/cart.png';
-import LoginIcon from '../util/login-icon.png';
+import LoginIcon from '../util/person.png';
 
 //import components
 import ProductPage from '../Products/ProductPage/ProductPage';
@@ -19,27 +19,21 @@ import NewUser from '../Users/NewUser/NewUser';
 
 function App() {
   return (
+    
     <Router>
-      <div className="App">
+      <div className="App flex flex-col bg-slate-50 min-h-screen max-h-fit">
 
-        <nav className="bg-amber-300 flex flex-row ">
-          <Link to="/" className="flex p-8"> <img className="px-4" src={CroissantLogo} alt="logo"/><h1 className='hover:py-2'>NotChocolatine</h1></Link>
-          <div className="flex absolute right-0">
-          <Link to="/about" className="p-8 hover:py-10">Who Are We?</Link>
-            <Link to="/login" className="p-8 hover:py-10"><img src={LoginIcon} alt='LoginIcon'/></Link>
-            <Link to="/cart" className="p-8 hover:py-10 relative inset-y-0 right-0"><img src={Cart} alt='Cart'/></Link>
+        <nav className="NavBar bg-orange mb-2 h-min p-2 flex items-center shadow-lg sticky top-0">
+          <Link to="/" className="Home flex items-center"> <img className="-rotate-45 mx-6" src={CroissantLogo} alt="logo"/><h1 className='OurName'>NotChocolatine</h1></Link>
+          <div className="Tools flex items-center absolute right-0 mr-2">
+            <Link to="/about" className="About p-4">Who Are We?</Link>
+            <Link to="/cart" className="Cart p-4"><img src={Cart} alt='Cart'/></Link>
+            <Link to="/login" className="Login p-4"><img src={LoginIcon} alt='LoginIcon'/></Link>
           </div>
         </nav>
 
-        <div>
-          <h1>Le temps du dev je fous ça là</h1>
-          <a href="/products/new">Add New Product</a><br />
-          <a href="/login">Login</a> <br />
-          <a href="/users/new">Add New User</a>
-        </div>
-
         <Routes>
-          <Route path="/" element={<ProductList />} />
+          <Route path="/" element={ <div className='ProductList grow'><ProductList /></div>} />
           <Route path="/about" element={<div>About Us</div>} />
           <Route path="/cart" element={<div>Cart Page</div>} />
           <Route path="/login" element={<LoginPage />} />
@@ -47,6 +41,18 @@ function App() {
           <Route path="/products/new" element={<NewProduct />} />
           <Route path="/users/new" element={<NewUser />} />
         </Routes>
+
+        <div className='Temporaire border-2 w-max p-2 mx-2 mt-20'>
+          <h1>Le temps du dev je fous ça là</h1>
+          <a href="/products/new">Add New Product</a><br />
+          <a href="/login">Login</a> <br />
+          <a href="/users/new">Add New User</a>
+        </div>
+
+        <div className="Footer bg-orange p-2 flex place-content-center items-center ">
+          <p className='Rights px-2'>© 2024 NotChocolatine</p>
+          <p className='Names px-2'>Lucie et Manon</p>
+        </div>
       </div>
     </Router>
   );

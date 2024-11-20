@@ -35,7 +35,7 @@ function ProductList() {
     }
 
     return (
-        <div className="ProductList">
+        <div className="ProductList flex flex-wrap">
             {products.map((product) => (
                 <ProductTile
                     id={product.id}
