@@ -42,7 +42,9 @@ function ReviewList({ productId }: { productId: number }) {
     return (
         <div className="ReviewList">
             {reviews.map((review) => (
-                <><h2>{review.grade}</h2><p>{review.comment}</p></>
+                <div key={review.id}>
+                    <h2>{review.grade}</h2><p>{review.comment}</p>
+                </div>
 
             ))}
         </div>
