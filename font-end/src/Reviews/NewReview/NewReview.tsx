@@ -1,21 +1,22 @@
 import React, { useState } from "react";
+// import ReactStars from "react-rating-stars-component"
 import "./NewReview.css";
 
 function NewReview({ productId }: { productId: number }) {
     const [comment, setComment] = useState('');
-    const [grade, setGrade] = useState<number | string>('');
+    const [grade, setGrade] = useState<number>(0); // Grade is now a number
     const [error, setError] = useState('');
 
-    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        if (!comment || !grade) {
+        if (!comment || grade === 0) {
             setError('Please enter all fields.');
             return;
         }
 
         try {
-            var userId = Number(localStorage.getItem('userId'));
+            const userId = Number(localStorage.getItem('userId'));
 
             const response = await fetch('http://localhost:3000/reviews', {
                 method: 'POST',
@@ -29,14 +30,14 @@ function NewReview({ productId }: { productId: number }) {
 
             const data = await response.json();
             console.log('Review created:', data);
-
         } catch (err) {
             setError((err as Error).message);
         }
-    }
+    };
+
     return (
         <div className="NewReview">
-            <h2>Write a review</h2>
+            <h2>Write a Review</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="comment">Comment:</label>
@@ -48,12 +49,6 @@ function NewReview({ productId }: { productId: number }) {
                 </div>
                 <div>
                     <label htmlFor="grade">Grade:</label>
-                    <input
-                        id="grade"
-                        type="number"
-                        value={grade}
-                        onChange={(e) => setGrade(Number(e.target.value))}
-                    />
                 </div>
                 <button type="submit">Submit</button>
                 {error && <div className="error">{error}</div>}
@@ -61,4 +56,5 @@ function NewReview({ productId }: { productId: number }) {
         </div>
     );
 }
+
 export default NewReview;
