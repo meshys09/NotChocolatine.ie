@@ -43,23 +43,48 @@ function ProductPage() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="ProductPage page-style flex-col">
-            <div className='FirstLine flex flex-row'>
-                <div className='LeftCol w-96 p-10'>
-                    <img src={DefaultImg} alt='product' />
+        <div className="ProductPage page-style flex-wrap">
+            <div className='Product flex flex-row box-style w-fit max-w-4xl px-3 py-5'>
+                
+                {/* Image */}
+                <div className='ImageCol w-2/6'>
+                    <img className='bg-light-orange rounded-xl p-5' src={DefaultImg} alt='product' />
                 </div>
-                <div className='RightCol w-96'>
+
+                {/* Product desc */}
+                <div className='ProductCol w-4/6 flex flex-col ml-5'>
                 {product ? (
                     <>
-                        <h1 className='text-center'>{product.name}</h1>
-                        <p className='justify-self-center '>{product.price} €</p>
-                        <p><strong>Description:</strong> {product.description}</p>
+                        <h1 className='p-1'>{product.name}</h1>
+                        <div className='DescriptionBox max-w-lg px-3 flex flex-col '>
+                            <p> [Grade/5] - [Number of reviews] </p>
+                            <p className='py-2'>{product.description}</p>
+                        </div>
+                        
                     </>
                 ) : (
                     <div>Product not found</div>
                 )}
+                {product ? ( 
+                    <div className='self-end'>
+                        <div className='AddToCart flex flex-row'> 
+                            <button className='m-2 px-3 rounded-4xl'>-</button>
+                            <p className='m-2 p-2 border-2 rounded-4xl'>1</p>
+                            <button className='m-2 px-3 rounded-4xl'>+</button>
+                        </div>
+                        <p className='py-2 font-extrabold self-end text-right'>Total Price : {product.price} €</p>
+                        <button>Ajouter au panier</button>
+                    </div>
+                ) : (
+                    <div>Product not found</div>
+                )}
                 </div>
-            <div className='SecondLine'>
+                
+
+
+            </div>
+
+            <div className='Reviews'>
                 <div>
                     <NewReview productId={Number(id)} />
                 </div>
@@ -67,7 +92,6 @@ function ProductPage() {
                     <ReviewList productId={Number(id)} />
                 
                 </div>
-            </div>
             </div>
         </div>
     );
