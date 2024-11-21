@@ -52,8 +52,8 @@ function ProductPage() {
         }
     }
 
-    function handleClick(){
-        alert('Ajouté au panier');
+    function addToCart(){
+        alert('added to cart');
     }
 
     return (
@@ -81,13 +81,13 @@ function ProductPage() {
                 )}
                 {product ? ( 
                     <div className='flex flex-col self-end'>
-                        <div className='AddToCart flex flex-row w-50'> 
+                        <div className='AdjustQuantity flex flex-row self-end'> 
                             <button className='m-2 px-3 rounded-4xl' onClick={lessProduct}>-</button>
                             <p className='m-2 p-2 border-2 rounded-4xl w-10 text-center'>{quantity}</p>
                             <button className='m-2 px-3 rounded-4xl'onClick={moreProduct}>+</button>
                         </div>
                         <p className='py-2 font-extrabold self-end text-right'>Total Price : { (quantity*product.price).toFixed(2)} €</p>
-                        <button onClick={handleClick} className='self-end'>Add to cart</button>
+                        <button onClick={addToCart} className='self-end'>Add to cart</button>
                     </div>
 
                 ) : (
