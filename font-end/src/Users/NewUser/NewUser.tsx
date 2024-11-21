@@ -35,7 +35,6 @@ function NewUser() {
         }
     }
     return (
-        <div className="NewUserContainer container">
         <div className="NewUser box-style">
             <h2 className="text-center">Welcome to NotChocolatine !</h2>
 
@@ -64,7 +63,6 @@ function NewUser() {
             </form>
             
             {error && <p>{error}</p>}
-        </div>
         </div>
     );
 }

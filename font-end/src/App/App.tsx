@@ -38,10 +38,10 @@ function App() {
           <Route path="/" element={<ProductList/>} />
           <Route path="/about" element={<About />} />
           <Route path="/cart" element={<div>Cart Page</div>} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<div className='form-page-style'><LoginPage /></div>} />
           <Route path="/products/:id" element={<ProductPage />} />
-          <Route path="/products/new" element={<NewProduct />} />
-          <Route path="/users/new" element={<NewUser />} />
+          <Route path="/products/new" element={<div className='form-page-style'><NewProduct /> </div>} />
+          <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
         </Routes>
 
         <div className='Temporaire border-2 w-max p-2 mx-2'>

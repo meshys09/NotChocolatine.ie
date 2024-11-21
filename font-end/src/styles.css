@@ -36,11 +36,14 @@
     .box-style{
         @apply w-96 rounded-xl bg-white p-10 m-2 shadow-md h-fit;
     }
-    .container{
+    .form-page-style{
         @apply flex flex-col grow place-content-center items-center;
     }
     .form-style{
         @apply flex flex-col;
+    }
+    .page-style{
+        @apply flex grow p-10;
     }
 
 };

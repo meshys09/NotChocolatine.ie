@@ -38,7 +38,6 @@ function LoginPage() {
     };
 
     return (
-        <div className="LoginPage container">
         <div className='Login box-style flex flex-col'>
                
                 <h2 className='text-center'>Welcome Back!</h2>
@@ -72,7 +71,6 @@ function LoginPage() {
                     <button type="submit" className='LoginButton place-self-end'>Login</button>
                 </form>
             </div>
-        </div>
     );
 }
 

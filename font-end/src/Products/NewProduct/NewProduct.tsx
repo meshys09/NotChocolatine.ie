@@ -35,8 +35,6 @@ function NewProduct() {
         }
     }
     return (
-        <div className="NewProductContainer container">
-
         <div className="NewProduct box-style">
 
             <h2 className="text-center">Add a new product</h2>
@@ -75,7 +73,6 @@ function NewProduct() {
                 {error && <p className="error">{error}</p>}
                 <button type="submit" className="place-self-end">Add Product</button>
             </form>
-        </div>
         </div>
     );
 }

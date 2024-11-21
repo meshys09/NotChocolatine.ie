@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NewReview from '../../Reviews/NewReview/NewReview';
 import ReviewList from '../../Reviews/ReviewList/ReviewList';
+import DefaultImg from '../../util/pastry.png';
 interface Product {
     id: number;
     name: string;
@@ -42,21 +43,31 @@ function ProductPage() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="ProductPage">
-            {product ? (
-                <>
-                    <h1>{product.name}</h1>
-                    <p><strong>Price:</strong> {product.price} €</p>
-                    <p><strong>Description:</strong> {product.description}</p>
-                </>
-            ) : (
-                <div>Product not found</div>
-            )}
-            <div>
-                <NewReview productId={Number(id)} />
+        <div className="ProductPage page-style flex-col">
+            <div className='FirstLine flex flex-row'>
+                <div className='LeftCol w-96 p-10'>
+                    <img src={DefaultImg} alt='product' />
+                </div>
+                <div className='RightCol w-96'>
+                {product ? (
+                    <>
+                        <h1 className='text-center'>{product.name}</h1>
+                        <p className='justify-self-center '>{product.price} €</p>
+                        <p><strong>Description:</strong> {product.description}</p>
+                    </>
+                ) : (
+                    <div>Product not found</div>
+                )}
+                </div>
+            <div className='SecondLine'>
+                <div>
+                    <NewReview productId={Number(id)} />
+                </div>
+                <div>
+                    <ReviewList productId={Number(id)} />
+                
+                </div>
             </div>
-            <div>
-                <ReviewList productId={Number(id)} />
             </div>
         </div>
     );
