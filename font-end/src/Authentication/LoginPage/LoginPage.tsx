@@ -38,12 +38,12 @@ function LoginPage() {
     };
 
     return (
-        <div className="LoginPage grow flex place-content-center items-center">
+        <div className="LoginPage container">
         <div className='Login box-style flex flex-col'>
                
                 <h2 className='text-center'>Welcome Back!</h2>
 
-                <form onSubmit={handleSubmit} className='Form flex flex-col'>
+                <form onSubmit={handleSubmit} className='LoginForm form-style'>
                     
                     <div className="EmailField field-style">
                         <label htmlFor="email">Email</label>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./NewProduct.css";
+import '../../styles.css';
 
 function NewProduct() {
     const [name, setName] = useState('');
@@ -34,10 +35,15 @@ function NewProduct() {
         }
     }
     return (
-        <div className="NewProduct">
-            <h2>Add a new product</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
+        <div className="NewProductContainer container">
+
+        <div className="NewProduct box-style">
+
+            <h2 className="text-center">Add a new product</h2>
+
+            <form onSubmit={handleSubmit} className="NewProductFrom form-style">
+
+                <div className="NameField field-style ">
                     <label htmlFor="name">Name:</label>
                     <input
                         type="text"
@@ -46,7 +52,8 @@ function NewProduct() {
                         onChange={(e) => setName(e.target.value)}
                         required />
                 </div>
-                <div className="form-group">
+
+                <div className="PriceField field-style">
                     <label htmlFor="price">Price:</label>
                     <input
                         type="number"
@@ -55,7 +62,8 @@ function NewProduct() {
                         onChange={(e) => setPrice(Number(e.target.value))}
                         required />
                 </div>
-                <div className="form-group">
+
+                <div className="DescriptionField field-style">
                     <label htmlFor="description">Description:</label>
                     <textarea
                         id="description"
@@ -63,9 +71,11 @@ function NewProduct() {
                         onChange={(e) => setDescription(e.target.value)}
                         required />
                 </div>
+
                 {error && <p className="error">{error}</p>}
-                <button type="submit">Add Product</button>
+                <button type="submit" className="place-self-end">Add Product</button>
             </form>
+        </div>
         </div>
     );
 }

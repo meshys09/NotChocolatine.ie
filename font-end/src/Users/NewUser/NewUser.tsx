@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./NewUser.css";
+import '../../styles.css';
 
 function NewUser() {
     const [mail, setMail] = useState('');
@@ -34,10 +35,12 @@ function NewUser() {
         }
     }
     return (
-        <div className="NewUser">
-            <h2>Add a new user</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
+        <div className="NewUserContainer container">
+        <div className="NewUser box-style">
+            <h2 className="text-center">Welcome to NotChocolatine !</h2>
+
+            <form onSubmit={handleSubmit} className="NewUserForm form-style">
+                <div className="EmailField field-style">
                     <label htmlFor="email">Email:</label>
                     <input
                         type="email"
@@ -46,7 +49,8 @@ function NewUser() {
                         onChange={(e) => setMail(e.target.value)}
                         required />
                 </div>
-                <div className="form-group">
+
+                <div className="PasswordField field-style">
                     <label htmlFor="password">Password:</label>
                     <input
                         type="password"
@@ -55,9 +59,12 @@ function NewUser() {
                         onChange={(e) => setPassword(e.target.value)}
                         required />
                 </div>
-                <button type="submit">Create User</button>
+
+                <button type="submit" className="place-self-end">Create User</button>
             </form>
+            
             {error && <p>{error}</p>}
+        </div>
         </div>
     );
 }
