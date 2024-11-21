@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProductTile from '../ProductTile/ProductTile';
 import './ProductList.css';
+import '../../styles.css';
 
 interface Product {
     id: number;

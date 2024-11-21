@@ -1,5 +1,6 @@
 import React from 'react';
 import './ProductTile.css';
+import '../../styles.css';
 import { useNavigate } from 'react-router-dom';
 import DefaultImage from '../../util/pastry.png';
 

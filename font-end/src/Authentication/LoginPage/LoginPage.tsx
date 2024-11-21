@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
-
+import '../../styles.css';
 
 function LoginPage() {
     const [mail, setMail] = useState('');
