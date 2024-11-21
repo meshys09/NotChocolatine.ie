@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 //import style
 import './App.css';
+import '../styles.css';
 
 //import icons and logos
 import CroissantLogo from '../util/croissant.png';
@@ -16,6 +17,7 @@ import ProductList from '../Products/ProductList/ProductList';
 import LoginPage from '../Authentication/LoginPage/LoginPage';
 import NewProduct from '../Products/NewProduct/NewProduct';
 import NewUser from '../Users/NewUser/NewUser';
+import About from '../About/About';
 
 function App() {
   return (
@@ -26,7 +28,7 @@ function App() {
         <nav className="NavBar bg-orange mb-2 h-min p-2 flex items-center shadow-lg sticky top-0">
           <Link to="/" className="Home flex items-center"> <img className="-rotate-45 mx-6" src={CroissantLogo} alt="logo"/><h1 className='OurName'>NotChocolatine</h1></Link>
           <div className="Tools flex items-center absolute right-0 mr-2">
-            <Link to="/about" className="About p-4">Who Are We?</Link>
+            <Link to="/about" className="About p-4">About Us</Link>
             <Link to="/cart" className="Cart p-4"><img src={Cart} alt='Cart'/></Link>
             <Link to="/login" className="Login p-4"><img src={LoginIcon} alt='LoginIcon'/></Link>
           </div>
@@ -34,7 +36,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={ <div className='ProductList grow'><ProductList /></div>} />
-          <Route path="/about" element={<div>About Us</div>} />
+          <Route path="/about" element={<About />} />
           <Route path="/cart" element={<div>Cart Page</div>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products/:id" element={<ProductPage />} />
