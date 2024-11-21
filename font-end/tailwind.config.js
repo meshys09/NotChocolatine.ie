@@ -7,6 +7,7 @@ module.exports = {
           'orange': '#fccc49',
           'light-orange': '#fceec7',
           'dark-orange': '#c18f03',
+          'mid-orange': '#d19a04',
         },
         fontFamily: {
           sans: ['Graphik', 'sans-serif'],

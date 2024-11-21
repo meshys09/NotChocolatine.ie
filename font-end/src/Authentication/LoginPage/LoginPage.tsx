@@ -39,16 +39,15 @@ function LoginPage() {
 
     return (
         <div className="LoginPage grow flex place-content-center items-center">
-        <div className='Login flex flex-col w-96 rounded-xl bg-white p-10 m-2'>
+        <div className='Login box-style flex flex-col'>
                
-                <h2 className='text-center'><strong>Welcome Back!</strong></h2>
+                <h2 className='text-center'>Welcome Back!</h2>
 
-                <form onSubmit={handleSubmit} className='Form flex flex-col w-full h-full'>
+                <form onSubmit={handleSubmit} className='Form flex flex-col'>
                     
-                    <div className="EmailField flex flex-col mt-2">
-                        <label htmlFor="email" className='w-20'>Email</label>
+                    <div className="EmailField field-style">
+                        <label htmlFor="email">Email</label>
                         <input
-                            className='border-2 border-gray-300 rounded-md grow'
                             type="email"
                             id="email"
                             value={mail}
@@ -57,10 +56,9 @@ function LoginPage() {
                         />
                     </div>
 
-                    <div className="PasswordField flex flex-col mt-2">
+                    <div className="PasswordField field-style">
                         <label htmlFor="password">Password</label>
                         <input
-                            className='border-2 border-gray-300 rounded-md grow'
                             type="password"
                             id="password"
                             value={password}
@@ -71,7 +69,7 @@ function LoginPage() {
 
                     {error && <p className="error">{error}</p>}
 
-                    <button type="submit" className='LoginButton border-2  border-gray-300 rounded-md mt-5 px-2 place-self-end'>Login</button>
+                    <button type="submit" className='LoginButton place-self-end'>Login</button>
                 </form>
             </div>
         </div>

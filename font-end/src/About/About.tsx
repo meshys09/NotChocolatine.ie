@@ -14,7 +14,7 @@ import LoginIcon from '../util/person.png';
 function About() {
   return (
     <div className="About grow p-5 w-3/4 self-center">
-      <h1 className=' text-dark-orange font-extrabold text-4xl text-center p-4'>Who Are We?</h1>
+      <h1 className='text-center p-4'>Who Are We?</h1>
       <p>We are a small bakery in the heart of Dublin</p>
       <p> We won't serve you any chocolatine, because this pastry doesn't exist, but we'll be happy to give you pains au chocolat !</p>
     </div>

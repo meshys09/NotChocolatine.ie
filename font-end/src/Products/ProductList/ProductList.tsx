@@ -32,10 +32,11 @@ function ProductList() {
     }, []);
 
     if (error) {
-        return <div className="ProductList-error">{error}</div>;
+        return <div className="ProductList-error grow">{error}</div>;
     }
 
     return (
+        <div className="ProductListContainer grow">
         <div className="ProductList flex flex-wrap">
             {products.map((product) => (
                 <ProductTile
@@ -46,6 +47,7 @@ function ProductList() {
                     description={product.description}
                 />
             ))}
+        </div>
         </div>
     );
 }
