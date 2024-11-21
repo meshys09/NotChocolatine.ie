@@ -15,6 +15,7 @@ function ProductPage() {
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -41,6 +42,19 @@ function ProductPage() {
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
+    
+    function moreProduct(){
+        setQuantity(quantity+1);
+    }
+    function lessProduct(){
+        if(quantity>0){
+            setQuantity(quantity-1);
+        }
+    }
+
+    function handleClick(){
+        alert('Ajouté au panier');
+    }
 
     return (
         <div className="ProductPage page-style flex-wrap">
@@ -66,15 +80,16 @@ function ProductPage() {
                     <div>Product not found</div>
                 )}
                 {product ? ( 
-                    <div className='self-end'>
-                        <div className='AddToCart flex flex-row'> 
-                            <button className='m-2 px-3 rounded-4xl'>-</button>
-                            <p className='m-2 p-2 border-2 rounded-4xl'>1</p>
-                            <button className='m-2 px-3 rounded-4xl'>+</button>
+                    <div className='flex flex-col self-end'>
+                        <div className='AddToCart flex flex-row w-50'> 
+                            <button className='m-2 px-3 rounded-4xl' onClick={lessProduct}>-</button>
+                            <p className='m-2 p-2 border-2 rounded-4xl w-10 text-center'>{quantity}</p>
+                            <button className='m-2 px-3 rounded-4xl'onClick={moreProduct}>+</button>
                         </div>
-                        <p className='py-2 font-extrabold self-end text-right'>Total Price : {product.price} €</p>
-                        <button>Ajouter au panier</button>
+                        <p className='py-2 font-extrabold self-end text-right'>Total Price : { (quantity*product.price).toFixed(2)} €</p>
+                        <button onClick={handleClick} className='self-end'>Add to cart</button>
                     </div>
+
                 ) : (
                     <div>Product not found</div>
                 )}
