@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
 import '../../styles.css';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
+    const navigate = useNavigate();
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -31,6 +33,7 @@ function LoginPage() {
             // localStorage.setItem('role', data.role);
             localStorage.setItem('userId', data.id);
             console.log('Login successful:', data);
+            navigate('/');
 
         } catch (err) {
             setError((err as Error).message);
@@ -39,38 +42,38 @@ function LoginPage() {
 
     return (
         <div className='Login box-style flex flex-col'>
-               
-                <h2 className='text-center'>Welcome Back!</h2>
 
-                <form onSubmit={handleSubmit} className='LoginForm form-style'>
-                    
-                    <div className="EmailField field-style">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={mail}
-                            onChange={(e) => setMail(e.target.value)}
-                            required
-                        />
-                    </div>
+            <h2 className='text-center'>Welcome Back!</h2>
 
-                    <div className="PasswordField field-style">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
+            <form onSubmit={handleSubmit} className='LoginForm form-style'>
 
-                    {error && <p className="error">{error}</p>}
+                <div className="EmailField field-style">
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={mail}
+                        onChange={(e) => setMail(e.target.value)}
+                        required
+                    />
+                </div>
 
-                    <button type="submit" className='LoginButton place-self-end'>Login</button>
-                </form>
-            </div>
+                <div className="PasswordField field-style">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+
+                {error && <p className="error">{error}</p>}
+
+                <button type="submit" className='LoginButton place-self-end'>Login</button>
+            </form>
+        </div>
     );
 }
 
