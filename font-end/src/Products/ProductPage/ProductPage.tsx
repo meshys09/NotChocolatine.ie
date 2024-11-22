@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NewReview from '../../Reviews/NewReview/NewReview';
-import ReviewList from '../../Reviews/ReviewList/ReviewList';
+import ReviewList from '../../Reviews/ReviewList/ProductReviewList';
 import DefaultImg from '../../util/pastry.png';
 interface Product {
     id: number;
@@ -22,7 +22,7 @@ function ProductPage() {
             try {
                 const response = await fetch(`http://localhost:3000/products/${id}`);
                 if (!response.ok) {
-                    throw new Error('Product not found');
+                    throw new Error('Sorry, we did not find the product you are looking for.');
                 }
                 const data = await response.json();
                 setProduct(data);
@@ -41,7 +41,7 @@ function ProductPage() {
     }, [id]);
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (error) return <div className='error-style'>{error}</div>;
     
     function moreProduct(){
         setQuantity(quantity+1);
@@ -57,7 +57,8 @@ function ProductPage() {
     }
 
     return (
-        <div className="ProductPage page-style flex-wrap">
+        <div className="ProductPage flex-wrap">
+            <div className='First line flex flex-row'>
             <div className='Product flex flex-row box-style w-fit max-w-4xl px-3 py-5'>
                 
                 {/* Image */}
@@ -95,17 +96,18 @@ function ProductPage() {
                 )}
                 </div>
                 
-
-
+                
+                </div>
+                <div className='Reviews box-style'>
+                        <h2 className='text-center'>Reviews</h2>
+                        <ReviewList productId={Number(id)} />
+                    
+                </div>
             </div>
 
-            <div className='Reviews'>
+            <div className='NewReview'>
                 <div>
                     <NewReview productId={Number(id)} />
-                </div>
-                <div>
-                    <ReviewList productId={Number(id)} />
-                
                 </div>
             </div>
         </div>

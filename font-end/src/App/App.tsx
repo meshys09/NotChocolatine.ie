@@ -18,6 +18,7 @@ import LoginPage from '../Authentication/LoginPage/LoginPage';
 import NewProduct from '../Products/NewProduct/NewProduct';
 import NewUser from '../Users/NewUser/NewUser';
 import About from '../About/About';
+import UserPage from '../Users/UserPage/UserPage';
 
 function App() {
   return (
@@ -37,18 +38,20 @@ function App() {
         <Routes>
           <Route path="/" element={<ProductList/>} />
           <Route path="/about" element={<About />} />
-          <Route path="/cart" element={<div>Cart Page</div>} />
+          <Route path="/cart" element={<div className='page-style'>Cart Page</div>} />
           <Route path="/login" element={<div className='form-page-style'><LoginPage /></div>} />
-          <Route path="/products/:id" element={<ProductPage />} />
+          <Route path="/products/:id" element={<div className='page-style'><ProductPage /></div>} />
           <Route path="/products/new" element={<div className='form-page-style'><NewProduct /> </div>} />
           <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
+          <Route path="/users/:id" element={<div className='page-style'><UserPage /></div>} />
         </Routes>
 
         <div className='Temporaire border-2 w-max p-2 mx-2'>
           <p>Le temps du dev je fous ça là</p>
           <a href="/products/new">Add New Product</a><br />
           <a href="/login">Login</a> <br />
-          <a href="/users/new">Add New User</a>
+          <a href="/users/new">Add New User</a> <br />
+          <a href="/users/1">User 1</a> 
         </div>
 
         <div className="Footer bg-orange p-2 flex place-content-center items-center ">

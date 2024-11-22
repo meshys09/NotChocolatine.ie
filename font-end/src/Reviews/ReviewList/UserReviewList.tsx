@@ -9,14 +9,14 @@ interface Review {
     userId: number;
 }
 
-function ReviewList({ productId }: { productId: number }) {
+function ReviewList({ userId }: { userId: number }) {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);    
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/reviews/byProduct/${productId}`);
+                const response = await fetch(`http://localhost:3000/reviews/byUser/${userId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch reviews');
                 }
@@ -34,18 +34,17 @@ function ReviewList({ productId }: { productId: number }) {
         };
 
         fetchReviews();
-    }, [productId]);
+    }, [userId]);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (loading) return <div className='error-style'>Loading...</div>;
+    if (error) return <div className='error-style'>Error: {error}</div>;
 
     return (
         <div className="ReviewList">
             {reviews.map((review) => (
                 <div key={review.id}>
-                    <h2>{review.grade}</h2><p>{review.comment}</p>
+                    <h2 className='text-right px-2 mt-2'>{review.grade}</h2><p>{review.comment}</p>
                 </div>
-
             ))}
         </div>
     );
