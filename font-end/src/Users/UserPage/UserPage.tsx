@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import ReviewList from '../../Reviews/ReviewList/UserReviewList';
 import "./UserPage.css";
@@ -13,10 +13,10 @@ interface User {
 
 function UserPage() {
 
-    const { id } = useParams();
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const id = Number(localStorage.getItem('userId'));
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -39,7 +39,7 @@ function UserPage() {
         };
 
         fetchUser();
-    }, [id]);
+    }, []);
 
     if (loading) return <div className="error-style">Loading...</div>;
     if (error) return <div className="error-style ">{error}</div>;
@@ -47,21 +47,21 @@ function UserPage() {
     return (
         <div className="flex flex-wrap">
 
-        <div className="UserProfile box-style max-w-80 h-full">
-            <h2 className="text-center pb-5">User Profile</h2>
-            <div className="UserDetails">
-                <p>Mail: {user?.mail}</p>
+            <div className="UserProfile box-style max-w-80 h-full">
+                <h2 className="text-center pb-5">User Profile</h2>
+                <div className="UserDetails">
+                    <p>Mail: {user?.mail}</p>
+                </div>
             </div>
-        </div>
             <div className='Reviews box-style h-full scroll-auto'>
-                            <h2 className='text-center'>Reviews</h2>
-                            <ReviewList userId={Number(id)} />
-                        
+                <h2 className='text-center'>Reviews</h2>
+                <ReviewList userId={Number(id)} />
+
             </div>
             <div className='Orders box-style h-full scroll-auto'>
-                            <h2 className='text-center'>Past Orders</h2>
-                            <ReviewList userId={Number(id)} />
-                        
+                <h2 className='text-center'>Past Orders</h2>
+                <ReviewList userId={Number(id)} />
+
             </div>
         </div>
     );
