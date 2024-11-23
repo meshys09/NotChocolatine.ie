@@ -19,31 +19,34 @@ import NewProduct from '../Products/NewProduct/NewProduct';
 import NewUser from '../Users/NewUser/NewUser';
 import About from '../About/About';
 import UserPage from '../Users/UserPage/UserPage';
+import ProtectedRoute from '../Authentication/ProtectedRoute/ProtectedRoute';
+import LogoutButton from '../Authentication/LogoutButton/LogoutButton';
 
 function App() {
   return (
-    
+
     <Router>
       <div className="App flex flex-col min-h-screen max-h-fit">
 
         <nav className="NavBar bg-orange mb-2 h-min p-2 flex items-center shadow-lg sticky top-0">
-          <Link to="/" className="Home flex items-center"> <img className="-rotate-45 mx-6" src={CroissantLogo} alt="logo"/><p className='OurName text-2xl font-bold'>NotChocolatine</p></Link>
+          <Link to="/" className="Home flex items-center"> <img className="-rotate-45 mx-6" src={CroissantLogo} alt="logo" /><p className='OurName text-2xl font-bold'>NotChocolatine</p></Link>
           <div className="Tools flex items-center absolute right-0 mr-2">
             <Link to="/about" className="About p-4">About Us</Link>
-            <Link to="/cart" className="Cart p-4"><img src={Cart} alt='Cart'/></Link>
-            <Link to="/login" className="Login p-4"><img src={LoginIcon} alt='LoginIcon'/></Link>
+            <Link to="/cart" className="Cart p-4"><img src={Cart} alt='Cart' /></Link>
+            <Link to="/login" className="Login p-4"><img src={LoginIcon} alt='LoginIcon' /></Link>
+            <LogoutButton />
           </div>
         </nav>
 
         <Routes>
-          <Route path="/" element={<ProductList/>} />
+          <Route path="/" element={<ProductList />} />
           <Route path="/about" element={<About />} />
-          <Route path="/cart" element={<div className='page-style'>Cart Page</div>} />
+          <Route path="/cart" element={<ProtectedRoute><div className='page-style'>Cart Page</div></ProtectedRoute>} />
           <Route path="/login" element={<div className='form-page-style'><LoginPage /></div>} />
           <Route path="/products/:id" element={<div className='page-style'><ProductPage /></div>} />
-          <Route path="/products/new" element={<div className='form-page-style'><NewProduct /> </div>} />
-          <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
-          <Route path="/users/:id" element={<div className='page-style'><UserPage /></div>} />
+          <Route path="/products/new" element={<ProtectedRoute><div className='form-page-style'><NewProduct /> </div></ProtectedRoute>} />
+          <Route path="/users/new" element={<ProtectedRoute><div className='form-page-style'><NewUser /></div></ProtectedRoute>} />
+          <Route path="/users" element={<ProtectedRoute><div className='page-style'><UserPage /></div></ProtectedRoute>} />
         </Routes>
 
         <div className='Temporaire border-2 w-max p-2 mx-2'>
@@ -51,7 +54,7 @@ function App() {
           <a href="/products/new">Add New Product</a><br />
           <a href="/login">Login</a> <br />
           <a href="/users/new">Add New User</a> <br />
-          <a href="/users/1">User 1</a> 
+          <a href="/users">User 1</a>
         </div>
 
         <div className="Footer bg-orange p-2 flex place-content-center items-center ">
