@@ -138,7 +138,7 @@ function UserForm() {
             )}
 
             {error && <p className="error">{error}</p>}
-            {successMessage && <p className="success">{successMessage}</p>} {/* Affiche le message de succès */}
+            {successMessage && <p className="success">{successMessage}</p>}
         </div>
     );
 }
