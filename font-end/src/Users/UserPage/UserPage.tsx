@@ -4,6 +4,7 @@ import ReviewList from '../../Reviews/ReviewList/UserReviewList';
 import "./UserPage.css";
 import '../../styles.css';
 import NewUser from "../UserForm/UserForm";
+import DeleteButton from "../../Buttons/DeleteButton/DeleteButton";
 
 interface User {
     id: number;
@@ -47,7 +48,9 @@ function UserPage() {
 
     return (
         <div className="flex flex-wrap">
-
+            <div>
+                <DeleteButton id={id} url='users' onConfirm={() => { }} />
+            </div>
             <div className="UserProfile box-style max-w-80 h-full">
                 <h2 className="text-center w-fit pb-5">User Profile</h2>
                 <NewUser />
