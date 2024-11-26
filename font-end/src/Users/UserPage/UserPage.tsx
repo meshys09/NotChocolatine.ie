@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ReviewList from '../../Reviews/ReviewList/UserReviewList';
 import "./UserPage.css";
 import '../../styles.css';
+import NewUser from "../NewUser/NewUser";
 
 interface User {
     id: number;
@@ -48,10 +49,8 @@ function UserPage() {
         <div className="flex flex-wrap">
 
             <div className="UserProfile box-style max-w-80 h-full">
-                <h2 className="text-center pb-5">User Profile</h2>
-                <div className="UserDetails">
-                    <p>Mail: {user?.mail}</p>
-                </div>
+                <h2 className="text-center w-fit pb-5">User Profile</h2>
+                <NewUser />
             </div>
             <div className='Reviews box-style h-full scroll-auto'>
                 <h2 className='text-center'>Reviews</h2>

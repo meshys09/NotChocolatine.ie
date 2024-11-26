@@ -81,13 +81,17 @@ export class UserService {
     ;
     updateUser(userId, mail, password, role) {
         return __awaiter(this, void 0, void 0, function* () {
+            let hashedPassword;
+            if (password) {
+                hashedPassword = yield bcrypt.hash(password, 10);
+            }
             const user = yield prisma.user.update({
                 where: {
                     id: userId,
                 },
                 data: {
                     mail: mail,
-                    password: password,
+                    password: hashedPassword,
                     role: role
                 }
             });

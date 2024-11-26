@@ -70,13 +70,17 @@ export class UserService {
     };
 
     async updateUser(userId: number, mail?: string, password?: string, role?: number): Promise<User> {
+        let hashedPassword: string | undefined;
+        if (password) {
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
         const user = await prisma.user.update({
             where: {
                 id: userId,
             },
             data: {
                 mail: mail,
-                password: password,
+                password: hashedPassword,
                 role: role
             }
         });
