@@ -16,7 +16,7 @@ import ProductPage from '../Products/ProductPage/ProductPage';
 import ProductList from '../Products/ProductList/ProductList';
 import LoginPage from '../Authentication/LoginPage/LoginPage';
 import NewProduct from '../Products/NewProduct/NewProduct';
-import NewUser from '../Users/NewUser/NewUser';
+import NewUser from '../Users/UserForm/UserForm';
 import About from '../About/About';
 import UserPage from '../Users/UserPage/UserPage';
 import ProtectedRoute from '../Authentication/ProtectedRoute/ProtectedRoute';
@@ -47,6 +47,7 @@ function App() {
           <Route path="/products/new" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'><NewProduct /> </div></ProtectedRoute>} />
           <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
           <Route path="/users" element={<ProtectedRoute><div className='page-style'><UserPage /></div></ProtectedRoute>} />
+          <Route path="/reviews/all" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'>All reviews </div></ProtectedRoute>} />
         </Routes>
 
         <div className='Temporaire border-2 w-max p-2 mx-2'>
@@ -54,7 +55,8 @@ function App() {
           <a href="/products/new">Add New Product</a><br />
           <a href="/login">Login</a> <br />
           <a href="/users/new">Add New User</a> <br />
-          <a href="/users">User 1</a>
+          <a href="/users">User</a><br />
+          <a href="/reviews/all">All reviews </a>
         </div>
 
         <div className="Footer bg-orange p-2 flex place-content-center items-center ">

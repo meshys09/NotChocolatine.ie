@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import ReviewList from '../../Reviews/ReviewList/UserReviewList';
 import "./UserPage.css";
 import '../../styles.css';
-import NewUser from "../NewUser/NewUser";
+import NewUser from "../UserForm/UserForm";
 
 interface User {
     id: number;

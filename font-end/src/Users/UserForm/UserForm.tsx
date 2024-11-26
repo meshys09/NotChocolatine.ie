@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./NewUser.css";
+import "./UserForm.css";
 import '../../styles.css';
 
-function NewUser() {
+function UserForm() {
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId'); // Récupère le userId depuis le localStorage
 
@@ -87,7 +87,7 @@ function NewUser() {
     };
 
     return (
-        <div className="NewUser box-style">
+        <div className="UserForm box-style">
             <h2 className="text-center">
                 {userId ? 'Update Your Account' : 'Welcome to NotChocolatine!'}
             </h2>
@@ -95,7 +95,7 @@ function NewUser() {
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
-                <form onSubmit={handleSubmit} className="NewUserForm form-style">
+                <form onSubmit={handleSubmit} className="UserFormForm form-style">
                     <div className="EmailField field-style">
                         <label htmlFor="email">Email:</label>
                         <input
@@ -143,4 +143,4 @@ function NewUser() {
     );
 }
 
-export default NewUser;
+export default UserForm;
