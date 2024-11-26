@@ -29,6 +29,7 @@ export class AuthenticationService {
             return {
                 id: user.getId(),
                 email: user.getMail(),
+                role: user.getRole(),
                 token
             };
         });

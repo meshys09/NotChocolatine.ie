@@ -9,6 +9,7 @@ function LogoutButton() {
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
         navigate('/login');
     };
 

@@ -30,7 +30,7 @@ function LoginPage() {
 
             const data = await response.json();
             localStorage.setItem('token', data.token);
-            // localStorage.setItem('role', data.role);
+            localStorage.setItem('userRole', data.role);
             localStorage.setItem('userId', data.id);
             console.log('Login successful:', data);
             navigate('/');

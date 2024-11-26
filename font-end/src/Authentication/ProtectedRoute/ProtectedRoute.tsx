@@ -1,21 +1,16 @@
-import { jwtDecode } from 'jwt-decode';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-function isTokenValid(token: string): boolean {
-    try {
-        const decoded: any = jwtDecode(token);
-        const now = Math.floor(Date.now() / 1000);
-        return decoded.exp > now;
-    } catch (err) {
-        return false;
-    }
-}
-
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
+function ProtectedRoute({ children, requiredRole }: { children: React.ReactNode; requiredRole?: number }) {
     const token = localStorage.getItem('token');
+    const userRole = parseInt(localStorage.getItem('userRole') || '0', 10);
 
-    if (!token || !isTokenValid(token)) {
+    if (!token) {
         return <Navigate to="/login" replace />;
+    }
+
+    if (requiredRole !== undefined && userRole < requiredRole) {
+        return <Navigate to="/" replace />;
     }
 
     return <>{children}</>;

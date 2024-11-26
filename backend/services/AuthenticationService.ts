@@ -5,6 +5,7 @@ import { UserService } from './UserService.js';
 interface AuthenticatedUser {
     id: number;
     email: string;
+    role: number;
     token: string;
 }
 
@@ -35,6 +36,7 @@ export class AuthenticationService {
         return {
             id: user.getId(),
             email: user.getMail(),
+            role: user.getRole(),
             token
         };
     }

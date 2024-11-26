@@ -44,7 +44,7 @@ function App() {
           <Route path="/cart" element={<ProtectedRoute><div className='page-style'>Cart Page</div></ProtectedRoute>} />
           <Route path="/login" element={<div className='form-page-style'><LoginPage /></div>} />
           <Route path="/products/:id" element={<div className='page-style'><ProductPage /></div>} />
-          <Route path="/products/new" element={<ProtectedRoute><div className='form-page-style'><NewProduct /> </div></ProtectedRoute>} />
+          <Route path="/products/new" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'><NewProduct /> </div></ProtectedRoute>} />
           <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
           <Route path="/users" element={<ProtectedRoute><div className='page-style'><UserPage /></div></ProtectedRoute>} />
         </Routes>
