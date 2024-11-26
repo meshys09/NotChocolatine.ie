@@ -57,9 +57,9 @@ function ProductPage() {
     }
 
     return (
-        <div className="ProductPage flex-wrap">
-            <div className='First line flex flex-row'>
-            <div className='Product flex flex-row box-style w-fit max-w-4xl px-3 py-5'>
+        <div className="ProductPage flex-wrap flex-grow">
+            <div className='First line flex flex-row grow'>
+            <div className='Product flex flex-row box-style w-full h-fit px-3 py-5'>
                 
                 {/* Image */}
                 <div className='ImageCol w-2/6'>
@@ -67,7 +67,7 @@ function ProductPage() {
                 </div>
 
                 {/* Product desc */}
-                <div className='ProductCol w-4/6 flex flex-col ml-5'>
+                <div className='ProductCol w-4/6 h-full flex flex-col ml-5'>
                 {product ? (
                     <>
                         <h1 className='p-1'>{product.name}</h1>
@@ -98,16 +98,18 @@ function ProductPage() {
                 
                 
                 </div>
-                <div className='Reviews box-style'>
-                        <h2 className='text-center'>Reviews</h2>
-                        <ReviewList productId={Number(id)} />
-                    
-                </div>
             </div>
-
-            <div className='NewReview'>
-                <div>
-                    <NewReview productId={Number(id)} />
+            
+            <div className='flex flex-wrap'>
+                <div className='Reviews box-style'>
+                            <h2 className='text-center'>Reviews</h2>
+                            <ReviewList productId={Number(id)} />
+                        
+                </div>
+                <div className='NewReview'>
+                    <div>
+                        <NewReview productId={Number(id)} />
+                    </div>
                 </div>
             </div>
         </div>
