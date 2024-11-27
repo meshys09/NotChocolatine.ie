@@ -30,7 +30,7 @@ productController.get('/:id', (c) => __awaiter(void 0, void 0, void 0, function*
         return c.json({ message: error.message }, 404);
     }
 }));
-productController.post('/newProduct', (c) => __awaiter(void 0, void 0, void 0, function* () {
+productController.post('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { price, name, description } = yield c.req.json();
         const product = yield productService.addProduct(price, name, description);

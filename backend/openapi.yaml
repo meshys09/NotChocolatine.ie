@@ -21,14 +21,8 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: "object"
-                                properties:
-                                    userId:
-                                        type: "integer"
-                                    mail:
-                                        type: "string"
-                                    password:
-                                        type: "string"
+                                type: $ref: '#/components/schemas/User'
+                                
                 '404':
                     description: "User not found"
                 '500':
@@ -46,53 +40,13 @@ paths:
                             schema:
                                 type: "array"
                                 items:
-                                    type: "object"
-                                    properties:
-                                        userId:
-                                            type: "integer"
-                                        mail:
-                                            type: "string"
-                                        password:
-                                            type: "string"
+                                    type: $ref: '#/components/schemas/User'
+                                    
                 '404':
                     description: "Users not found"
                 '500':
                     description: "Internal server error"
     
-    /users/connect:
-        get:
-            summary: "Get user by mail and password"
-            operationId: "getUserByMailAndPassword"
-            parameters:
-                - name: "mail"
-                  in: "query"
-                  required: true
-                  schema:
-                      type: "string"
-                - name: "password"
-                  in: "query"
-                  required: true
-                  schema:
-                      type: "string"
-            responses:
-                '200':
-                    description: "User found"
-                    content:
-                        application/json:
-                            schema:
-                                type: "object"
-                                properties:
-                                    userId:
-                                        type: "integer"
-                                    mail:
-                                        type: "string"
-                                    password:
-                                        type: "string"
-                '404':
-                    description: "User not found"
-                '500':
-                    description: "Internal server error"
-
     /users: 
         post:
             summary: "Add user"
@@ -102,12 +56,8 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: "object"
-                            properties:
-                                mail:
-                                    type: "string"
-                                password:
-                                    type: "string"
+                            type: $ref: '#/components/schemas/User'
+                                
             responses:
                 '201':
                     description: "User added"
@@ -149,17 +99,52 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: "object"
-                            properties:
-                                mail:
-                                    type: "string"
-                                password:
-                                    type: "string"
+                            type: $ref: '#/components/schemas/User'
             responses:
                 '200':
                     description: "User updated"
                 '404':
                     description: "User not found"
+                '500':
+                    description: "Internal server error"
+    
+    /reviews:
+        get:
+            summary: "Get all reviews"
+            operationId: "getReviews"
+            responses:
+                '200':
+                    description: "Reviews found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "array"
+                                items:
+                                    type: $ref: '#/components/schemas/Review'
+                '404':
+                    description: "Reviews not found"
+                '500':
+                    description: "Internal server error"
+    
+    /reviews/{reviewId}:
+        get:
+            summary: "Get review by id"
+            operationId: "getReviewbyId"
+            parameters:
+                - name: "reviewId"
+                    in: "query"
+                    required: true
+                    schema:
+                        type: "string"
+            responses:
+                '200':
+                    description: "Review found"
+                    content:
+                        application/json:
+                            schema:
+                                type: $ref: '#/components/schemas/Review'
+                '404':
+                    description: "Review not found"
                 '500':
                     description: "Internal server error"
 
@@ -181,18 +166,7 @@ paths:
                             schema:
                                 type: "array"
                                 items:
-                                    type: "object"
-                                    properties:
-                                        reviewId:
-                                            type: "integer"
-                                        productId:
-                                            type: "integer"
-                                        userId:
-                                            type: "integer"
-                                        grade:
-                                            type: "integer"
-                                        comment:
-                                            type: "string"
+                                    type: $ref: '#/components/schemas/Review'
                 '404':
                     description: "Reviews not found"
                 '500':
@@ -216,18 +190,7 @@ paths:
                             schema:
                                 type: "array"
                                 items:
-                                    type: "object"
-                                    properties:
-                                        reviewId:
-                                            type: "integer"
-                                        productId:
-                                            type: "integer"
-                                        userId:
-                                            type: "integer"
-                                        grade:
-                                            type: "integer"
-                                        comment:
-                                            type: "string"
+                                    type: $ref: '#/components/schemas/Review'
                 '404':
                     description: "Reviews not found"
                 '500':
@@ -242,16 +205,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: "object"
-                            properties:
-                                productId:
-                                    type: "integer"
-                                userId:
-                                    type: "integer"
-                                grade:
-                                    type: "integer"
-                                comment:
-                                    type: "string"
+                            type: $ref: '#/components/schemas/Review'
             responses:
                 '201':
                     description: "Review added"
@@ -260,7 +214,7 @@ paths:
                 '500':
                     description: "Internal server error"
     
-    reviews/{reviewId}:
+    /reviews/{reviewId}:
         delete:
             summary: "Delete review"
             operationId: "deleteReview"
@@ -278,33 +232,6 @@ paths:
                 '500':
                     description: "Internal server error"
 
-    /reviews/getGradesByProduct:
-        get:
-            summary: "Get grades by product"
-            operationId: "getGradesByProduct"
-            parameters:
-                - name: "productId"
-                  in: "query"
-                  required: true
-                  schema:
-                      type: "string"
-            responses:
-                '200':
-                    description: "Grades found"
-                    content:
-                        application/json:
-                            schema:
-                                type: "object"
-                                properties:
-                                    productId:
-                                        type: "integer"
-                                    average:
-                                        type: "number"
-                '404':
-                    description: "Grades not found"
-                '500':
-                    description: "Internal server error"
-    
     /products/{productId} :
         get:
             summary: "Get product by id"
@@ -321,16 +248,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: "object"
-                                properties:
-                                    productId:
-                                        type: "integer"
-                                    price:
-                                        type: "integer"
-                                    name:
-                                        type: "string"
-                                    description:
-                                        type: "text"
+                                type: $ref: '#/components/schemas/Product'
                 '404':
                     description: "Product not found"
                 '500':
@@ -348,16 +266,7 @@ paths:
                             schema:
                                 type: "array"
                                 items:
-                                    type: "object"
-                                    properties:
-                                        productId:
-                                            type: "integer"
-                                        price:
-                                            type: "integer"
-                                        name:
-                                            type: "string"
-                                        description:
-                                            type: "text"
+                                    type: $ref: '#/components/schemas/Product'
                 '404':
                     description: "Product not found"
                 '500':
@@ -372,16 +281,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: "object"
-                            properties:
-                                productId:
-                                    type: "integer"
-                                price:
-                                    type: "integer"
-                                name:
-                                    type: "string"
-                                description:
-                                    type: "text"
+                            type: $ref: '#/components/schemas/Product'
             responses:
                 '201':
                     description: "Product added"
@@ -391,7 +291,7 @@ paths:
                     description: "Internal server error"
 
     /products/{productId}: 
-        post:
+        put:
             summary: "Update product"
             operationId: "updateProduct"
             parameters:
@@ -405,24 +305,16 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: "object"
-                            properties:
-                                productId:
-                                    type: "integer"
-                                price:
-                                    type: "integer"
-                                name:
-                                    type: "string"
-                                description:
-                                    type: "text"
+                            type: $ref: '#/components/schemas/Product'
             responses:
                 '201':
                     description: "Product updated"
                 '400':
                     description: "Bad request"
                 '500':
-                    description: "Internal server error"    
-    products/{productId}:
+                    description: "Internal server error"  
+
+    /products/{productId}:
         delete:
             summary: "Delete product"
             operationId: "deleteProduct"
@@ -439,3 +331,286 @@ paths:
                     description: "Product not found"
                 '500':
                     description: "Internal server error"
+
+    /orders:
+        get:
+            summary: "Get all orders"
+            operationId: "getOrders"
+            responses:
+                '200':
+                    description: "Orders found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "array"
+                                items:
+                                    type: $ref: '#/components/schemas/Order'
+                '404':
+                    description: "Orders not found"
+                '500':
+                    description: "Internal server error"
+    
+    /orders/{orderId}:
+        get:
+            summary: "Get order by id"
+            operationId: "getOrderbyId"
+            parameters:
+                - name: "orderId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Order found"
+                    content:
+                        application/json:
+                            schema:
+                                type: $ref: '#/components/schemas/Order'
+                '404':
+                    description: "Order not found"
+                '500':
+                    description: "Internal server error"
+    
+    /orders/byUser/{userId}:
+        get:
+            summary: "Get orders by user"
+            operationId: "getOrdersByUser"
+            parameters:
+                - name: "userId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Orders found"
+                    content:
+                        application/json:
+                            schema:
+                                type: "array"
+                                items:
+                                    type: $ref: '#/components/schemas/Order'
+                '404':
+                    description: "Orders not found"
+                '500':
+                    description: "Internal server error"
+
+    /orders:   
+        post:
+            summary: "Add order"
+            operationId: "addOrder"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: $ref: '#/components/schemas/Order'
+            responses:
+                '201':
+                    description: "Order added"
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"
+
+    /orders/{orderId}: 
+        delete:
+            summary: "Delete order"
+            operationId: "deleteOrder"
+            parameters:
+                - name: "orderId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Order deleted"
+                '404':
+                    description: "Order not found"
+                '500':
+                    description: "Internal server error"
+    
+    /orders/{orderId}/product/{productId}:
+        post:
+            summary: "Add product to order"
+            operationId: "addProductToOrder"
+            parameters:
+                - name: "orderId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+                - name: "productId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+                - quantity:
+                    in: "body"
+                    required: true
+                    schema:
+                        type: "integer"
+            responses:
+                '201':
+                    content:
+                        application/json:
+                            schema:
+                                type: "array"
+                                content:
+                                    order:
+                                        type: $ref: '#/components/schemas/Order'
+                                    product:
+                                        type: $ref: '#/components/schemas/Product'
+                                    quantity:
+                                        type: "integer"
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"
+    
+    /orders/{orderId}/product/{productId}:
+        delete:
+            summary: "Delete product from order"
+            operationId: "deleteProductFromOrder"
+            parameters:
+                - name: "orderId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+                - name: "productId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+            responses:
+                '200':
+                    description: "Product deleted from order"
+                '404':
+                    description: "Product not found in order"
+                '500':
+                    description: "Internal server error"
+    
+    /orders/{orderId}/product/{productId}:
+        put:
+            summary: "Update product quantity in order"
+            operationId: "updateProductQuantityInOrder"
+            parameters:
+                - name: "orderId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+                - name: "productId"
+                  in: "query"
+                  required: true
+                  schema:
+                      type: "string"
+                - quantity:
+                    in: "body"
+                    required: true
+                    schema:
+                        type: "integer"
+            responses:
+                '200':
+                    description: "Product quantity updated in order"
+                '404':
+                    description: "Product not found in order"
+                '500':
+                    description: "Internal server error"
+
+    /auth/login:
+        post:
+            summary: "Login"
+            operationId: "login"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: "object"
+                            properties:
+                                mail:
+                                    type: "string"
+                                password:
+                                    type: "string"
+            responses:
+                '200':
+                    description: "Login success"
+                    content:
+                        application/json:
+                            schema:
+                                type: "object"
+                                properties:
+                                    id:
+                                        type: "integer"
+                                    email:
+                                        type: "string"
+                                    role:
+                                        type: "string"
+                                    token:
+                                        type: "string"
+                '400':
+                    description: "Bad request"
+                '500':
+                    description: "Internal server error"
+
+components:
+    schemas:
+        User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                mail:
+                    type: string
+                    format: email
+                password:
+                    type: string
+                role:
+                    type: integer
+        Product:
+            type: object
+            properties:
+                id:
+                    type: integer
+                price:
+                    type: number
+                    format: float
+                name:
+                    type: string
+                description:
+                    type: string
+        Review:
+            type: object
+            properties:
+                id:
+                    type: integer
+                comment:
+                    type: string
+                grade:
+                    type: integer
+                    minimum: 1
+                    maximum: 5
+                user:
+                    $ref: '#/components/schemas/User'
+                product:
+                    $ref: '#/components/schemas/Product'
+        Order:
+            type: object
+            properties:
+                id:
+                    type: integer
+                date:
+                    type: string
+                    format: date
+                price:
+                    type: number
+                    format: float
+                userId:
+                    type: integer
+                
+               
+
