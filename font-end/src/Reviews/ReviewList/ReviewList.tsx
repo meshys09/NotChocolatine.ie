@@ -6,7 +6,10 @@ interface Review {
     id: number;
     comment: string;
     grade: number;
-    userId: number;
+    user: {
+        id: number;
+        mail: string;
+    };
 }
 
 function ReviewList({ objectID , ListType }: { objectID: number ; ListType: number },) {
@@ -51,7 +54,11 @@ function ReviewList({ objectID , ListType }: { objectID: number ; ListType: numb
         <div className="ReviewList">
             {reviews.map((review) => (
                 <div key={review.id}>
-                    <h2 className='text-right px-2 mt-2'>{review.grade}</h2><p>{review.comment}</p>
+                    <div className='ReviewHeader flex flex-row w-full justify-between'> 
+                        <h2 className='text-left mt-2'>{review.user.mail}</h2>
+                        <h2 className='text-right mt-2'>{review.grade}</h2>
+                    </div>
+                    <p>{review.comment}</p>
                 </div>
             ))}
         </div>
