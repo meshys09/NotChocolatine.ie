@@ -102,4 +102,15 @@ export class ReviewService {
         });
     }
     ;
+    getAverageGrade(productId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const reviews = yield prisma.reviews.findMany({
+                where: {
+                    productId: productId,
+                }
+            });
+            const totalGrade = reviews.reduce((acc, review) => { var _a; return acc + ((_a = review.grade) !== null && _a !== void 0 ? _a : 0); }, 0);
+            return totalGrade / reviews.length;
+        });
+    }
 }

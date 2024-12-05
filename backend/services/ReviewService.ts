@@ -99,4 +99,15 @@ export class ReviewService {
         return "Review deleted"
     };
 
+    async getAverageGrade(productId: number): Promise<number> {
+        const reviews = await prisma.reviews.findMany({
+            where: {
+                productId: productId,
+            }
+        });
+
+        const totalGrade = reviews.reduce((acc, review) => acc + (review.grade ?? 0), 0);
+        return totalGrade / reviews.length;
+    }
+
 }

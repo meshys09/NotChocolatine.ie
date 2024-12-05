@@ -70,4 +70,14 @@ reviewController.delete('/:id', (c) => __awaiter(void 0, void 0, void 0, functio
         return c.json({ message: error.message }, 404);
     }
 }));
+reviewController.get('/averageGrade/:productId', (c) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productId = parseInt(c.req.param('productId'), 10);
+        const average = yield reviewService.getAverageGrade(productId);
+        return c.json(average);
+    }
+    catch (error) {
+        return c.json({ message: error.message }, 404);
+    }
+}));
 export default reviewController;

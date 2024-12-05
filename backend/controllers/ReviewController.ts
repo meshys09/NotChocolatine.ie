@@ -66,5 +66,14 @@ reviewController.delete('/:id', async (c) => {
     }
 });
 
+reviewController.get('/averageGrade/:productId', async (c) => {
+    try {
+        const productId = parseInt(c.req.param('productId'), 10);
+        const average = await reviewService.getAverageGrade(productId);
+        return c.json(average);
+    } catch (error: any) {
+        return c.json({ message: error.message }, 404);
+    }
+});
 
 export default reviewController;
