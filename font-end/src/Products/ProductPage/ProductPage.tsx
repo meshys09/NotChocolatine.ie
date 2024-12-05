@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import NewReview from '../../Reviews/NewReview/NewReview';
-import ReviewList from '../../Reviews/ReviewList/ProductReviewList';
+import ReviewList from '../../Reviews/ReviewList/ReviewList';
 import DefaultImg from '../../util/pastry.png';
 import ProtectedRoute from '../../Authentication/ProtectedRoute/ProtectedRoute';
 import DeleteButton from '../../Buttons/DeleteButton/DeleteButton';
+
 interface Product {
     id: number;
     name: string;
@@ -106,7 +107,7 @@ function ProductPage() {
             <div className='flex flex-wrap'>
                 <div className='Reviews box-style'>
                     <h2 className='text-center'>Reviews</h2>
-                    <ReviewList productId={Number(id)} />
+                    <ReviewList objectID={Number(id)} ListType={Number(1)} />
 
                 </div>
                 <div className='NewReview'>

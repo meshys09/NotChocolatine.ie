@@ -9,14 +9,22 @@ interface Review {
     userId: number;
 }
 
-function ReviewList({ userId }: { userId: number }) {
+function ReviewList({ objectID , ListType }: { objectID: number ; ListType: number },) {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);    
+    const [loading, setLoading] = useState(true); 
+    
+    if (ListType === 0) {
+        var requestType = "byUser"; }
+    else { 
+        if (ListType === 1) 
+            { var requestType = "byProduct"; 
+        } }
+
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/reviews/byUser/${userId}`);
+                const response = await fetch(`http://localhost:3000/reviews/${requestType}/${objectID}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch reviews');
                 }
@@ -34,7 +42,7 @@ function ReviewList({ userId }: { userId: number }) {
         };
 
         fetchReviews();
-    }, [userId]);
+    }, [objectID]);
 
     if (loading) return <div className='error-style'>Loading...</div>;
     if (error) return <div className='error-style'>Error: {error}</div>;

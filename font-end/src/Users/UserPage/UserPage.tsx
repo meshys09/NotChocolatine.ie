@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import ReviewList from '../../Reviews/ReviewList/UserReviewList';
+import ReviewList from '../../Reviews/ReviewList/ReviewList';
 import "./UserPage.css";
 import '../../styles.css';
 import NewUser from "../UserForm/UserForm";
@@ -57,12 +57,12 @@ function UserPage() {
             </div>
             <div className='Reviews box-style h-full scroll-auto'>
                 <h2 className='text-center'>Reviews</h2>
-                <ReviewList userId={Number(id)} />
+                <ReviewList objectID={Number(id)} ListType={Number(0)} />
 
             </div>
             <div className='Orders box-style h-full scroll-auto'>
                 <h2 className='text-center'>Past Orders</h2>
-                <ReviewList userId={Number(id)} />
+                <ReviewList objectID={Number(id)} ListType={Number(0)} />
 
             </div>
         </div>
