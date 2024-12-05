@@ -23,17 +23,23 @@ import ProtectedRoute from '../Authentication/ProtectedRoute/ProtectedRoute';
 import LogoutButton from '../Authentication/LogoutButton/LogoutButton';
 
 function App() {
-  return (
+  const userId = localStorage.getItem('userId'); // Vérifie si un userId est stocké
 
+  return (
     <Router>
       <div className="App flex flex-col min-h-screen max-h-fit">
 
         <nav className="NavBar bg-orange mb-2 h-min p-2 flex items-center shadow-lg sticky top-0">
-          <Link to="/" className="Home flex items-center"> <img className="-rotate-45 mx-6" src={CroissantLogo} alt="logo" /><p className='OurName text-2xl font-bold'>NotChocolatine</p></Link>
+          <Link to="/" className="Home flex items-center">
+            <img className="-rotate-45 mx-6" src={CroissantLogo} alt="logo" />
+            <p className='OurName text-2xl font-bold'>NotChocolatine</p>
+          </Link>
           <div className="Tools flex items-center absolute right-0 mr-2">
             <Link to="/about" className="About p-4">About Us</Link>
             <Link to="/cart" className="Cart p-4"><img src={Cart} alt='Cart' /></Link>
-            <Link to="/users" className="Login p-4"><img src={LoginIcon} alt='LoginIcon' /></Link>
+            <Link to={userId ? "/users" : "/login"} className="Login p-4">
+              <img src={LoginIcon} alt='LoginIcon' />
+            </Link>
             <LogoutButton />
           </div>
         </nav>
@@ -53,9 +59,6 @@ function App() {
         <div className='Temporaire border-2 w-max p-2 mx-2'>
           <p>Le temps du dev je fous ça là</p>
           <a href="/products/new">Add New Product</a><br />
-          <a href="/login">Login</a> <br />
-          <a href="/users/new">Add New User</a> <br />
-          <a href="/users">User</a><br />
           <a href="/reviews/all">All reviews </a>
         </div>
 
