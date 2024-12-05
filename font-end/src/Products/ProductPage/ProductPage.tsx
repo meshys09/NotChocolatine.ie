@@ -20,6 +20,8 @@ function ProductPage() {
     const [error, setError] = useState<string | null>(null);
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
+    const userRole = localStorage.getItem('userRole');
+
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -61,7 +63,10 @@ function ProductPage() {
 
     return (
         <div className="ProductPage flex-wrap flex-grow">
-            <ProtectedRoute requiredRole={1}><DeleteButton id={Number(id)} url='products' onConfirm={() => navigate("/")} /></ProtectedRoute>
+            {userRole === '1' && (
+                <DeleteButton id={Number(id)} url="products" onConfirm={() => navigate("/")} />
+            )}
+
             <div className='First line flex flex-row grow'>
                 <div className='Product flex flex-row box-style w-full h-fit px-3 py-5'>
 
@@ -99,8 +104,6 @@ function ProductPage() {
                             <div>Product not found</div>
                         )}
                     </div>
-
-
                 </div>
             </div>
 
