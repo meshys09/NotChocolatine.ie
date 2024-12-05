@@ -14,12 +14,14 @@ interface Product {
 function ProductPage() {
     const { id } = useParams();
     const [product, setProduct] = useState<Product | null>(null);
+    const [averageGrade, setAverageGrade] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
     const userRole = localStorage.getItem('userRole');
 
+    // Fetch product details
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -41,6 +43,28 @@ function ProductPage() {
         };
 
         fetchProduct();
+    }, [id]);
+
+    // Fetch average grade
+    useEffect(() => {
+        const fetchAverageGrade = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/reviews/averageGrade/${id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch average grade.');
+                }
+                const data = await response.json();
+                setAverageGrade(data || null);
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError('An unknown error occurred while fetching average grade.');
+                }
+            }
+        };
+
+        fetchAverageGrade();
     }, [id]);
 
     if (loading) return <div>Loading...</div>;
@@ -89,7 +113,9 @@ function ProductPage() {
                             <>
                                 <h1 className='p-1'>{product.name}</h1>
                                 <div className='DescriptionBox max-w-lg px-3 flex flex-col'>
-                                    <p> [Grade/5] - [Number of reviews] </p>
+                                    <p>
+                                        Grade: {averageGrade !== null ? averageGrade.toFixed(1) : 'No reviews yet'} / 5
+                                    </p>
                                     <p className='py-2'>{product.description}</p>
                                 </div>
                             </>
