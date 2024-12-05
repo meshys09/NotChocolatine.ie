@@ -42,7 +42,7 @@ function ReviewList({ objectID , ListType }: { objectID: number ; ListType: numb
         };
 
         fetchReviews();
-    }, [objectID]);
+    }, [objectID, ListType]);
 
     if (loading) return <div className='error-style'>Loading...</div>;
     if (error) return <div className='error-style'>Error: {error}</div>;

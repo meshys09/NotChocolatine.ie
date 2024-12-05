@@ -33,7 +33,7 @@ function App() {
           <div className="Tools flex items-center absolute right-0 mr-2">
             <Link to="/about" className="About p-4">About Us</Link>
             <Link to="/cart" className="Cart p-4"><img src={Cart} alt='Cart' /></Link>
-            <Link to="/login" className="Login p-4"><img src={LoginIcon} alt='LoginIcon' /></Link>
+            <Link to="/users" className="Login p-4"><img src={LoginIcon} alt='LoginIcon' /></Link>
             <LogoutButton />
           </div>
         </nav>
