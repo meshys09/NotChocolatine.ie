@@ -378,10 +378,10 @@ paths:
             operationId: "getOrdersByUser"
             parameters:
                 - name: "userId"
-                  in: "query"
-                  required: true
-                  schema:
-                      type: "string"
+                    in: "query"
+                    required: true
+                    schema:
+                        type: "string"
             responses:
                 '200':
                     description: "Orders found"
@@ -611,6 +611,4 @@ components:
                     format: float
                 userId:
                     type: integer
-                
-               
 
