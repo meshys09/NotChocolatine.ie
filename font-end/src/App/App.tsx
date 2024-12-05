@@ -15,7 +15,6 @@ import LoginIcon from '../util/person.png';
 import ProductPage from '../Products/ProductPage/ProductPage';
 import ProductList from '../Products/ProductList/ProductList';
 import LoginPage from '../Authentication/LoginPage/LoginPage';
-import NewProduct from '../Products/NewProduct/NewProduct';
 import NewUser from '../Users/UserForm/UserForm';
 import About from '../About/About';
 import UserPage from '../Users/UserPage/UserPage';
@@ -24,6 +23,8 @@ import LogoutButton from '../Authentication/LogoutButton/LogoutButton';
 import CartPage from '../Orders/CartPage/CartPage';
 import AdminDashboard from '../Users/AdminDashboard/AdminDashboard';
 import AdminReviewList from '../Reviews/AdminReviewList/AdminReviewList';
+import AdminProductList from '../Products/AdminProductList/AdminProductList';
+import AdminUserList from '../Users/AdminUserList/AdminUserList';
 
 function App() {
   const userId = localStorage.getItem('userId');
@@ -57,19 +58,14 @@ function App() {
           <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
           <Route path="/login" element={<div className='form-page-style'><LoginPage /></div>} />
           <Route path="/products/:id" element={<div className='page-style'><ProductPage /></div>} />
-          <Route path="/products/new" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'><NewProduct /> </div></ProtectedRoute>} />
           <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
           <Route path="/users" element={<ProtectedRoute><div className='page-style'><UserPage /></div></ProtectedRoute>} />
           <Route path="/reviews/all" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'>All reviews </div></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute requiredRole={1}><AdminDashboard /></ProtectedRoute>} />
           <Route path="/admin/reviews" element={<ProtectedRoute requiredRole={1}><AdminReviewList /></ProtectedRoute>} />
+          <Route path="/admin/products" element={<ProtectedRoute requiredRole={1}><AdminProductList /></ProtectedRoute>} />
+          <Route path="/admin/users" element={<ProtectedRoute requiredRole={1}><AdminUserList /></ProtectedRoute>} />
         </Routes>
-
-        <div className='Temporaire border-2 w-max p-2 mx-2'>
-          <p>Le temps du dev je fous ça là</p>
-          <a href="/products/new">Add New Product</a><br />
-          <a href="/reviews/all">All reviews </a>
-        </div>
 
         <div className="Footer bg-orange p-2 flex place-content-center items-center ">
           <p className='Rights px-2'>© 2024 NotChocolatine</p>
