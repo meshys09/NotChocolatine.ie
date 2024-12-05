@@ -5,6 +5,7 @@ import "./UserPage.css";
 import '../../styles.css';
 import NewUser from "../UserForm/UserForm";
 import DeleteButton from "../../Buttons/DeleteButton/DeleteButton";
+import OrderList from "../../Orders/OrderList/OrderList";
 
 interface User {
     id: number;
@@ -62,8 +63,7 @@ function UserPage() {
             </div>
             <div className='Orders box-style h-full scroll-auto'>
                 <h2 className='text-center'>Past Orders</h2>
-                <ReviewList objectID={Number(id)} ListType={Number(0)} />
-
+                <OrderList />
             </div>
         </div>
     );
