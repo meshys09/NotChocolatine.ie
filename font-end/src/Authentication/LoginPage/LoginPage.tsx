@@ -33,7 +33,7 @@ function LoginPage() {
             localStorage.setItem('userRole', data.role);
             localStorage.setItem('userId', data.id);
             console.log('Login successful:', data);
-            navigate('/');
+            navigate('/'); 
 
         } catch (err) {
             setError((err as Error).message);
@@ -70,9 +70,10 @@ function LoginPage() {
                 </div>
 
                 {error && <p className="error">{error}</p>}
-                <div className='flex justify-between items-center'>
-                    <a href="/users/new" className='hover:underline'>Create an account</a>
                     <button type="submit" className='LoginButton place-self-end'>Login</button>
+                <div className='flex flex-col w-full pt-3'>
+                    <h2>Don't have an account yet ?</h2>
+                    <a href="/users/new" className='hover:underline'>Create an account</a>
                 </div>
             </form>
         </div>
