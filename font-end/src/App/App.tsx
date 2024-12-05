@@ -22,6 +22,8 @@ import UserPage from '../Users/UserPage/UserPage';
 import ProtectedRoute from '../Authentication/ProtectedRoute/ProtectedRoute';
 import LogoutButton from '../Authentication/LogoutButton/LogoutButton';
 import CartPage from '../Orders/CartPage/CartPage';
+import AdminDashboard from '../Users/AdminDashboard/AdminDashboard';
+import AdminReviewList from '../Reviews/AdminReviewList/AdminReviewList';
 
 function App() {
   const userId = localStorage.getItem('userId');
@@ -59,6 +61,8 @@ function App() {
           <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
           <Route path="/users" element={<ProtectedRoute><div className='page-style'><UserPage /></div></ProtectedRoute>} />
           <Route path="/reviews/all" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'>All reviews </div></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute requiredRole={1}><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/admin/reviews" element={<ProtectedRoute requiredRole={1}><AdminReviewList /></ProtectedRoute>} />
         </Routes>
 
         <div className='Temporaire border-2 w-max p-2 mx-2'>
