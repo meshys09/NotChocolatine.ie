@@ -24,7 +24,8 @@ import LogoutButton from '../Authentication/LogoutButton/LogoutButton';
 import CartPage from '../Orders/CartPage/CartPage';
 
 function App() {
-  const userId = localStorage.getItem('userId'); // Vérifie si un userId est stocké
+  const userId = localStorage.getItem('userId');
+  const userRole = localStorage.getItem('userRole');
 
   return (
     <Router>
@@ -36,6 +37,9 @@ function App() {
             <p className='OurName text-2xl font-bold'>NotChocolatine</p>
           </Link>
           <div className="Tools flex items-center absolute right-0 mr-2">
+            {userRole === '1' && (
+              <Link to="/admin" className="Admin p-4">Admin Dashboard</Link>
+            )}
             <Link to="/about" className="About p-4">About Us</Link>
             <Link to="/cart" className="Cart p-4"><img src={Cart} alt='Cart' /></Link>
             <Link to={userId ? "/users" : "/login"} className="Login p-4">
