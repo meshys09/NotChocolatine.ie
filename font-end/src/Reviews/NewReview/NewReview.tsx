@@ -29,6 +29,7 @@ function NewReview({ productId = 0 }: { productId?: number }) { // Default value
 
             const data = await response.json();
             console.log('Review created:', data);
+            window.location.reload();
         } catch (err) {
             setError((err as Error).message);
         }
