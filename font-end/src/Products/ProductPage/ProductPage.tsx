@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import NewReview from '../../Reviews/NewReview/NewReview';
 import ReviewList from '../../Reviews/ReviewList/ReviewList';
 import DefaultImg from '../../util/pastry.png';
-import DeleteButton from '../../Buttons/DeleteButton/DeleteButton';
 
 interface Product {
     id: number;
