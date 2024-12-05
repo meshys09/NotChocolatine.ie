@@ -80,10 +80,6 @@ function ProductPage() {
 
     return (
         <div className="ProductPage flex-wrap flex-grow">
-            {userRole === '1' && (
-                <DeleteButton id={Number(id)} url="products" onConfirm={() => navigate("/")} />
-            )}
-
             <div className='First line flex flex-row grow'>
                 <div className='Product flex flex-row box-style w-full h-fit px-3 py-5'>
                     <div className='ImageCol w-2/6'>
