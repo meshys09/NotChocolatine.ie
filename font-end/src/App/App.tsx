@@ -21,6 +21,7 @@ import About from '../About/About';
 import UserPage from '../Users/UserPage/UserPage';
 import ProtectedRoute from '../Authentication/ProtectedRoute/ProtectedRoute';
 import LogoutButton from '../Authentication/LogoutButton/LogoutButton';
+import CartPage from '../Orders/CartPage/CartPage';
 
 function App() {
   const userId = localStorage.getItem('userId'); // Vérifie si un userId est stocké
@@ -47,7 +48,7 @@ function App() {
         <Routes>
           <Route path="/" element={<ProductList />} />
           <Route path="/about" element={<About />} />
-          <Route path="/cart" element={<ProtectedRoute><div className='page-style'>Cart Page</div></ProtectedRoute>} />
+          <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
           <Route path="/login" element={<div className='form-page-style'><LoginPage /></div>} />
           <Route path="/products/:id" element={<div className='page-style'><ProductPage /></div>} />
           <Route path="/products/new" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'><NewProduct /> </div></ProtectedRoute>} />
