@@ -70,8 +70,10 @@ function LoginPage() {
                 </div>
 
                 {error && <p className="error">{error}</p>}
-
-                <button type="submit" className='LoginButton place-self-end'>Login</button>
+                <div className='flex justify-between items-center'>
+                    <a href="/users/new" className='hover:underline'>Create an account</a>
+                    <button type="submit" className='LoginButton place-self-end'>Login</button>
+                </div>
             </form>
         </div>
     );
