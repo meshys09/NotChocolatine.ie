@@ -470,57 +470,6 @@ paths:
                 '500':
                     description: "Internal server error"
     
-    /orders/{orderId}/product/{productId}:
-        delete:
-            summary: "Delete product from order"
-            operationId: "deleteProductFromOrder"
-            parameters:
-                - name: "orderId"
-                  in: "query"
-                  required: true
-                  schema:
-                      type: "string"
-                - name: "productId"
-                  in: "query"
-                  required: true
-                  schema:
-                      type: "string"
-            responses:
-                '200':
-                    description: "Product deleted from order"
-                '404':
-                    description: "Product not found in order"
-                '500':
-                    description: "Internal server error"
-    
-    /orders/{orderId}/product/{productId}:
-        put:
-            summary: "Update product quantity in order"
-            operationId: "updateProductQuantityInOrder"
-            parameters:
-                - name: "orderId"
-                  in: "query"
-                  required: true
-                  schema:
-                      type: "string"
-                - name: "productId"
-                  in: "query"
-                  required: true
-                  schema:
-                      type: "string"
-                - quantity:
-                    in: "body"
-                    required: true
-                    schema:
-                        type: "integer"
-            responses:
-                '200':
-                    description: "Product quantity updated in order"
-                '404':
-                    description: "Product not found in order"
-                '500':
-                    description: "Internal server error"
-
     /auth/login:
         post:
             summary: "Login"

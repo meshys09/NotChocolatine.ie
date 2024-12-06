@@ -72,29 +72,4 @@ orderController.post('/:orderId/product/:productId', async (c) => {
     }
 });
 
-orderController.delete('/:orderId/product/:productId', async (c) => {
-    try {
-        const orderId = parseInt(c.req.param('orderId'), 10);
-        const productId = parseInt(c.req.param('productId'), 10);
-
-        const deleteProduct = await orderProductService.removeProductFromOrder(orderId, productId);
-        return c.json(deleteProduct);
-    } catch (error: any) {
-        return c.json({ message: error.message }, 404);
-    }
-});
-
-orderController.put('/:orderId/product/:productId', async (c) => {
-    try {
-        const orderId = parseInt(c.req.param('orderId'), 10);
-        const productId = parseInt(c.req.param('productId'), 10);
-        const { quantity } = await c.req.json();
-
-        const orderProduct = await orderProductService.updateProductQuantity(orderId, productId, quantity);
-        return c.json(orderProduct);
-    } catch (error: any) {
-        return c.json({ message: error.message }, 404);
-    }
-});
-
 export default orderController;

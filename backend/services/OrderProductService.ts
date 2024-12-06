@@ -53,43 +53,4 @@ export class OrderProductService {
         return new OrderProduct(order, product, orderProduct.quantity);
     }
 
-    async removeProductFromOrder(orderId: number, productId: number): Promise<string> {
-        const orderProduct = await prisma.orderProduct.deleteMany({
-            where: {
-                orderId: orderId,
-                productId: productId,
-            }
-        });
-        return "Product removed from order.";
-    }
-
-    async updateProductQuantity(orderId: number, productId: number, quantity: number): Promise<OrderProduct> {
-        await prisma.orderProduct.updateMany({
-            where: {
-                orderId: orderId,
-                productId: productId,
-            },
-            data: {
-                quantity: quantity,
-            }
-        });
-
-        const orderProduct = await prisma.orderProduct.findUnique({
-            where: {
-                orderId_productId: {
-                    orderId: orderId,
-                    productId: productId,
-                }
-            }
-        });
-
-        if (!orderProduct) {
-            throw new Error(`OrderProduct with orderId ${orderId} and productId ${productId} not found.`);
-        }
-
-        const order = await orderService.getOrderById(orderId);
-        const product = await productService.getProductById(productId);
-
-        return new OrderProduct(order, product, orderProduct.quantity);
-    }
 }
