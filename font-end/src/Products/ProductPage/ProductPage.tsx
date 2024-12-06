@@ -21,7 +21,6 @@ function ProductPage() {
     const navigate = useNavigate();
     const userRole = localStorage.getItem('userRole');
 
-    // Fetch product details
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -98,7 +97,6 @@ function ProductPage() {
         }
 
         localStorage.setItem('cart', JSON.stringify(cart));
-        alert('Product added to cart!');
     }
 
     return (
