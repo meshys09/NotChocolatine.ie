@@ -6,6 +6,7 @@ import {
     ColumnDef,
     flexRender,
 } from '@tanstack/react-table';
+import AdminDashboard from '../../Users/AdminDashboard/AdminDashboard';
 
 interface Review {
     id: number;
@@ -120,6 +121,7 @@ function AdminReviewList() {
 
     return (
         <div className="AdminReviewList">
+            <AdminDashboard />
             <h1 className="text-2xl font-bold mb-4">Admin Review List</h1>
             <table className="table-auto border-collapse border border-gray-300 w-full text-left">
                 <thead>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import AdminDashboard from '../AdminDashboard/AdminDashboard';
 
 interface User {
     id: number;
@@ -77,6 +78,7 @@ function AdminUserList() {
 
     return (
         <div className="AdminUserList">
+            <AdminDashboard />
             <h1 className="text-2xl font-bold mb-4">Admin User List</h1>
             <table className="table-auto border-collapse border border-gray-300 w-full text-left">
                 <thead>
