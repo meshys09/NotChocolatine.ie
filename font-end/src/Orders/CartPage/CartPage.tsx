@@ -35,6 +35,49 @@ function CartPage() {
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     };
 
+    const handleCheckout = async () => {
+        const userId = Number(localStorage.getItem('userId'));
+        const orderDate = new Date().toISOString(); // Format: YYYY-MM-DD
+        const totalPrice = parseFloat(calculateTotal());
+
+        try {
+            // Create order
+            const orderResponse = await fetch('http://localhost:3000/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ date: orderDate, price: totalPrice, userId }),
+            });
+
+            if (!orderResponse.ok) {
+                throw new Error('Failed to create order');
+            }
+
+            const order = await orderResponse.json();
+
+            // Add products to order
+            for (const item of cartItems) {
+                const productResponse = await fetch(`http://localhost:3000/orders/${order.id}/product/${item.id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ quantity: item.quantity }),
+                });
+
+                if (!productResponse.ok) {
+                    throw new Error(`Failed to add product ${item.name} to order`);
+                }
+            }
+
+            // Clear cart after successful checkout
+            localStorage.removeItem('cart');
+            setCartItems([]);
+
+            alert('Order placed successfully!');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to complete checkout. Please try again.');
+        }
+    };
+
     if (cartItems.length === 0) {
         return <div>Your cart is empty.</div>;
     }
@@ -62,7 +105,7 @@ function CartPage() {
             </div>
             <div className="CartSummary p-2 mt-4">
                 <h2>Total: {calculateTotal()} €</h2>
-                <button onClick={() => alert('Proceeding to checkout')} className="bg-blue-500 text-white px-4 py-2 rounded">
+                <button onClick={handleCheckout} className="bg-blue-500 text-white px-4 py-2 rounded">
                     Checkout
                 </button>
             </div>
