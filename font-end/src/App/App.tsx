@@ -1,5 +1,5 @@
 //import tools
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 //import style
@@ -12,20 +12,22 @@ import Cart from '../util/cart.png';
 import LoginIcon from '../util/person.png';
 
 //import components
-import ProductPage from '../Products/ProductPage/ProductPage';
-import ProductList from '../Products/ProductList/ProductList';
-import LoginPage from '../Authentication/LoginPage/LoginPage';
-import NewUser from '../Users/UserForm/UserForm';
-import About from '../About/About';
-import UserPage from '../Users/UserPage/UserPage';
 import ProtectedRoute from '../Authentication/ProtectedRoute/ProtectedRoute';
 import LogoutButton from '../Authentication/LogoutButton/LogoutButton';
-import CartPage from '../Orders/CartPage/CartPage';
-import AdminDashboard from '../Users/AdminDashboard/AdminDashboard';
-import AdminReviewList from '../Reviews/AdminReviewList/AdminReviewList';
-import AdminProductList from '../Products/AdminProductList/AdminProductList';
-import AdminUserList from '../Users/AdminUserList/AdminUserList';
-import AdminOrderList from '../Orders/AdminOrderList/AdminOrderList';
+
+// Lazy-loaded components
+const ProductPage = React.lazy(() => import('../Products/ProductPage/ProductPage'));
+const ProductList = React.lazy(() => import('../Products/ProductList/ProductList'));
+const LoginPage = React.lazy(() => import('../Authentication/LoginPage/LoginPage'));
+const NewUser = React.lazy(() => import('../Users/UserForm/UserForm'));
+const About = React.lazy(() => import('../About/About'));
+const UserPage = React.lazy(() => import('../Users/UserPage/UserPage'));
+const CartPage = React.lazy(() => import('../Orders/CartPage/CartPage'));
+const AdminDashboard = React.lazy(() => import('../Users/AdminDashboard/AdminDashboard'));
+const AdminReviewList = React.lazy(() => import('../Reviews/AdminReviewList/AdminReviewList'));
+const AdminProductList = React.lazy(() => import('../Products/AdminProductList/AdminProductList'));
+const AdminUserList = React.lazy(() => import('../Users/AdminUserList/AdminUserList'));
+const AdminOrderList = React.lazy(() => import('../Orders/AdminOrderList/AdminOrderList'));
 
 function App() {
   const userId = localStorage.getItem('userId');
@@ -53,21 +55,23 @@ function App() {
           </div>
         </nav>
 
-        <Routes>
-          <Route path="/" element={<ProductList />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
-          <Route path="/login" element={<div className='form-page-style'><LoginPage /></div>} />
-          <Route path="/products/:id" element={<div className='page-style'><ProductPage /></div>} />
-          <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
-          <Route path="/users" element={<ProtectedRoute><div className='page-style'><UserPage /></div></ProtectedRoute>} />
-          <Route path="/reviews/all" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'>All reviews </div></ProtectedRoute>} />
-          <Route path="/admin" element={<ProtectedRoute requiredRole={1}><AdminDashboard /></ProtectedRoute>} />
-          <Route path="/admin/reviews" element={<ProtectedRoute requiredRole={1}><AdminReviewList /></ProtectedRoute>} />
-          <Route path="/admin/products" element={<ProtectedRoute requiredRole={1}><AdminProductList /></ProtectedRoute>} />
-          <Route path="/admin/users" element={<ProtectedRoute requiredRole={1}><AdminUserList /></ProtectedRoute>} />
-          <Route path="/admin/orders" element={<ProtectedRoute requiredRole={1}><AdminOrderList /></ProtectedRoute>} />
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<ProductList />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
+            <Route path="/login" element={<div className='form-page-style'><LoginPage /></div>} />
+            <Route path="/products/:id" element={<div className='page-style'><ProductPage /></div>} />
+            <Route path="/users/new" element={<div className='form-page-style'><NewUser /></div>} />
+            <Route path="/users" element={<ProtectedRoute><div className='page-style'><UserPage /></div></ProtectedRoute>} />
+            <Route path="/reviews/all" element={<ProtectedRoute requiredRole={1}><div className='form-page-style'>All reviews </div></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute requiredRole={1}><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/reviews" element={<ProtectedRoute requiredRole={1}><AdminReviewList /></ProtectedRoute>} />
+            <Route path="/admin/products" element={<ProtectedRoute requiredRole={1}><AdminProductList /></ProtectedRoute>} />
+            <Route path="/admin/users" element={<ProtectedRoute requiredRole={1}><AdminUserList /></ProtectedRoute>} />
+            <Route path="/admin/orders" element={<ProtectedRoute requiredRole={1}><AdminOrderList /></ProtectedRoute>} />
+          </Routes>
+        </Suspense>
 
         <div className="Footer bg-orange p-2 flex place-content-center items-center ">
           <p className='Rights px-2'>© 2024 NotChocolatine</p>
