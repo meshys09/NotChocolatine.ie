@@ -13,8 +13,18 @@ const productController = new Hono();
 const productService = new ProductService();
 productController.get('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const productList = yield productService.getAllProducts();
-        return yield c.json(productList);
+        const page = parseInt(c.req.query('page') || '1', 10);
+        const limit = parseInt(c.req.query('limit') || '10', 10);
+        const { products, totalProducts } = yield productService.getAllProducts(page, limit);
+        return c.json({
+            products,
+            meta: {
+                currentPage: page,
+                pageSize: limit,
+                totalPages: Math.ceil(totalProducts / limit),
+                totalProducts,
+            },
+        });
     }
     catch (error) {
         return c.json({ error: 'Failed to retrieve products', details: error.message }, 500);

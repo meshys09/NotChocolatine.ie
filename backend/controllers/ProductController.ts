@@ -6,9 +6,20 @@ const productService = new ProductService();
 
 productController.get('/', async (c) => {
     try {
-        const productList = await productService.getAllProducts();
-        return await c.json(productList);
+        const page = parseInt(c.req.query('page') || '1', 10);
+        const limit = parseInt(c.req.query('limit') || '10', 10);
 
+        const { products, totalProducts } = await productService.getAllProducts(page, limit);
+
+        return c.json({
+            products,
+            meta: {
+                currentPage: page,
+                pageSize: limit,
+                totalPages: Math.ceil(totalProducts / limit),
+                totalProducts,
+            },
+        });
     } catch (error: any) {
         return c.json({ error: 'Failed to retrieve products', details: error.message }, 500);
     }

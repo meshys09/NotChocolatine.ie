@@ -12,13 +12,19 @@ import { Product } from "../models/Product.js";
 const prisma = new PrismaClient();
 export class ProductService {
     getAllProducts() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const products = yield prisma.product.findMany();
+        return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10) {
+            const offset = (page - 1) * limit;
+            const [products, totalProducts] = yield Promise.all([
+                prisma.product.findMany({
+                    skip: offset,
+                    take: limit,
+                }),
+                prisma.product.count(),
+            ]);
             const productList = products.map((product) => new Product(product.id, product.price, product.name, product.description, product.stock));
-            return productList;
+            return { products: productList, totalProducts };
         });
     }
-    ;
     getProductById(productId) {
         return __awaiter(this, void 0, void 0, function* () {
             const product = yield prisma.product.findUnique({
