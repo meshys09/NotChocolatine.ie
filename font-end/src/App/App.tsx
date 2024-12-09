@@ -44,7 +44,7 @@ function App() {
           </Link>
           <div className="Tools flex items-center absolute right-0 mr-2">
             {userRole === '1' && (
-              <Link to="/admin" className="Admin p-4">Admin Dashboard</Link>
+              <Link to="/admin/products" className="Admin p-4">Admin Dashboard</Link>
             )}
             <Link to="/about" className="About p-4">About Us</Link>
             <Link to="/cart" className="Cart p-4"><img src={Cart} alt='Cart' /></Link>

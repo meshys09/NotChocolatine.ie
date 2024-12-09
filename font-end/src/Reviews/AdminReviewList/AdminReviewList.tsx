@@ -133,9 +133,9 @@ function AdminReviewList() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="AdminReviewList">
+        <div className="AdminReviewList grow">
             <AdminDashboard />
-            <h1 className="text-2xl font-bold mb-4">Admin Review List</h1>
+            <h1 className="text-2xl font-bold m-4">Review List</h1>
             <table className="table-auto border-collapse border border-gray-300 w-full text-left">
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -169,7 +169,7 @@ function AdminReviewList() {
                     ))}
                 </tbody>
             </table>
-            <div className="pagination flex justify-between items-center mt-4">
+            <div className="pagination flex justify-between w-full items-center mt-4 p-4">
                 <button
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}

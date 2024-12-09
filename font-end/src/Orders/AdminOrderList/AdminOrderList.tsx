@@ -91,9 +91,9 @@ function AdminOrderList() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="AdminOrderList">
+        <div className="AdminOrderList grow">
             <AdminDashboard />
-            <h1 className="text-2xl font-bold mb-4">Admin Order List</h1>
+            <h1 className="text-2xl font-bold m-4">Order List</h1>
             <table className="table-auto border-collapse border border-gray-300 w-full text-left">
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -132,7 +132,7 @@ function AdminOrderList() {
                     ))}
                 </tbody>
             </table>
-            <div className="pagination flex justify-between items-center mt-4">
+            <div className="pagination flex justify-between w-full items-center mt-4 p-4">
                 <button
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
@@ -151,7 +151,7 @@ function AdminOrderList() {
                     Next
                 </button>
             </div>
-            <div className="flex items-center mt-4">
+            <div className="flex items-center m-4">
                 <span>Rows per page:</span>
                 <select
                     value={pageSize}
