@@ -6,8 +6,8 @@ const productService = new ProductService();
 
 productController.get('/', async (c) => {
     try {
-        const page = parseInt(c.req.query('page') || '1', 10);
-        const limit = parseInt(c.req.query('limit') || '10', 10);
+        const page = parseInt(c.req.query('page') || '1', 14);
+        const limit = parseInt(c.req.query('limit') || '14', 14);
 
         const { products, totalProducts } = await productService.getAllProducts(page, limit);
 
