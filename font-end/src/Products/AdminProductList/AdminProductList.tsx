@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
-import { useReactTable, ColumnDef, getCoreRowModel, flexRender } from '@tanstack/react-table';
+import { useReactTable, ColumnDef, getCoreRowModel, getPaginationRowModel, flexRender } from '@tanstack/react-table';
 import AdminDashboard from '../../Users/AdminDashboard/AdminDashboard';
 
 interface Product {
@@ -12,8 +11,8 @@ interface Product {
 }
 
 function AdminProductList() {
-
     const [products, setProducts] = useState<Product[]>([]);
+    const [meta, setMeta] = useState<{ totalPages: number; currentPage: number } | null>(null);
     const [newProduct, setNewProduct] = useState<Product>({
         id: 0,
         name: '',
@@ -23,16 +22,18 @@ function AdminProductList() {
     });
     const [error, setError] = useState<string | null>(null);
     const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
+    const [pageIndex, setPageIndex] = useState(0);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:3000/products');
+                const response = await fetch(`http://localhost:3000/products?page=${pageIndex + 1}&limit=10`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch products');
                 }
                 const data = await response.json();
-                setProducts(data);
+                setProducts(data.products);
+                setMeta({ totalPages: data.meta.totalPages, currentPage: data.meta.currentPage });
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);
@@ -41,7 +42,7 @@ function AdminProductList() {
         };
 
         fetchProducts();
-    }, []);
+    }, [pageIndex]);
 
     const addProduct = async () => {
         if (!newProduct.name || newProduct.price <= 0 || !newProduct.description || newProduct.stock <= 0) {
@@ -59,7 +60,7 @@ function AdminProductList() {
                 throw new Error('Failed to add product');
             }
             const addedProduct = await response.json();
-            setProducts([addedProduct, ...products]);
+            setProducts((prev) => [addedProduct, ...prev]);
             setNewProduct({ id: 0, name: '', price: 0, description: '', stock: 0 });
         } catch (err) {
             if (err instanceof Error) {
@@ -108,98 +109,30 @@ function AdminProductList() {
     const columns: ColumnDef<Product>[] = [
         {
             accessorKey: 'name',
-            header: () => <span>Name</span>,
-            cell: (info) => (
-                editingRowIndex === info.row.index ? (
-                    <input
-                        defaultValue={info.getValue<string>()}
-                        onChange={(e) => {
-                            const value = e.target.value;
-                            setProducts((prev) =>
-                                prev.map((product, idx) =>
-                                    idx === info.row.index ? { ...product, name: value } : product
-                                )
-                            );
-                        }}
-                    />
-                ) : (
-                    info.getValue<string>()
-                )
-            ),
+            header: 'Name',
         },
         {
             accessorKey: 'price',
-            header: () => <span>Price</span>,
-            cell: (info) => (
-                editingRowIndex === info.row.index ? (
-                    <input
-                        type="number"
-                        defaultValue={info.getValue<number>()}
-                        onChange={(e) => {
-                            const value = parseFloat(e.target.value);
-                            setProducts((prev) =>
-                                prev.map((product, idx) =>
-                                    idx === info.row.index ? { ...product, price: value } : product
-                                )
-                            );
-                        }}
-                    />
-                ) : (
-                    `${info.getValue<number>().toFixed(2)} €`
-                )
-            ),
+            header: 'Price',
+            cell: (info) =>
+                `${info.getValue<number>().toFixed(2)} €`,
         },
         {
             accessorKey: 'description',
-            header: () => <span>Description</span>,
-            cell: (info) => (
-                editingRowIndex === info.row.index ? (
-                    <input
-                        defaultValue={info.getValue<string>()}
-                        onChange={(e) => {
-                            const value = e.target.value;
-                            setProducts((prev) =>
-                                prev.map((product, idx) =>
-                                    idx === info.row.index ? { ...product, description: value } : product
-                                )
-                            );
-                        }}
-                    />
-                ) : (
-                    info.getValue<string>()
-                )
-            ),
+            header: 'Description',
         },
         {
             accessorKey: 'stock',
-            header: () => <span>Stock</span>,
-            cell: (info) => (
-                editingRowIndex === info.row.index ? (
-                    <input
-                        type="number"
-                        defaultValue={info.getValue<number>()}
-                        onChange={(e) => {
-                            const value = parseInt(e.target.value, 10);
-                            setProducts((prev) =>
-                                prev.map((product, idx) =>
-                                    idx === info.row.index ? { ...product, stock: value } : product
-                                )
-                            );
-                        }}
-                    />
-                ) : (
-                    info.getValue<number>()
-                )
-            ),
+            header: 'Stock',
         },
         {
             id: 'actions',
-            header: () => <span>Actions</span>,
-            cell: (info) =>
-                editingRowIndex === info.row.index ? (
+            header: 'Actions',
+            cell: ({ row }) =>
+                editingRowIndex === row.index ? (
                     <>
                         <button
-                            onClick={() => updateProduct(info.row.original)}
+                            onClick={() => updateProduct(row.original)}
                             className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700"
                         >
                             Save
@@ -214,13 +147,13 @@ function AdminProductList() {
                 ) : (
                     <>
                         <button
-                            onClick={() => setEditingRowIndex(info.row.index)}
+                            onClick={() => setEditingRowIndex(row.index)}
                             className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700"
                         >
                             Edit
                         </button>
                         <button
-                            onClick={() => deleteProduct(info.row.original.id)}
+                            onClick={() => deleteProduct(row.original.id)}
                             className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 ml-2"
                         >
                             Delete
@@ -229,16 +162,30 @@ function AdminProductList() {
                 ),
         },
     ];
+
     const table = useReactTable({
         data: products,
         columns,
+        state: {
+            pagination: { pageIndex, pageSize: 10 },
+        },
+        onPaginationChange: (updater) => {
+            if (typeof updater === 'function') {
+                setPageIndex(updater({ pageIndex, pageSize: 10 }).pageIndex);
+            } else {
+                setPageIndex(updater.pageIndex);
+            }
+        },
         getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        manualPagination: true,
+        pageCount: meta?.totalPages || 1,
     });
+
     return (
         <div className="AdminProductList">
             <AdminDashboard />
             <h1 className="text-2xl font-bold mb-4">Admin Product List</h1>
-
             <div className="mb-4">
                 <input
                     type="text"
@@ -275,7 +222,6 @@ function AdminProductList() {
                     Add Product
                 </button>
             </div>
-
             <table className="table-auto border-collapse border border-gray-300 w-full">
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -300,7 +246,25 @@ function AdminProductList() {
                     ))}
                 </tbody>
             </table>
-
+            <div className="pagination flex justify-between items-center mt-4">
+                <button
+                    onClick={() => setPageIndex((prev) => Math.max(prev - 1, 0))}
+                    disabled={pageIndex === 0}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span>
+                    Page {pageIndex + 1} of {meta?.totalPages || 1}
+                </span>
+                <button
+                    onClick={() => setPageIndex((prev) => Math.min(prev + 1, (meta?.totalPages || 1) - 1))}
+                    disabled={!!meta && pageIndex >= (meta.totalPages || 1) - 1}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
             {error && <div className="text-red-500 mt-4">{error}</div>}
         </div>
     );
