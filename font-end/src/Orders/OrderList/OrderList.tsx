@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './OrderList.css';
 
+interface Product {
+    name: string;
+    price: number;
+    quantity: number;
+}
+
 interface Order {
     id: number;
     date: string;
     price: number;
     userId: number;
+    products: Product[];
 }
 
 function OrderList() {
@@ -14,11 +21,14 @@ function OrderList() {
     const [loading, setLoading] = useState(true);
     const userId = localStorage.getItem('userId');
 
-    // Fonction pour formater une date
     const formatDate = (dateString: string): string => {
         const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            return 'Invalid date';
+        }
         const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois commencent à 0
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
     };
@@ -30,8 +40,15 @@ function OrderList() {
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');
                 }
-                const data = await response.json();
-                setOrders(data);
+                console.log(response.json());
+                const ordersData: { order: Order; products: Product[] }[] = await response.json();
+
+                const formattedOrders = ordersData.map(({ order, products }) => ({
+                    ...order,
+                    products: products || [], // S'assurer que les produits sont bien définis
+                }));
+
+                setOrders(formattedOrders);
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);
@@ -50,11 +67,26 @@ function OrderList() {
     if (error) return <div className='error-style'>Error: {error}</div>;
 
     return (
-        <div>
+        <div className="OrderList">
             {orders.map((order) => (
-                <div key={order.id}>
-                    <h2 className='text-right px-2 mt-2'>{formatDate(order.date)}</h2>
-                    <p>{order.price} €</p>
+                <div key={order.id} className="OrderCard border p-4 mb-4">
+                    <h2 className='text-right px-2 mt-2'>Order Date: {formatDate(order.date)}</h2>
+                    <p>Total Price: {order.price} €</p>
+                    <h3 className='mt-4'>Products:</h3>
+                    {order.products && order.products.length > 0 ? (
+                        <ul>
+                            {order.products.map((product, index) => (
+                                <li key={index} className="ProductItem">
+                                    <p>{product.name}</p>
+                                    <p>
+                                        {product.quantity} × {product.price} € = {product.quantity * product.price} €
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No products found for this order.</p>
+                    )}
                 </div>
             ))}
         </div>

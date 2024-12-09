@@ -25,6 +25,7 @@ import AdminDashboard from '../Users/AdminDashboard/AdminDashboard';
 import AdminReviewList from '../Reviews/AdminReviewList/AdminReviewList';
 import AdminProductList from '../Products/AdminProductList/AdminProductList';
 import AdminUserList from '../Users/AdminUserList/AdminUserList';
+import AdminOrderList from '../Orders/AdminOrderList/AdminOrderList';
 
 function App() {
   const userId = localStorage.getItem('userId');
@@ -65,6 +66,7 @@ function App() {
           <Route path="/admin/reviews" element={<ProtectedRoute requiredRole={1}><AdminReviewList /></ProtectedRoute>} />
           <Route path="/admin/products" element={<ProtectedRoute requiredRole={1}><AdminProductList /></ProtectedRoute>} />
           <Route path="/admin/users" element={<ProtectedRoute requiredRole={1}><AdminUserList /></ProtectedRoute>} />
+          <Route path="/admin/orders" element={<ProtectedRoute requiredRole={1}><AdminOrderList /></ProtectedRoute>} />
         </Routes>
 
         <div className="Footer bg-orange p-2 flex place-content-center items-center ">
