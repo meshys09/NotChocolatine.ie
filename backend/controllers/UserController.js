@@ -13,8 +13,19 @@ const userController = new Hono();
 const userService = new UserService();
 userController.get('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userList = yield userService.getAllUsers();
-        return yield c.json(userList);
+        const page = parseInt(c.req.query('page') || '1', 10);
+        const limit = parseInt(c.req.query('limit') || '10', 10);
+        const { users, total } = yield userService.getAllUsers(page, limit);
+        const totalPages = Math.ceil(total / limit);
+        return c.json({
+            users,
+            meta: {
+                currentPage: page,
+                pageSize: limit,
+                totalPages,
+                totalUsers: total,
+            },
+        });
     }
     catch (error) {
         return c.json({ error: 'Failed to retrieve users', details: error.message }, 500);

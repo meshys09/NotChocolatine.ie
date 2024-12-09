@@ -6,9 +6,22 @@ const userService = new UserService();
 
 userController.get('/', async (c) => {
     try {
-        const userList = await userService.getAllUsers();
-        return await c.json(userList);
+        const page = parseInt(c.req.query('page') || '1', 10);
+        const limit = parseInt(c.req.query('limit') || '10', 10);
 
+        const { users, total } = await userService.getAllUsers(page, limit);
+
+        const totalPages = Math.ceil(total / limit);
+
+        return c.json({
+            users,
+            meta: {
+                currentPage: page,
+                pageSize: limit,
+                totalPages,
+                totalUsers: total,
+            },
+        });
     } catch (error: any) {
         return c.json({ error: 'Failed to retrieve users', details: error.message }, 500);
     }

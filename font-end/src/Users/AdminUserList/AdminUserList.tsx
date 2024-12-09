@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useReactTable, ColumnDef, getCoreRowModel } from '@tanstack/react-table';
+import { useReactTable, ColumnDef, getCoreRowModel, getPaginationRowModel } from '@tanstack/react-table';
 import AdminDashboard from '../AdminDashboard/AdminDashboard';
 
 interface User {
@@ -13,27 +13,28 @@ function AdminUserList() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [pageIndex, setPageIndex] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+    const pageSize = 10;
+
+    const fetchUsers = async (page: number) => {
+        try {
+            setLoading(true);
+            const response = await fetch(`http://localhost:3000/users?page=${page + 1}&limit=${pageSize}`);
+            const data = await response.json();
+            if (!response.ok) throw new Error('Failed to fetch users');
+            setUsers(data.users || []);
+            setTotalPages(data.meta?.totalPages || 1);
+        } catch (err) {
+            if (err instanceof Error) setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/users');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch users');
-                }
-                const data = await response.json();
-                setUsers(data);
-            } catch (err) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUsers();
-    }, []);
+        fetchUsers(pageIndex);
+    }, [pageIndex]);
 
     const saveUser = async (id: number, role: number) => {
         try {
@@ -42,17 +43,13 @@ function AdminUserList() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ role }),
             });
-            if (!response.ok) {
-                throw new Error('Failed to update user');
-            }
+            if (!response.ok) throw new Error('Failed to update user');
             setUsers((prev) =>
                 prev.map((user) => (user.id === id ? { ...user, role } : user))
             );
             setEditingId(null);
         } catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-            }
+            if (err instanceof Error) setError(err.message);
         }
     };
 
@@ -61,14 +58,10 @@ function AdminUserList() {
             const response = await fetch(`http://localhost:3000/users/${id}`, {
                 method: 'DELETE',
             });
-            if (!response.ok) {
-                throw new Error('Failed to delete user');
-            }
+            if (!response.ok) throw new Error('Failed to delete user');
             setUsers((prev) => prev.filter((user) => user.id !== id));
         } catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-            }
+            if (err instanceof Error) setError(err.message);
         }
     };
 
@@ -100,9 +93,7 @@ function AdminUserList() {
                         <option value={0}>User</option>
                         <option value={1}>Admin</option>
                     </select>
-                ) : (
-                    info.getValue<number>() === 1 ? 'Admin' : 'User'
-                ),
+                ) : info.getValue<number>() === 1 ? 'Admin' : 'User',
         },
         {
             id: 'actions',
@@ -149,6 +140,20 @@ function AdminUserList() {
         data: users,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        pageCount: totalPages,
+        manualPagination: true,
+        state: {
+            pagination: { pageIndex, pageSize },
+        },
+        onPaginationChange: (updater) => {
+            if (typeof updater === 'function') {
+                const newState = updater({ pageIndex, pageSize });
+                setPageIndex(newState.pageIndex);
+            } else {
+                setPageIndex(updater.pageIndex);
+            }
+        },
     });
 
     if (loading) return <div>Loading...</div>;
@@ -179,14 +184,34 @@ function AdminUserList() {
                         <tr key={row.id}>
                             {row.getVisibleCells().map((cell) => (
                                 <td key={cell.id} className="border border-gray-300 p-2">
-                                    {typeof cell.column.columnDef.cell === 'function' ? cell.column.columnDef.cell(cell.getContext()) : null}
+                                    {typeof cell.column.columnDef.cell === 'function'
+                                        ? cell.column.columnDef.cell(cell.getContext())
+                                        : null}
                                 </td>
                             ))}
                         </tr>
                     ))}
                 </tbody>
             </table>
-            {error && <div className="text-red-500 mt-4">{error}</div>}
+            <div className="pagination flex justify-between items-center mt-4">
+                <button
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span>
+                    Page {pageIndex + 1} of {totalPages}
+                </span>
+                <button
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 }

@@ -6,13 +6,20 @@ const prisma = new PrismaClient();
 
 export class UserService {
 
-    async getAllUsers(): Promise<User[]> {
-        const users = await prisma.user.findMany();
-        const userList = users.map(
-            (user) => new User(user.id, user.mail, user.password, user.role)
-        );
-        return userList;
-    };
+    async getAllUsers(page: number = 1, limit: number = 10): Promise<{ users: User[]; total: number }> {
+        const offset = (page - 1) * limit;
+
+        const [users, total] = await Promise.all([
+            prisma.user.findMany({
+                skip: offset,
+                take: limit,
+            }),
+            prisma.user.count(),
+        ]);
+
+        const userList = users.map((user) => new User(user.id, user.mail, user.password, user.role));
+        return { users: userList, total };
+    }
 
     async getUserById(userId: number): Promise<User> {
         const user = await prisma.user.findUnique({

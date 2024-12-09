@@ -13,13 +13,19 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 export class UserService {
     getAllUsers() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const users = yield prisma.user.findMany();
+        return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10) {
+            const offset = (page - 1) * limit;
+            const [users, total] = yield Promise.all([
+                prisma.user.findMany({
+                    skip: offset,
+                    take: limit,
+                }),
+                prisma.user.count(),
+            ]);
             const userList = users.map((user) => new User(user.id, user.mail, user.password, user.role));
-            return userList;
+            return { users: userList, total };
         });
     }
-    ;
     getUserById(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield prisma.user.findUnique({
