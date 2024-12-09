@@ -20,7 +20,7 @@ orderController.get('/:id', async (c) => {
     try {
         const orderId = parseInt(c.req.param('id'), 10);
         const order = await orderService.getOrderById(orderId);
-        const products = await orderProductService.getProductByOrder(orderId);
+        const products = await orderProductService.getProductsByOrder(orderId);
 
         return c.json({ order, products });
     } catch (error: any) {
@@ -67,6 +67,16 @@ orderController.post('/:orderId/product/:productId', async (c) => {
 
         const orderProduct = await orderProductService.addProductToOrder(orderId, productId, quantity);
         return c.json(orderProduct, 201);
+    } catch (error: any) {
+        return c.json({ message: error.message }, 404);
+    }
+});
+
+orderController.get('/:orderId/products', async (c) => {
+    try {
+        const orderId = parseInt(c.req.param('orderId'), 10);
+        const orderProducts = await orderProductService.getProductsByOrder(orderId);
+        return c.json(orderProducts);
     } catch (error: any) {
         return c.json({ message: error.message }, 404);
     }

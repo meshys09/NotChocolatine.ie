@@ -26,7 +26,7 @@ orderController.get('/:id', (c) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const orderId = parseInt(c.req.param('id'), 10);
         const order = yield orderService.getOrderById(orderId);
-        const products = yield orderProductService.getProductByOrder(orderId);
+        const products = yield orderProductService.getProductsByOrder(orderId);
         return c.json({ order, products });
     }
     catch (error) {
@@ -75,24 +75,11 @@ orderController.post('/:orderId/product/:productId', (c) => __awaiter(void 0, vo
         return c.json({ message: error.message }, 404);
     }
 }));
-orderController.delete('/:orderId/product/:productId', (c) => __awaiter(void 0, void 0, void 0, function* () {
+orderController.get('/:orderId/products', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orderId = parseInt(c.req.param('orderId'), 10);
-        const productId = parseInt(c.req.param('productId'), 10);
-        const deleteProduct = yield orderProductService.removeProductFromOrder(orderId, productId);
-        return c.json(deleteProduct);
-    }
-    catch (error) {
-        return c.json({ message: error.message }, 404);
-    }
-}));
-orderController.put('/:orderId/product/:productId', (c) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const orderId = parseInt(c.req.param('orderId'), 10);
-        const productId = parseInt(c.req.param('productId'), 10);
-        const { quantity } = yield c.req.json();
-        const orderProduct = yield orderProductService.updateProductQuantity(orderId, productId, quantity);
-        return c.json(orderProduct);
+        const orderProducts = yield orderProductService.getProductsByOrder(orderId);
+        return c.json(orderProducts);
     }
     catch (error) {
         return c.json({ message: error.message }, 404);
