@@ -1,10 +1,11 @@
 generator client {
   provider = "prisma-client-js"
+  seed = "ts-node prisma/seed.ts
 }
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:root@localhost:3306/honoTest"
+  url      = "mysql://root:root@localhost:3306/NotChocolatine"
 }
 
 model User {
@@ -22,6 +23,7 @@ model Product {
   price       Float
   name        String
   description String?
+  stock       Int
 
   reviews     Reviews[]
   orderProducts OrderProduct[] // Ajout de la relation avec OrderProduct
