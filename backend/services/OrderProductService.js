@@ -15,19 +15,21 @@ const prisma = new PrismaClient();
 const orderService = new OrderService();
 const productService = new ProductService();
 export class OrderProductService {
-    getProductByOrder(orderId) {
+    getProductsByOrder(orderId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const orderProducts = yield prisma.orderProduct.findMany({
-                where: {
-                    orderId: orderId,
-                }
-            });
-            const orderProductList = yield Promise.all(orderProducts.map((orderProduct) => __awaiter(this, void 0, void 0, function* () {
-                const order = yield orderService.getOrderById(orderProduct.orderId);
+            const [order, orderProducts] = yield Promise.all([
+                orderService.getOrderById(orderId),
+                prisma.orderProduct.findMany({ where: { orderId } }),
+            ]);
+            const products = yield Promise.all(orderProducts.map((orderProduct) => __awaiter(this, void 0, void 0, function* () {
                 const product = yield productService.getProductById(orderProduct.productId);
-                return new OrderProduct(order, product, orderProduct.quantity);
+                return {
+                    price: product.getPrice(),
+                    name: product.getName(),
+                    quantity: orderProduct.quantity,
+                };
             })));
-            return orderProductList;
+            return { order, products };
         });
     }
     addProductToOrder(orderId, productId, quantity) {
@@ -40,51 +42,20 @@ export class OrderProductService {
             if (!product) {
                 throw new Error(`Product ${productId} not found.`);
             }
+            if (product.getStock() < quantity) {
+                throw new Error(`Insufficient stock for product ${productId}. Available: ${product.getStock()}, Requested: ${quantity}`);
+            }
+            yield prisma.product.update({
+                where: { id: productId },
+                data: { stock: { decrement: quantity } },
+            });
             const orderProduct = yield prisma.orderProduct.create({
                 data: {
                     orderId: orderId,
                     productId: productId,
                     quantity: quantity,
-                }
-            });
-            return new OrderProduct(order, product, orderProduct.quantity);
-        });
-    }
-    removeProductFromOrder(orderId, productId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const orderProduct = yield prisma.orderProduct.deleteMany({
-                where: {
-                    orderId: orderId,
-                    productId: productId,
-                }
-            });
-            return "Product removed from order.";
-        });
-    }
-    updateProductQuantity(orderId, productId, quantity) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield prisma.orderProduct.updateMany({
-                where: {
-                    orderId: orderId,
-                    productId: productId,
                 },
-                data: {
-                    quantity: quantity,
-                }
             });
-            const orderProduct = yield prisma.orderProduct.findUnique({
-                where: {
-                    orderId_productId: {
-                        orderId: orderId,
-                        productId: productId,
-                    }
-                }
-            });
-            if (!orderProduct) {
-                throw new Error(`OrderProduct with orderId ${orderId} and productId ${productId} not found.`);
-            }
-            const order = yield orderService.getOrderById(orderId);
-            const product = yield productService.getProductById(productId);
             return new OrderProduct(order, product, orderProduct.quantity);
         });
     }

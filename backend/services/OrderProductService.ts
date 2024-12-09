@@ -8,27 +8,24 @@ const orderService = new OrderService();
 const productService = new ProductService();
 
 export class OrderProductService {
-    async getProductByOrder(orderId: number): Promise<OrderProduct[]> {
-        const orderProducts = await prisma.orderProduct.findMany({
-            where: {
-                orderId: orderId,
-            }
-        });
+    async getProductsByOrder(orderId: number): Promise<{ order: any; products: { price: any; name: any; quantity: any; }[] }> {
+        const [order, orderProducts] = await Promise.all([
+            orderService.getOrderById(orderId),
+            prisma.orderProduct.findMany({ where: { orderId } }),
+        ]);
 
-        const orderProductList = await Promise.all(
-            orderProducts.map(
-                async (orderProduct) => {
-                    const order = await orderService.getOrderById(orderProduct.orderId);
-                    const product = await productService.getProductById(orderProduct.productId);
-
-                    return new OrderProduct(order, product, orderProduct.quantity);
-                }
-            )
+        const products = await Promise.all(
+            orderProducts.map(async (orderProduct) => {
+                const product = await productService.getProductById(orderProduct.productId);
+                return {
+                    price: product.getPrice(),
+                    name: product.getName(),
+                    quantity: orderProduct.quantity,
+                };
+            })
         );
-
-        return orderProductList;
+        return { order, products };
     }
-
     async addProductToOrder(orderId: number, productId: number, quantity: number): Promise<OrderProduct> {
         const order = await orderService.getOrderById(orderId);
 
@@ -42,15 +39,23 @@ export class OrderProductService {
             throw new Error(`Product ${productId} not found.`);
         }
 
+        if (product.getStock() < quantity) {
+            throw new Error(`Insufficient stock for product ${productId}. Available: ${product.getStock()}, Requested: ${quantity}`);
+        }
+
+        await prisma.product.update({
+            where: { id: productId },
+            data: { stock: { decrement: quantity } },
+        });
+
         const orderProduct = await prisma.orderProduct.create({
             data: {
                 orderId: orderId,
                 productId: productId,
                 quantity: quantity,
-            }
+            },
         });
 
         return new OrderProduct(order, product, orderProduct.quantity);
     }
-
 }
