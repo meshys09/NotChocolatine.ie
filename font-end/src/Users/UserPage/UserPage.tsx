@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ReviewList from '../../Reviews/ReviewList/ReviewList';
 import "./UserPage.css";
 import '../../styles.css';
@@ -15,7 +15,7 @@ interface User {
 }
 
 function UserPage() {
-
+    const navigate = useNavigate()
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -42,7 +42,20 @@ function UserPage() {
         };
 
         fetchUser();
-    }, []);
+    }, [id]);
+
+    const deleteUser = async (id: number) => {
+        try {
+            const response = await fetch(`http://localhost:3000/users/${id}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) throw new Error('Failed to delete user');
+            else navigate('/');
+        } catch (err) {
+            if (err instanceof Error) setError(err.message);
+        }
+    };
+
 
     if (loading) return <div className="error-style">Loading...</div>;
     if (error) return <div className="error-style ">{error}</div>;
@@ -53,6 +66,8 @@ function UserPage() {
                 <h2 className="text-center w-fit pb-5">User Profile</h2>
                 <NewUser />
                 <LogoutButton />
+                <button className="m-2" onClick={() => deleteUser(Number(id))}>Delete account</button>
+
             </div>
             <div className='Reviews box-style h-full scroll-auto'>
                 <h2 className='text-center'>Reviews</h2>
