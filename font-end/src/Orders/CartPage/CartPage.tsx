@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface CartItem {
     id: number;
@@ -8,6 +9,7 @@ interface CartItem {
 }
 
 function CartPage() {
+    const navigate = useNavigate();
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
     useEffect(() => {
@@ -34,6 +36,10 @@ function CartPage() {
     const calculateTotal = () => {
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     };
+
+    const handleContinueShopping = () => {
+        navigate("/");
+    }
 
     const handleCheckout = async () => {
         const userId = Number(localStorage.getItem('userId'));
@@ -83,8 +89,8 @@ function CartPage() {
     }
 
     return (
-        <div className="CartPage">
-            <h1>Your Cart</h1>
+        <div className="CartPage flex flex-col grow p-2">
+            <h1 className=''>Your Cart</h1>
             <div className="CartItems">
                 {cartItems.map(item => (
                     <div key={item.id} className="CartItem flex flex-row items-center justify-between p-2 border-b">
@@ -96,16 +102,17 @@ function CartPage() {
                             <button onClick={() => handleQuantityChange(item.id, item.quantity - 1)} disabled={item.quantity === 1}>
                                 -
                             </button>
-                            <p className="px-2">{item.quantity}</p>
+                            <p className="px-4 mt-5">{item.quantity}</p>
                             <button onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>+</button>
                         </div>
                         <button onClick={() => handleRemoveItem(item.id)} className="text-red-500">Remove</button>
                     </div>
                 ))}
             </div>
-            <div className="CartSummary p-2 mt-4">
-                <h2>Total: {calculateTotal()} €</h2>
-                <button onClick={handleCheckout} className="bg-blue-500 text-white px-4 py-2 rounded">
+            <div className="CartSummary p-2 mt-4 place-self-end">
+                <h2 className='text-end text-xl'>Total: {calculateTotal()} €</h2>
+                <button onClick={handleContinueShopping} className='bg-blue-500 m-2'>Continue Shopping</button>
+                <button onClick={handleCheckout} className="bg-blue-500">
                     Checkout
                 </button>
             </div>
