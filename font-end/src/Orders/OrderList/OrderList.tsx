@@ -28,7 +28,6 @@ function OrderList() {
         }
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
-
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
     };
@@ -40,15 +39,25 @@ function OrderList() {
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');
                 }
-                console.log(response.json());
-                const ordersData: { order: Order; products: Product[] }[] = await response.json();
 
-                const formattedOrders = ordersData.map(({ order, products }) => ({
-                    ...order,
-                    products: products || [], // S'assurer que les produits sont bien définis
-                }));
+                const ordersData: Order[] = await response.json();
 
-                setOrders(formattedOrders);
+                const ordersWithProducts = await Promise.all(
+                    ordersData.map(async (order) => {
+                        const productResponse = await fetch(`http://localhost:3000/orders/${order.id}/products`);
+                        if (!productResponse.ok) {
+                            throw new Error(`Failed to fetch products for order ${order.id}`);
+                        }
+                        const productData = await productResponse.json();
+
+                        return {
+                            ...productData.order, // Inclure les détails de la commande
+                            products: productData.products, // Inclure les produits associés
+                        };
+                    })
+                );
+
+                setOrders(ordersWithProducts);
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);
