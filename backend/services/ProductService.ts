@@ -8,7 +8,7 @@ export class ProductService {
     async getAllProducts(): Promise<Product[]> {
         const products = await prisma.product.findMany();
         const productList = products.map(
-            (product) => new Product(product.id, product.price, product.name, product.description)
+            (product) => new Product(product.id, product.price, product.name, product.description, product.stock)
         );
         return productList;
     };
@@ -23,18 +23,19 @@ export class ProductService {
             throw new Error(`Product ${productId} not found.`);
         }
 
-        return new Product(product.id, product.price, product.name, product.description)
+        return new Product(product.id, product.price, product.name, product.description, product.stock);
     };
 
-    async addProduct(price: number, name: string, description: string | null): Promise<Product> {
+    async addProduct(price: number, name: string, description: string | null, stock: number): Promise<Product> {
         const product = await prisma.product.create({
             data: {
                 price: price,
                 name: name,
                 description: description,
+                stock: stock
             }
         })
-        return new Product(product.id, product.price, product.name, product.description);
+        return new Product(product.id, product.price, product.name, product.description, product.stock);
     };
 
     async deleteProduct(productId: number): Promise<string> {
@@ -57,7 +58,7 @@ export class ProductService {
                 description: description
             }
         });
-        return new Product(product.id, product.price, product.name, product.description);
+        return new Product(product.id, product.price, product.name, product.description, product.stock);
     };
 
 }

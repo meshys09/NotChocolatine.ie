@@ -14,7 +14,7 @@ export class ProductService {
     getAllProducts() {
         return __awaiter(this, void 0, void 0, function* () {
             const products = yield prisma.product.findMany();
-            const productList = products.map((product) => new Product(product.id, product.price, product.name, product.description));
+            const productList = products.map((product) => new Product(product.id, product.price, product.name, product.description, product.stock));
             return productList;
         });
     }
@@ -29,20 +29,21 @@ export class ProductService {
             if (!product) {
                 throw new Error(`Product ${productId} not found.`);
             }
-            return new Product(product.id, product.price, product.name, product.description);
+            return new Product(product.id, product.price, product.name, product.description, product.stock);
         });
     }
     ;
-    addProduct(price, name, description) {
+    addProduct(price, name, description, stock) {
         return __awaiter(this, void 0, void 0, function* () {
             const product = yield prisma.product.create({
                 data: {
                     price: price,
                     name: name,
                     description: description,
+                    stock: stock
                 }
             });
-            return new Product(product.id, product.price, product.name, product.description);
+            return new Product(product.id, product.price, product.name, product.description, product.stock);
         });
     }
     ;
@@ -69,7 +70,7 @@ export class ProductService {
                     description: description
                 }
             });
-            return new Product(product.id, product.price, product.name, product.description);
+            return new Product(product.id, product.price, product.name, product.description, product.stock);
         });
     }
     ;

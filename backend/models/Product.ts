@@ -3,12 +3,15 @@ export class Product {
     private price: number;
     private name: string;
     private description: string | null;
+    private stock: number;
 
-    constructor(id: number | null, price: number, name: string, description: string | null) {
+    constructor(id: number | null, price: number, name: string, description: string | null, stock: number) {
         this.id = id;
         this.price = price;
         this.name = name;
         this.description = description;
+        this.stock = stock;
+
     }
 
     // Getters
@@ -28,6 +31,10 @@ export class Product {
         return this.description;
     }
 
+    public getStock(): number {
+        return this.stock;
+    }
+
     // Setters
     public setPrice(price: number): void {
         this.price = price;
@@ -39,5 +46,9 @@ export class Product {
 
     public setDescription(description: string): void {
         this.description = description;
+    }
+
+    public setStock(stock: number): void {
+        this.stock = stock;
     }
 }

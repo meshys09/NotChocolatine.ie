@@ -1,9 +1,10 @@
 export class Product {
-    constructor(id, price, name, description) {
+    constructor(id, price, name, description, stock) {
         this.id = id;
         this.price = price;
         this.name = name;
         this.description = description;
+        this.stock = stock;
     }
     // Getters
     getId() {
@@ -18,6 +19,9 @@ export class Product {
     getDescription() {
         return this.description;
     }
+    getStock() {
+        return this.stock;
+    }
     // Setters
     setPrice(price) {
         this.price = price;
@@ -27,5 +31,8 @@ export class Product {
     }
     setDescription(description) {
         this.description = description;
+    }
+    setStock(stock) {
+        this.stock = stock;
     }
 }

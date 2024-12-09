@@ -26,8 +26,8 @@ productController.get('/:id', async (c) => {
 
 productController.post('/', async (c) => {
     try {
-        const { price, name, description } = await c.req.json();
-        const product = await productService.addProduct(price, name, description);
+        const { price, name, description, stock } = await c.req.json();
+        const product = await productService.addProduct(price, name, description, stock);
 
         return c.json(product, 201);
     } catch (error: any) {
