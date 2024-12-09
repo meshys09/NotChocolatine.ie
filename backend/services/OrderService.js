@@ -14,8 +14,15 @@ const prisma = new PrismaClient();
 const userService = new UserService();
 export class OrderService {
     getAllOrders() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const orders = yield prisma.order.findMany();
+        return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10) {
+            const offset = (page - 1) * limit;
+            const [orders, totalOrders] = yield Promise.all([
+                prisma.order.findMany({
+                    skip: offset,
+                    take: limit,
+                }),
+                prisma.order.count(),
+            ]);
             const orderList = yield Promise.all(orders.map((order) => __awaiter(this, void 0, void 0, function* () {
                 const user = yield userService.getUserById(order.userId);
                 if (!order.date || !order.price) {
@@ -27,10 +34,12 @@ export class OrderService {
                 }
                 return new Order(order.id, order.date, order.price, userId);
             })));
-            return orderList;
+            return {
+                orders: orderList,
+                totalOrders,
+            };
         });
     }
-    ;
     getOrderById(orderId) {
         return __awaiter(this, void 0, void 0, function* () {
             const order = yield prisma.order.findUnique({

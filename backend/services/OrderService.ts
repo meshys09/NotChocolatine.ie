@@ -6,8 +6,17 @@ const prisma = new PrismaClient();
 const userService = new UserService();
 
 export class OrderService {
-    async getAllOrders(): Promise<Order[]> {
-        const orders = await prisma.order.findMany();
+    async getAllOrders(page: number = 1, limit: number = 10): Promise<{ orders: Order[]; totalOrders: number }> {
+        const offset = (page - 1) * limit;
+
+        const [orders, totalOrders] = await Promise.all([
+            prisma.order.findMany({
+                skip: offset,
+                take: limit,
+            }),
+            prisma.order.count(),
+        ]);
+
         const orderList = await Promise.all(
             orders.map(
                 async (order) => {
@@ -24,8 +33,12 @@ export class OrderService {
                 }
             )
         );
-        return orderList;
-    };
+
+        return {
+            orders: orderList,
+            totalOrders,
+        };
+    }
 
     async getOrderById(orderId: number): Promise<Order> {
         const order = await prisma.order.findUnique({

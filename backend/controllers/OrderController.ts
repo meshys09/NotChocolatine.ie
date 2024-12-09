@@ -8,11 +8,22 @@ const orderProductService = new OrderProductService();
 
 orderController.get('/', async (c) => {
     try {
-        const orderList = await orderService.getAllOrders();
-        return await c.json(orderList);
+        const page = parseInt(c.req.query('page') || '1', 10);
+        const limit = parseInt(c.req.query('limit') || '10', 10);
 
+        const { orders, totalOrders } = await orderService.getAllOrders(page, limit);
+
+        return c.json({
+            orders,
+            meta: {
+                currentPage: page,
+                pageSize: limit,
+                totalPages: Math.ceil(totalOrders / limit),
+                totalOrders,
+            },
+        });
     } catch (error: any) {
-        return c.json({ message: error.message }, 404);
+        return c.json({ error: 'Failed to retrieve orders', details: error.message }, 500);
     }
 });
 

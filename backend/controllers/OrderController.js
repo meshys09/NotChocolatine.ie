@@ -15,11 +15,21 @@ const orderService = new OrderService();
 const orderProductService = new OrderProductService();
 orderController.get('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const orderList = yield orderService.getAllOrders();
-        return yield c.json(orderList);
+        const page = parseInt(c.req.query('page') || '1', 10);
+        const limit = parseInt(c.req.query('limit') || '10', 10);
+        const { orders, totalOrders } = yield orderService.getAllOrders(page, limit);
+        return c.json({
+            orders,
+            meta: {
+                currentPage: page,
+                pageSize: limit,
+                totalPages: Math.ceil(totalOrders / limit),
+                totalOrders,
+            },
+        });
     }
     catch (error) {
-        return c.json({ message: error.message }, 404);
+        return c.json({ error: 'Failed to retrieve orders', details: error.message }, 500);
     }
 }));
 orderController.get('/:id', (c) => __awaiter(void 0, void 0, void 0, function* () {
