@@ -5,13 +5,13 @@ import '../../styles.css';
 
 function UserForm() {
     const navigate = useNavigate();
-    const userId = localStorage.getItem('userId'); // Récupère le userId depuis le localStorage
+    const userId = localStorage.getItem('userId');
 
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-    const [successMessage, setSuccessMessage] = useState(''); // État pour le message de succès
+    const [successMessage, setSuccessMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ function UserForm() {
 
         if (!mail || !password || !confirmPassword) {
             setError('Please enter all fields.');
-            setSuccessMessage(''); // Réinitialise le message de succès
+            setSuccessMessage('');
             return;
         }
 
@@ -75,10 +75,9 @@ function UserForm() {
             setSuccessMessage(userId ? 'User updated successfully!' : 'User created successfully!');
 
             if (!userId) {
-                localStorage.setItem('userId', data.id);
-                setTimeout(() => navigate('/login'), 2000); // Redirige après 2 secondes
+                setTimeout(() => navigate('/login'), 2000);
             } else {
-                setTimeout(() => navigate('/users'), 2000); // Redirige après 2 secondes
+                setTimeout(() => navigate('/users'), 2000);
             }
         } catch (err) {
             setError((err as Error).message);
