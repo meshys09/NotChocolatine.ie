@@ -5,6 +5,7 @@ import "./UserPage.css";
 import '../../styles.css';
 import NewUser from "../UserForm/UserForm";
 import OrderList from "../../Orders/OrderList/OrderList";
+import LogoutButton from "../../Authentication/LogoutButton/LogoutButton";
 
 interface User {
     id: number;
@@ -48,9 +49,10 @@ function UserPage() {
 
     return (
         <div className="flex flex-wrap">
-            <div className="UserProfile box-style max-w-80 h-full">
+            <div className="UserProfile box-style w-fit h-full">
                 <h2 className="text-center w-fit pb-5">User Profile</h2>
                 <NewUser />
+                <LogoutButton />
             </div>
             <div className='Reviews box-style h-full scroll-auto'>
                 <h2 className='text-center'>Reviews</h2>

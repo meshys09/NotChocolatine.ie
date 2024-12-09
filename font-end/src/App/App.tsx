@@ -51,7 +51,6 @@ function App() {
             <Link to={userId ? "/users" : "/login"} className="Login p-4">
               <img src={LoginIcon} alt='LoginIcon' />
             </Link>
-            <LogoutButton />
           </div>
         </nav>
 
