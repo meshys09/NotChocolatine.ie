@@ -13,8 +13,19 @@ const reviewController = new Hono();
 const reviewService = new ReviewService();
 reviewController.get('/', (c) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const reviewList = yield reviewService.getAllReviews();
-        return yield c.json(reviewList);
+        const page = parseInt(c.req.query('page') || '1', 10);
+        const limit = parseInt(c.req.query('limit') || '10', 10);
+        const { reviews, total } = yield reviewService.getAllReviews(page, limit);
+        const totalPages = Math.ceil(total / limit);
+        return c.json({
+            reviews,
+            meta: {
+                currentPage: page,
+                pageSize: limit,
+                totalPages,
+                totalReviews: total,
+            },
+        });
     }
     catch (error) {
         return c.json({ error: 'Failed to retrieve reviews', details: error.message }, 500);

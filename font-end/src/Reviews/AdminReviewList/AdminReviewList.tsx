@@ -3,6 +3,7 @@ import {
     useReactTable,
     getCoreRowModel,
     getSortedRowModel,
+    getPaginationRowModel,
     ColumnDef,
     flexRender,
 } from '@tanstack/react-table';
@@ -22,29 +23,36 @@ interface Review {
 
 function AdminReviewList() {
     const [reviews, setReviews] = useState<Review[]>([]);
+    const [totalReviews, setTotalReviews] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [sorting, setSorting] = useState<any>([]);
+    const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const response = await fetch('http://localhost:3000/reviews');
+                const response = await fetch(
+                    `http://localhost:3000/reviews?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}`
+                );
                 if (!response.ok) {
                     throw new Error('Failed to fetch reviews');
                 }
                 const data = await response.json();
-                setReviews(data.map((review: any) => ({
-                    id: review.id,
-                    comment: review.comment,
-                    grade: review.grade,
-                    user: {
-                        mail: review.user.mail,
-                    },
-                    product: {
-                        name: review.product.name,
-                    },
-                })));
+                setReviews(
+                    data.reviews.map((review: any) => ({
+                        id: review.id,
+                        comment: review.comment,
+                        grade: review.grade,
+                        user: {
+                            mail: review.user.mail,
+                        },
+                        product: {
+                            name: review.product.name,
+                        },
+                    }))
+                );
+                setTotalReviews(data.meta.totalReviews);
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);
@@ -55,7 +63,7 @@ function AdminReviewList() {
         };
 
         fetchReviews();
-    }, []);
+    }, [pagination.pageIndex, pagination.pageSize]);
 
     const deleteReview = async (id: number) => {
         try {
@@ -65,7 +73,7 @@ function AdminReviewList() {
             if (!response.ok) {
                 throw new Error('Failed to delete review');
             }
-            setReviews(reviews.filter((review) => review.id !== id));
+            setReviews((prev) => prev.filter((review) => review.id !== id));
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -110,10 +118,15 @@ function AdminReviewList() {
         columns,
         state: {
             sorting,
+            pagination,
         },
         onSortingChange: setSorting,
+        onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        manualPagination: true,
+        pageCount: Math.ceil(totalReviews / pagination.pageSize),
     });
 
     if (loading) return <div>Loading...</div>;
@@ -156,6 +169,25 @@ function AdminReviewList() {
                     ))}
                 </tbody>
             </table>
+            <div className="pagination flex justify-between items-center mt-4">
+                <button
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span>
+                    Page {pagination.pageIndex + 1} of {table.getPageCount()}
+                </span>
+                <button
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 }

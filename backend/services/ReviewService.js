@@ -16,17 +16,23 @@ const userService = new UserService();
 const productService = new ProductService();
 export class ReviewService {
     getAllReviews() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const reviews = yield prisma.reviews.findMany();
+        return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10) {
+            const offset = (page - 1) * limit;
+            const [reviews, total] = yield Promise.all([
+                prisma.reviews.findMany({
+                    skip: offset,
+                    take: limit,
+                }),
+                prisma.reviews.count(),
+            ]);
             const reviewList = yield Promise.all(reviews.map((review) => __awaiter(this, void 0, void 0, function* () {
                 const user = yield userService.getUserById(review.userId);
                 const product = yield productService.getProductById(review.productId);
                 return new Review(review.id, review.comment, review.grade, user, product);
             })));
-            return reviewList;
+            return { reviews: reviewList, total };
         });
     }
-    ;
     getReviewById(reviewId) {
         return __awaiter(this, void 0, void 0, function* () {
             const review = yield prisma.reviews.findUnique({

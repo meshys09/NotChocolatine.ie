@@ -7,8 +7,17 @@ const prisma = new PrismaClient();
 const userService = new UserService();
 const productService = new ProductService();
 export class ReviewService {
-    async getAllReviews(): Promise<Review[]> {
-        const reviews = await prisma.reviews.findMany();
+    async getAllReviews(page: number = 1, limit: number = 10): Promise<{ reviews: Review[]; total: number }> {
+        const offset = (page - 1) * limit;
+
+        const [reviews, total] = await Promise.all([
+            prisma.reviews.findMany({
+                skip: offset,
+                take: limit,
+            }),
+            prisma.reviews.count(),
+        ]);
+
         const reviewList = await Promise.all(
             reviews.map(
                 async (review) => {
@@ -19,8 +28,9 @@ export class ReviewService {
                 }
             )
         );
-        return reviewList;
-    };
+
+        return { reviews: reviewList, total };
+    }
 
     async getReviewById(reviewId: number): Promise<Review> {
         const review = await prisma.reviews.findUnique({

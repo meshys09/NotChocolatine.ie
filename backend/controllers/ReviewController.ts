@@ -6,14 +6,26 @@ const reviewService = new ReviewService();
 
 reviewController.get('/', async (c) => {
     try {
-        const reviewList = await reviewService.getAllReviews();
-        return await c.json(reviewList);
+        const page = parseInt(c.req.query('page') || '1', 10);
+        const limit = parseInt(c.req.query('limit') || '10', 10);
 
+        const { reviews, total } = await reviewService.getAllReviews(page, limit);
+
+        const totalPages = Math.ceil(total / limit);
+
+        return c.json({
+            reviews,
+            meta: {
+                currentPage: page,
+                pageSize: limit,
+                totalPages,
+                totalReviews: total,
+            },
+        });
     } catch (error: any) {
         return c.json({ error: 'Failed to retrieve reviews', details: error.message }, 500);
     }
 });
-
 reviewController.get('/:id', async (c) => {
     try {
         const reviewId = parseInt(c.req.param('id'), 10);
