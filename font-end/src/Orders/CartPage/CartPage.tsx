@@ -93,7 +93,7 @@ function CartPage() {
             <h1 className=''>Your Cart</h1>
             <div className="CartItems">
                 {cartItems.map(item => (
-                    <div key={item.id} className="CartItem flex flex-row items-center justify-between p-2 border-b">
+                    <div key={item.id} className="CartItem flex flex-wrap items-center justify-between p-2 border-b">
                         <div>
                             <p>{item.name}</p>
                             <p>{(item.price * item.quantity).toFixed(2)} €</p>
