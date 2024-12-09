@@ -61,7 +61,7 @@ function ProductList() {
     }
 
     return (
-        <div className="ProductListContainer grow">
+        <div className="ProductListContainer flex flex-col grow">
             <div className="Controls flex justify-between p-4">
                 <input
                     type="text"
@@ -79,7 +79,7 @@ function ProductList() {
                     <option value="desc">Price: High to Low</option>
                 </select>
             </div>
-            <div className="ProductList flex flex-wrap">
+            <div className="ProductList grow flex flex-wrap">
                 {filteredAndSortedProducts.map((product) => (
                     <ProductTile
                         id={product.id}
@@ -90,7 +90,7 @@ function ProductList() {
                     />
                 ))}
             </div>
-            <div className="Pagination flex justify-center mt-4">
+            <div className="Pagination flex justify-center m-4 ">
                 <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage <= 1}

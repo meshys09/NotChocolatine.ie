@@ -19,7 +19,7 @@ function ProductTile({ id, name, price, description }: ProductProps) {
   };
 
   return (
-    <div className="ProductTile bg-white border-2 rounded-xl w-40 m-5 p-2 justify-center hover:w-44 hover:m-3 " onClick={handleClick}>
+    <div className="ProductTile bg-white border-2 rounded-xl w-40 m-5 p-2 h-fit justify-center hover:w-44 hover:m-3 " onClick={handleClick}>
       <img src={DefaultImage} alt="Product" className="ProductTile-image bg-light-orange rounded-xl" />
       <div className="ProductTile-info">
         <h2><strong>{name}</strong></h2>
