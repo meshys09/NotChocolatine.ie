@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useReactTable, ColumnDef, getCoreRowModel, getSortedRowModel, SortingState } from '@tanstack/react-table';
+import { useReactTable, ColumnDef, getCoreRowModel, getSortedRowModel, getPaginationRowModel, SortingState } from '@tanstack/react-table';
 import AdminDashboard from '../../Users/AdminDashboard/AdminDashboard';
 
 interface Order {
@@ -14,16 +14,20 @@ function AdminOrderList() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [sorting, setSorting] = useState<SortingState>([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
+    const [totalOrders, setTotalOrders] = useState(0);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch('http://localhost:3000/orders');
+                const response = await fetch(`http://localhost:3000/orders?page=${currentPage + 1}&limit=${pageSize}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');
                 }
                 const data = await response.json();
-                setOrders(data);
+                setOrders(data.orders);
+                setTotalOrders(data.meta.totalOrders);
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);
@@ -34,7 +38,7 @@ function AdminOrderList() {
         };
 
         fetchOrders();
-    }, []);
+    }, [currentPage, pageSize]);
 
     const columns: ColumnDef<Order>[] = [
         {
@@ -61,10 +65,26 @@ function AdminOrderList() {
         columns,
         state: {
             sorting,
+            pagination: {
+                pageIndex: currentPage,
+                pageSize,
+            },
         },
         onSortingChange: setSorting,
+        onPaginationChange: (updater) => {
+            if (typeof updater === 'function') {
+                const newPagination = updater({
+                    pageIndex: currentPage,
+                    pageSize,
+                });
+                setCurrentPage(newPagination.pageIndex);
+                setPageSize(newPagination.pageSize);
+            }
+        },
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        pageCount: Math.ceil(totalOrders / pageSize),
     });
 
     if (loading) return <div>Loading...</div>;
@@ -103,10 +123,8 @@ function AdminOrderList() {
                         <tr key={row.id}>
                             {row.getVisibleCells().map((cell) => (
                                 <td key={cell.id} className="border border-gray-300 p-2">
-                                    {cell.column.columnDef.cell
-                                        ? typeof cell.column.columnDef.cell === 'function'
-                                            ? cell.column.columnDef.cell(cell.getContext())
-                                            : cell.getValue()
+                                    {typeof cell.column.columnDef.cell === 'function'
+                                        ? cell.column.columnDef.cell(cell.getContext())
                                         : cell.getValue()}
                                 </td>
                             ))}
@@ -114,7 +132,39 @@ function AdminOrderList() {
                     ))}
                 </tbody>
             </table>
-            {error && <div className="text-red-500 mt-4">{error}</div>}
+            <div className="pagination flex justify-between items-center mt-4">
+                <button
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span>
+                    Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                </span>
+                <button
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
+            <div className="flex items-center mt-4">
+                <span>Rows per page:</span>
+                <select
+                    value={pageSize}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                    className="ml-2 p-2 border rounded"
+                >
+                    {[10, 20, 50].map((size) => (
+                        <option key={size} value={size}>
+                            {size}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </div>
     );
 }
